@@ -113,16 +113,16 @@
       font-size: 14px;
       text-align: center;
     }
-    /* Wrapper untuk tabel agar bisa di-scroll horizontal */
+    /* Wrapper for table to allow horizontal scrolling */
     .table-responsive {
         overflow-x: auto;
-        -webkit-overflow-scrolling: touch; /* Untuk smooth scrolling di iOS */
+        -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
     }
     table {
       width: 100%;
       border-collapse: collapse;
       font-size: 14px;
-      min-width: 600px; /* Lebar minimum untuk tabel agar tidak terlalu sempit */
+      min-width: 600px; /* Minimum width for the table to prevent it from being too narrow */
     }
     th, td {
       border: 1px solid #ccc;
@@ -135,7 +135,7 @@
       text-align: center;
     }
 
-    /* Perataan spesifik untuk Tabel Pengaturan Lokasi */
+    /* Specific alignment for Location Settings Table */
     #locationSettingsTableBody td:nth-child(1) { text-align: center; }
     #locationSettingsTableBody td:nth-child(2) { text-align: center; }
     #locationSettingsTableBody td:nth-child(3) { text-align: center; }
@@ -145,32 +145,38 @@
       margin: 0;
     }
 
-    /* Perataan spesifik untuk Tabel Daftar Token */
+    /* Specific alignment for Token List Table */
     #tokenTableBody td:nth-child(1) { text-align: center; }
     #tokenTableBody td:nth-child(3) { text-align: center; }
     #tokenTableBody td:nth-child(4) { text-align: center; }
-    #tokenTableBody td:nth-child(8) { text-align: center; }
-    #tokenTableBody td:nth-child(9) { text-align: center; }
-    #tokenTableBody td:nth-child(10) { text-align: center; }
-    /* NEW: Perataan untuk kolom PDF dan Kunci Jawaban */
+    /* UPDATED: Adjust nth-child for new 'Durasi' column */
+    #tokenTableBody td:nth-child(9) { text-align: center; } /* TOKEN DIBUKA */
+    #tokenTableBody td:nth-child(10) { text-align: center; } /* TOKEN DITUTUP */
+    #tokenTableBody td:nth-child(11) { text-align: center; } /* STATUS */
+    #tokenTableBody td:nth-child(12) { text-align: center; } /* AKSES */
+    #tokenTableBody td:nth-child(13) { text-align: center; } /* AKSI */
+
+    /* NEW: Alignment for PDF and Answer Key columns */
     #tokenTableBody td:nth-child(5) { text-align: center; } /* PDF */
     #tokenTableBody td:nth-child(6) {
-        text-align: center; /* Kunci Jawaban */
-        max-width: 80px; /* Batasi lebar kolom */
-        overflow: hidden; /* Sembunyikan teks yang meluap */
-        text-overflow: ellipsis; /* Tampilkan elipsis (...) untuk teks yang terpotong */
-        white-space: nowrap; /* Pastikan teks tetap dalam satu baris */
+        text-align: center; /* Answer Key */
+        max-width: 80px; /* Limit column width */
+        overflow: hidden; /* Hide overflowing text */
+        text-overflow: ellipsis; /* Display ellipsis (...) for truncated text */
+        white-space: nowrap; /* Ensure text stays on one line */
     }
+    /* NEW: Alignment for Duration column */
+    #tokenTableBody td:nth-child(9) { text-align: center; }
 
 
-    /* Perataan spesifik untuk Tabel Daftar Siswa */
+    /* Specific alignment for Student List Table */
     #studentTableBody td:nth-child(1) { text-align: center; }
     #studentTableBody td:nth-child(2) { text-align: center; }
     #studentTableBody td:nth-child(4) { text-align: center; }
     #studentTableBody td:nth-child(5) { text-align: center; }
     #studentTableBody td:last-child { text-align: center; }
 
-    /* Styling untuk tombol edit/hapus siswa agar sejajar */
+    /* Styling for student edit/delete buttons to align them */
     .student-action-buttons {
         display: flex;
         justify-content: center;
@@ -185,18 +191,18 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 24px; /* Ukuran tombol */
-        height: 24px; /* Ukuran tombol */
+        width: 24px; /* Button size */
+        height: 24px; /* Button size */
         border-radius: 4px;
         transition: background-color 0.2s ease;
     }
     .student-action-buttons button:hover {
         background-color: #e0e0e0;
     }
-    /* NEW: Ukuran ikon di tombol aksi siswa */
+    /* NEW: Icon size in student action buttons */
     .student-action-buttons button img {
-        width: 14px; /* Ukuran ikon */
-        height: 14px; /* Ukuran ikon */
+        width: 14px; /* Icon size */
+        height: 14px; /* Icon size */
     }
 
     .footer {
@@ -223,9 +229,9 @@
       background: #fff;
       padding: 20px;
       border-radius: 8px;
-      width: 90%; /* Lebih fleksibel untuk mobile */
+      width: 90%; /* More flexible for mobile */
       max-width: 400px;
-      box-sizing: border-box; /* Pastikan padding dihitung dalam lebar */
+      box-sizing: border-box; /* Ensure padding is included in width */
     }
     .modal button {
       margin: 5px;
@@ -244,14 +250,14 @@
     .login-link:active {
       color: red;
     }
-    /* NEW: Gaya umum untuk tombol yang hanya berisi ikon */
+    /* NEW: General style for icon-only buttons */
     .icon-button {
       background: none;
       border: none;
       cursor: pointer;
-      padding: 5px; /* Padding untuk tombol */
+      padding: 5px; /* Padding for button */
       margin: 0;
-      display: inline-flex; /* Untuk menengahkan ikon */
+      display: inline-flex; /* To center icon */
       align-items: center;
       justify-content: center;
       border-radius: 5px;
@@ -260,10 +266,10 @@
     .icon-button:hover {
       background-color: #e0e0e0;
     }
-    /* NEW: Ukuran ikon di tombol ikon */
+    /* NEW: Icon size in icon buttons */
     .icon-button img {
-      width: 18px; /* Ukuran ikon */
-      height: 18px; /* Ukuran ikon */
+      width: 18px; /* Icon size */
+      height: 18px; /* Icon size */
       display: block;
     }
 
@@ -341,26 +347,32 @@
       }
       table {
         font-size: 11px;
-        min-width: 500px; /* Sesuaikan min-width tabel untuk mobile */
+        min-width: 500px; /* Adjust table min-width for mobile */
       }
       th, td {
         padding: 6px;
       }
-      /* Sembunyikan kolom tertentu di layar kecil untuk tabel token */
+      /* Hide specific columns on small screens for token table */
       #tokenTable thead th:nth-child(5), /* PDF */
       #tokenTable tbody td:nth-child(5),
-      #tokenTable thead th:nth-child(6), /* KUNCI JAWABAN */
+      #tokenTable thead th:nth-child(6), /* ANSWER KEY */
       #tokenTable tbody td:nth-child(6),
-      #tokenTable thead th:nth-child(7), /* TOKEN DIBUKA */
+      #tokenTable thead th:nth-child(7), /* TOKEN OPENED */
       #tokenTable tbody td:nth-child(7),
-      #tokenTable thead th:nth-child(8), /* TOKEN DITUTUP */
+      #tokenTable thead th:nth-child(8), /* TOKEN CLOSED */
       #tokenTable tbody td:nth-child(8) {
         display: none;
       }
-      /* Sembunyikan kolom tertentu di layar kecil untuk tabel siswa */
-      /* #studentTable thead th:nth-child(5), */ /* STATUS - Biarkan terlihat */
+      /* NEW: Hide Duration column on small screens */
+      #tokenTable thead th:nth-child(9), /* Durasi */
+      #tokenTable tbody td:nth-child(9) {
+        display: none;
+      }
+
+      /* Hide specific columns on small screens for student table */
+      /* #studentTable thead th:nth-child(5), */ /* STATUS - Keep visible */
       /* #studentTable tbody td:nth-child(5), */
-      /* #studentTable thead th:nth-child(6), */ /* AKSI - Biarkan terlihat */
+      /* #studentTable thead th:nth-child(6), */ /* ACTION - Keep visible */
       /* #studentTable tbody td:nth-child(6) */
       .action-buttons {
         flex-direction: row;
@@ -583,7 +595,7 @@
         margin: 0;
     }
 
-    /* Gaya khusus untuk modal informasi cetak kartu */
+    /* Custom style for print card info modal */
     #printInfoModal .modal-content {
         max-width: 500px; /* Override max-width of generic modal-content */
         border: 1px solid #888; /* Add border */
@@ -706,7 +718,7 @@
               <th>KUNCI JAWABAN</th>
               <th>TOKEN DIBUKA</th>
               <th>TOKEN DITUTUP</th>
-              <th>  STATUS  </th>
+              <th>DURASI (MENIT)</th> <th>  STATUS  </th>
               <th>AKSES</th>
               <th>AKSI</th>
             </tr>
@@ -1043,46 +1055,46 @@
     // REMOVED: storage initialization
     // const storage = getStorage(app); 
 
-    // Kredensial Admin
+    // Admin Credentials
     const ADMIN_USER = "admin";
     const ADMIN_PASS = "12345678";
     let currentTokenId = null;
-    let currentStudentKey = null; // Untuk edit/hapus siswa
-    let deleteStudentKey = null; // Untuk konfirmasi hapus siswa
+    let currentStudentKey = null; // For editing/deleting students
+    let deleteStudentKey = null; // For student delete confirmation
     let tokenCache = [];
-    let studentCache = []; // Cache untuk data siswa
-    let tokenAccessStatus = {}; // Cache untuk status akses token per siswa
-    let submittedExamsCache = {}; // Cache untuk status submit ujian
-    const THIRTY_DAYS_IN_MS = 30 * 24 * 60 * 60 * 1000; // 30 hari dalam milidetik
+    let studentCache = []; // Cache for student data
+    let tokenAccessStatus = {}; // Cache for token access status per student
+    let submittedExamsCache = {}; // Cache for exam submission status
+    const THIRTY_DAYS_IN_MS = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
     const EDIT_ICON_URL = "https://raw.githubusercontent.com/smp2pajangan/gambar/refs/heads/main/edit.png";
     const DELETE_ICON_URL = "https://raw.githubusercontent.com/smp2pajangan/gambar/refs/heads/main/hapus.png";
     const PRINT_PAGE_URL = "https://smp2pajangan.github.io/cetaktoken";
     let inactivityTimer;
-    const INACTIVITY_TIMEOUT = 60 * 60 * 1000; // Batas waktu tidak aktif 1 jam
+    const INACTIVITY_TIMEOUT = 60 * 60 * 1000; // Inactivity timeout 1 hour
     let currentForceActiveTokenId = null;
-    let isImporting = false; // Flag untuk mencegah impor ganda
-    let currentStudentClassFilter = null; // Filter untuk daftar siswa (misal: '7A', '7_all', atau null untuk semua)
-    let currentExamStatusFilterToken = null; // Filter untuk status ujian (token key)
+    let isImporting = false; // Flag to prevent double import
+    let currentStudentClassFilter = null; // Filter for student list (e.g., '7A', '7_all', or null for all)
+    let currentExamStatusFilterToken = null; // Filter for exam status (token key)
 
-    // Referensi ke node 'setlokasi' di Firebase
+    // Reference to 'setlokasi' node in Firebase
     const settingsRef = ref(db, 'setlokasi');
-    const studentsRef = ref(db, 'students'); // Referensi ke node siswa
-    const examAccessStatusRef = ref(db, 'exam_access_status'); // Referensi ke node status akses ujian
-    const submittedExamsRef = ref(db, 'submitted_exams'); // Referensi ke node submitted_exams
+    const studentsRef = ref(db, 'students'); // Reference to student node
+    const examAccessStatusRef = ref(db, 'exam_access_status'); // Reference to exam access status node
+    const submittedExamsRef = ref(db, 'submitted_exams'); // Reference to submitted_exams node
 
-    // Variabel untuk menyimpan status lokasi dan radius
+    // Variables to store location status and radius
     let isLocationEnabledAdmin = false;
-    let allowedRadiusMeterAdmin = 75; // Default dalam meter
-    // Koordinat default untuk akses lokasi (misalnya, titik pusat di Yogyakarta)
-    const defaultLocationCoordinate = "-7.8589546,110.2655596"; // Koordinat yang diperbarui
+    let allowedRadiusMeterAdmin = 75; // Default in meters
+    // Default coordinates for location access (e.g., central point in Yogyakarta)
+    const defaultLocationCoordinate = "-7.8589546,110.2655596"; // Updated coordinates
 
-    // Elemen HTML
+    // HTML Elements
     const locationSettingsTableBody = document.getElementById('locationSettingsTableBody');
     const setlokasiModalElement = document.getElementById('setlokasiModal');
     const gantiRadiusModalElement = document.getElementById('gantiRadiusModal');
     const radiusMeterInputElement = document.getElementById('radiusMeter');
 
-    // Elemen HTML untuk Manajemen Siswa
+    // HTML Elements for Student Management
     const studentForm = document.getElementById('studentForm');
     const studentIdInput = document.getElementById('studentId');
     const studentNameInput = document.getElementById('studentName');
@@ -1098,7 +1110,7 @@
     const examStatusFilterDropdown = document.getElementById('examStatusFilter');
     const classFilterDropdownSelect = document.getElementById('classFilterDropdownSelect');
 
-    // Elemen HTML untuk Modal Edit Siswa
+    // HTML Elements for Student Edit Modal
     const editStudentModal = document.getElementById('editStudentModal');
     const modalStudentIdInput = document.getElementById('modalStudentId');
     const modalStudentNameInput = document.getElementById('modalStudentName');
@@ -1106,13 +1118,13 @@
     const modalStudentRoomInput = document.getElementById('modalStudentRoom');
     const editStudentErrorMsg = document.getElementById('editStudentErrorMsg');
 
-    // Elemen HTML untuk Modal Konfirmasi Hapus Siswa
+    // HTML Elements for Student Delete Confirmation Modal
     const deleteStudentConfirmModal = document.getElementById('deleteStudentConfirmModal');
     const emptyStudentsModal = document.getElementById('emptyStudentsModal');
     const emptyStudentsPasswordInput = document.getElementById('emptyStudentsPassword');
     const emptyStudentsPasswordError = document.getElementById('emptyStudentsPasswordError');
 
-    // Elemen HTML untuk Modal Impor Siswa
+    // HTML Elements for Student Import Modal
     const importStudentModal = document.getElementById('importStudentModal');
     const csvFileInput = document.getElementById('csvFileInput');
     const importFileError = document.getElementById('importFileError');
@@ -1121,13 +1133,13 @@
     const importResultDetails = document.getElementById('importResultDetails');
     const loadingOverlay = document.getElementById('loadingOverlay');
 
-    // Elemen HTML untuk Modal Logout
+    // HTML Elements for Logout Modal
     const logoutConfirmModal = document.getElementById('logoutConfirmModal');
 
-    // Elemen HTML untuk Modal Info Cetak Kartu
+    // HTML Elements for Print Card Info Modal
     const printInfoModal = document.getElementById('printInfoModal');
 
-    // Elemen tombol navigasi dan header
+    // Navigation buttons and header elements
     const headerBlueBg = document.getElementById('headerBlueBg');
     const dashboardNav = document.getElementById('dashboardNav');
     const loginSection = document.getElementById('loginSection');
@@ -1136,13 +1148,13 @@
     const lokasiMenuBtn = document.getElementById('lokasiMenuBtn');
     const pesertaMenuBtn = document.getElementById('pesertaMenuBtn');
 
-    // NEW: Elemen input Google Drive URL dan Kunci Jawaban
+    // NEW: Google Drive URL and Answer Key input elements
     const googleDriveUrlInput = document.getElementById('googleDriveUrl');
     const googleDriveUrlError = document.getElementById('googleDriveUrlError');
     const answerKeyInput = document.getElementById('answerKey');
     const answerKeyError = document.getElementById('answerKeyError');
 
-    // NEW: Elemen input Google Drive URL dan Kunci Jawaban di modal edit
+    // NEW: Google Drive URL and Answer Key input elements in edit modal
     const editGoogleDriveUrlInput = document.getElementById('editGoogleDriveUrl');
     const editGoogleDriveUrlError = document.getElementById('editGoogleDriveUrlError');
     const editAnswerKeyInput = document.getElementById('editAnswerKey');
@@ -1166,35 +1178,50 @@
         return String(room).toUpperCase(); // Return as is if not a number, ensure uppercase
     }
 
-    // Fungsi untuk menampilkan/menyembunyikan bagian dashboard
+    /**
+     * Helper function to format a Date object into a local datetime string (YYYY-MM-DDTHH:mm).
+     * This is used to store datetime-local input values consistently without timezone issues.
+     * @param {Date} date - The Date object to format.
+     * @returns {string} The formatted local datetime string.
+     */
+    function formatLocalDateTime(date) {
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    }
+
+    // Function to show/hide dashboard sections
     window.showSection = (sectionId) => {
-        // Sembunyikan semua bagian konten dashboard
+        // Hide all dashboard content sections
         document.querySelectorAll('.dashboard-section').forEach(section => {
             section.style.display = 'none';
         });
-        // Tampilkan bagian yang dipilih
+        // Show the selected section
         document.getElementById(sectionId).style.display = 'block';
 
-        // Atur gaya tombol navigasi
+        // Set navigation button styles
         document.querySelectorAll('.dashboard-nav-wrapper button').forEach(button => {
             button.classList.remove('active');
         });
         if (sectionId === 'tokenSection') {
             tokenMenuBtn.classList.add('active');
-            renderTokenTable(); // Render ulang tabel token
+            renderTokenTable(); // Re-render token table
         } else if (sectionId === 'locationSection') {
             lokasiMenuBtn.classList.add('active');
-            updateSetlokasiStatusDisplay(); // Perbarui tampilan lokasi
+            updateSetlokasiStatusDisplay(); // Update location display
         } else if (sectionId === 'studentSection') {
             pesertaMenuBtn.classList.add('active');
-            // Pastikan filter diisi dan tabel dirender
+            // Ensure filters are populated and table is rendered
             populateClassFilter();
             populateExamStatusFilter();
             renderStudentTable();
         }
     };
 
-    // Fungsi untuk menampilkan notifikasi
+    // Function to display notifications
     function showNotification(message) {
       const n = document.getElementById('notification');
       n.innerText = message;
@@ -1204,59 +1231,61 @@
       }, 3000);
     }
 
-    // Fungsi untuk menangani login pengguna
+    // Function to handle user login
     window.login = () => {
       const u = document.getElementById("username").value.trim();
       const p = document.getElementById("password").value.trim();
       if(u === ADMIN_USER && p === ADMIN_PASS) {
         localStorage.setItem('isAdminLoggedIn', 'true');
-        loginSection.style.display = 'none'; // Sembunyikan login section
-        dashboardContent.style.display = 'block'; // Tampilkan dashboard content
-        dashboardNav.style.display = 'block'; // Tampilkan navigasi dashboard
+        loginSection.style.display = 'none'; // Hide login section
+        dashboardContent.style.display = 'block'; // Show dashboard content
+        dashboardNav.style.display = 'block'; // Show dashboard navigation
         
         loadTokens();
-        loadStudents(); // Muat data siswa saat login
-        loadSetlokasiSettings(); // Muat pengaturan lokasi saat login
-        showSection('tokenSection'); // Tampilkan bagian token secara default
-        resetInactivityTimer(); // Mulai timer tidak aktif setelah login berhasil
+        loadStudents(); // Load student data upon login
+        loadSetlokasiSettings(); // Load location settings upon login
+        showSection('tokenSection'); // Show token section by default
+        resetInactivityTimer(); // Start inactivity timer after successful login
       } else {
         document.getElementById("loginError").innerText = "Username atau password salah.";
       }
     };
 
-    // Fungsi untuk menampilkan modal konfirmasi logout
+    // Function to prompt logout confirmation modal
     window.promptLogout = () => {
         logoutConfirmModal.style.display = 'flex';
     };
 
-    // Fungsi untuk mengkonfirmasi logout
+    // Function to confirm logout
     window.confirmLogout = () => {
       localStorage.removeItem('isAdminLoggedIn');
-      dashboardContent.style.display = 'none'; // Sembunyikan dashboard content
-      dashboardNav.style.display = 'none'; // Sembunyikan navigasi dashboard
-      loginSection.style.display = 'block'; // Tampilkan login section
-      document.getElementById('password').value = ''; // Kosongkan password saat logout
+      dashboardContent.style.display = 'none'; // Hide dashboard content
+      dashboardNav.style.display = 'none'; // Hide dashboard navigation
+      loginSection.style.display = 'block'; // Show login section
+      document.getElementById('password').value = ''; // Clear password on logout
       showNotification('Anda telah logout.');
       closeLogoutModal();
     };
 
-    // Fungsi untuk menutup modal konfirmasi logout
+    // Function to close logout confirmation modal
     window.closeLogoutModal = () => {
         logoutConfirmModal.style.display = 'none';
     };
 
-    // Fungsi untuk merender/memperbarui tabel token
+    // Function to render/update the token table
     function renderTokenTable() {
         const tbody = document.getElementById('tokenTableBody');
-        tbody.innerHTML = ''; // Hapus baris yang ada
+        tbody.innerHTML = ''; // Clear existing rows
 
         let sortedCounter = 0;
         tokenCache.forEach(data => {
             sortedCounter++;
             const row = document.createElement('tr');
             row.dataset.tokenKey = data.key;
+            // Display formatted times
             const startTimeFormatted = data.startTime ? new Date(data.startTime).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }) : '-';
             const endTimeFormatted = data.endTime ? new Date(data.endTime).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }) : '-';
+            
             let tokenDisplay = data.token;
             if (data.isForceActive) {
                 tokenDisplay = `<strong style="color: #0066cc;">${data.token}</strong>`;
@@ -1274,7 +1303,7 @@
                 }
             }
 
-            // Dapatkan jumlah siswa yang mengakses token ini
+            // Get the number of students who accessed this token
             const accessedStudents = tokenAccessStatus[data.key] ? Object.keys(tokenAccessStatus[data.key]).length : 0;
 
             row.innerHTML = `
@@ -1286,7 +1315,7 @@
                 <td>${data.answerKey || '-'}</td>
                 <td>${startTimeFormatted}</td>
                 <td>${endTimeFormatted}</td>
-                <td style="text-align: center;">
+                <td>${data.durationMinutes !== undefined ? data.durationMinutes : '-'}</td> <td style="text-align: center;">
                   <span style="color: ${data.isActive ? 'green' : 'grey'}; font-weight: bold;">${data.isActive ? 'ON' : 'OFF'}</span>
                   ${forceActiveIconsHTML}
                 </td>
@@ -1304,17 +1333,17 @@
             `;
             tbody.appendChild(row);
         });
-        populateExamStatusFilter(); // Pastikan filter status ujian diperbarui saat token berubah
+        populateExamStatusFilter(); // Ensure exam status filter is updated when tokens change
     }
 
-    // Fungsi untuk memuat token dari Firebase
+    // Function to load tokens from Firebase
     function loadTokens() {
       onValue(ref(db, 'tokens'), (snapshot) => {
         tokenCache = [];
         snapshot.forEach(child => {
           const data = child.val();
           data.key = child.key;
-          // Hapus token yang lebih lama dari 30 hari
+          // Delete tokens older than 30 days
           if (data.createdAt && (Date.now() - data.createdAt) > THIRTY_DAYS_IN_MS) {
             remove(ref(db, 'tokens/' + data.key))
               .then(() => console.log(`Token ${data.key} dihapus.`))
@@ -1324,7 +1353,7 @@
           tokenCache.push(data);
         });
 
-        // Urutkan token berdasarkan startTime terlebih dahulu, kemudian berdasarkan kelas
+        // Sort tokens by startTime first, then by class
         tokenCache.sort((a, b) => {
           const timeA = new Date(a.startTime).getTime();
           const timeB = new Date(b.startTime).getTime();
@@ -1332,7 +1361,7 @@
             return timeA - timeB;
           }
 
-          // Ensure kelas are strings, fallback to empty string if undefined/null
+          // Ensure classes are strings, fallback to empty string if undefined/null
           const kelasA = String(a.kelas || '');
           const kelasB = String(b.kelas || '');
 
@@ -1347,65 +1376,65 @@
           }
         });
 
-        renderTokenTable(); // Render ulang tabel setelah token dimuat/diurutkan
+        renderTokenTable(); // Re-render table after tokens are loaded/sorted
         clearInterval(statusCheckInterval);
-        statusCheckInterval = setInterval(periksaAndUpdateStatusToken, 10000); // Periksa setiap 10 detik
+        statusCheckInterval = setInterval(periksaAndUpdateStatusToken, 10000); // Check every 10 seconds
         periksaAndUpdateStatusToken();
       });
     }
 
-    // Listener untuk status akses token per siswa
+    // Listener for token access status per student
     onValue(examAccessStatusRef, (snapshot) => {
         tokenAccessStatus = snapshot.val() || {};
-        renderTokenTable(); // Render ulang tabel token untuk memperbarui jumlah akses
-        renderStudentTable(); // Perbarui juga tabel siswa untuk status akses
+        renderTokenTable(); // Re-render token table to update access count
+        renderStudentTable(); // Also update student table for access status
     });
 
-    // Listener untuk status submit ujian per siswa
+    // Listener for exam submission status per student
     onValue(submittedExamsRef, (snapshot) => {
         submittedExamsCache = snapshot.val() || {};
-        renderStudentTable(); // Render ulang tabel siswa
+        renderStudentTable(); // Re-render student table
     });
 
     // REMOVED: uploadPdfToFirebaseStorage function
     // REMOVED: deletePdfFromFirebaseStorage function
 
     /**
-     * Fungsi untuk memvalidasi format kunci jawaban.
-     * @param {string} key - String kunci jawaban.
-     * @returns {boolean} True jika format valid, false jika tidak.
+     * Function to validate the answer key format.
+     * @param {string} key - The answer key string.
+     * @returns {boolean} True if the format is valid, false otherwise.
      */
     function validateAnswerKey(key) {
-        if (!key) return true; // Memungkinkan string kosong (tidak ada kunci jawaban)
-        // Regex: ^[A-D]$ atau ^[A-D](,[A-D])*$
+        if (!key) return true; // Allow empty string (no answer key)
+        // Regex: ^[A-D]$ or ^[A-D](,[A-D])*$
         const regex = /^[A-D](,[A-D])*$/;
         return regex.test(key);
     }
 
     /**
-     * Fungsi untuk menghitung waktu mulai yang disesuaikan berdasarkan kelas.
-     * @param {string} kelas - Kelas token (misal: "7", "8", "9").
-     * @param {Date} originalStartTime - Objek Date dari waktu mulai asli.
-     * @returns {Date} Waktu mulai yang sudah disesuaikan.
+     * Function to calculate adjusted start time based on class.
+     * @param {string} kelas - Token class (e.g., "7", "8", "9").
+     * @param {Date} originalStartTime - Date object of the original start time.
+     * @returns {Date} The adjusted start time.
      */
     function calculateAdjustedStartTime(kelas, originalStartTime) {
         let delaySeconds = 0;
-        // Pastikan kelas adalah string dan ambil hanya angka pertama jika ada
+        // Ensure class is a string and take only the first digit if available
         const kelasNumeric = String(kelas).trim().charAt(0);
 
         switch (kelasNumeric) {
             case '7':
-                delaySeconds = 30; // Kelas 7 ditunda 30 detik
+                delaySeconds = 30; // Class 7 delayed by 30 seconds
                 break;
             case '8':
-                delaySeconds = 15; // Kelas 8 ditunda 15 detik
+                delaySeconds = 15; // Class 8 delayed by 15 seconds
                 break;
             case '9':
-                delaySeconds = 0;  // Kelas 9 tanpa jeda
+                delaySeconds = 0;  // Class 9 no delay
                 break;
             default:
-                delaySeconds = 0; // Default tanpa jeda jika kelas tidak dikenali
-                console.warn(`Kelas '${kelas}' tidak dikenali untuk penyesuaian waktu. Menggunakan jeda 0 detik.`);
+                delaySeconds = 0; // Default no delay if class not recognized
+                console.warn(`Class '${kelas}' not recognized for time adjustment. Using 0 seconds delay.`);
         }
         
         const adjustedTime = new Date(originalStartTime.getTime() + delaySeconds * 1000);
@@ -1413,7 +1442,7 @@
     }
 
 
-    // Fungsi untuk mencatat akses link dan membukanya (DEMO untuk admin panel)
+    // Function to log link access and open it (DEMO for admin panel)
     window.trackAndOpenLinkDemo = (tokenId, googleDriveUrl) => { // Changed pdfUrl to googleDriveUrl
         const studentIdDemo = prompt("Masukkan ID Siswa untuk simulasi akses (misal: 001, 002):");
         if (!studentIdDemo) {
@@ -1429,15 +1458,15 @@
 
         const token = tokenCache.find(t => t.key === tokenId);
         if (!token) {
-            showNotification("Token tidak ditemukan."); // Seharusnya tidak terjadi jika tokenId valid
+            showNotification("Token tidak ditemukan."); // Should not happen if tokenId is valid
             return;
         }
 
-        // Ekstrak bagian angka dari kelas siswa (misal: '7' dari '7A')
+        // Extract the numeric part of the student's class (e.g., '7' from '7A')
         const studentClassNumericMatch = student.class.match(/\d+/);
         const studentClassNumeric = studentClassNumericMatch ? studentClassNumeric[0] : null;
 
-        // Bandingkan bagian angka kelas siswa dengan kelas umum token
+        // Compare the numeric part of the student's class with the general token class
         if (!studentClassNumeric || studentClassNumeric !== token.kelas) {
             showNotification(`Akses ditolak: Siswa dari kelas ${student.class} tidak dapat mengakses token untuk kelas ${token.kelas}.`);
             return;
@@ -1472,37 +1501,40 @@
         .then(() => {
             console.log(`Akses token ${tokenId} oleh siswa ${student.id} berhasil dicatat.`);
             showNotification(`Siswa ${student.id} dari kelas ${student.class} berhasil mengakses token ${token.token} (kelas ${token.kelas}).`);
-            window.open(googleDriveUrl, '_blank'); // Buka URL Google Drive
+            window.open(googleDriveUrl, '_blank'); // Open Google Drive URL
         })
         .catch(error => {
             console.error("Gagal mencatat akses token:", error);
             showNotification('Gagal mencatat akses token, namun ujian akan tetap dibuka.');
-            window.open(googleDriveUrl, '_blank'); // Tetap buka URL Google Drive meskipun ada error pencatatan
+            window.open(googleDriveUrl, '_blank'); // Still open Google Drive URL even if recording fails
         });
     };
 
 
-    // Event listener untuk pengiriman formulir token
+    // Event listener for token form submission
     document.getElementById('tokenForm').addEventListener('submit', async function(e) { // Make it async
       e.preventDefault();
       const s = document.getElementById('subject').value.trim().toUpperCase();
       const k = document.getElementById('kelas').value.trim();
-      const t = document.getElementById('token').value.trim().toUpperCase(); // Ini adalah base token
+      const t = document.getElementById('token').value.trim().toUpperCase(); // This is the base token
       const googleDriveUrl = googleDriveUrlInput.value.trim(); // NEW: Get Google Drive URL
       const answerKey = answerKeyInput.value.trim().toUpperCase(); // NEW: Get answer key
-      let originalStartTime = new Date(document.getElementById('startTime').value); // Ambil waktu asli
-      const et = document.getElementById('endTime').value;
+      const startTimeInput = document.getElementById('startTime').value; // Get start time string directly
+      const endTimeInput = document.getElementById('endTime').value; // Get end time string directly
       const em= document.getElementById('errorMsg');
       em.innerText = "";
       googleDriveUrlError.innerText = ""; // Clear Google Drive URL error
       answerKeyError.innerText = ""; // Clear answer key error
 
-      if (!s || !k || !t || !googleDriveUrl || !answerKey || !originalStartTime || !et) { // Changed pdfFile to googleDriveUrl
+      if (!s || !k || !t || !googleDriveUrl || !answerKey || !startTimeInput || !endTimeInput) { // Changed pdfFile to googleDriveUrl
         em.innerText = "Semua field harus diisi!";
         return;
       }
 
-      if (originalStartTime >= new Date(et)) {
+      const originalStartTime = new Date(startTimeInput); // Parse as local time
+      const originalEndTime = new Date(endTimeInput); // Parse as local time
+
+      if (originalStartTime >= originalEndTime) {
         em.innerText = "Waktu token dibuka harus sebelum waktu token ditutup!";
         return;
       }
@@ -1518,7 +1550,7 @@
           return;
       }
 
-      // Periksa duplikasi base token saja
+      // Check for duplicate base token only
       const isTokenDup = tokenCache.some(item => item.token === t);
       if (isTokenDup) {
         em.innerText = "Token (Base Token) sudah ada!";
@@ -1527,8 +1559,10 @@
 
       loadingOverlay.style.display = 'flex'; // Show loading
 
-      // Hitung waktu mulai yang disesuaikan
+      // Calculate adjusted start time
       const adjustedStartTime = calculateAdjustedStartTime(k, originalStartTime);
+      // Calculate duration in minutes
+      const durationMinutes = Math.round((originalEndTime.getTime() - adjustedStartTime.getTime()) / (1000 * 60));
 
       const data = {
           subject: s,
@@ -1537,8 +1571,9 @@
           googleDriveUrl: googleDriveUrl, // Changed pdfUrl to googleDriveUrl
           // REMOVED: pdfStoragePath
           answerKey: answerKey, // NEW: Answer key
-          startTime: adjustedStartTime.toISOString().slice(0, 16), // Simpan dalam format datetime-local
-          endTime: et,
+          startTime: formatLocalDateTime(adjustedStartTime), // Store adjusted time in local format
+          endTime: endTimeInput, // Store end time as is (local format)
+          durationMinutes: durationMinutes, // NEW: Store duration
           createdAt: Date.now(),
           isActive: false,
           isForceActive: false
@@ -1559,7 +1594,7 @@
         });
     });
 
-    // Fungsi untuk membuka modal edit token
+    // Function to open token edit modal
     window.editToken = (id) => {
       const token = tokenCache.find(item => item.key === id);
       if (!token) return;
@@ -1579,13 +1614,14 @@
 
       // REMOVED: currentPdfLink display
 
+      // Set values directly from stored strings (which are in local datetime format)
       document.getElementById('editStartTime').value = token.startTime;
       document.getElementById('editEndTime').value = token.endTime;
       document.getElementById('editErrorMsg').innerText = "";
       document.getElementById('editModal').style.display = 'flex';
     };
 
-    // Event listener untuk pengiriman formulir modal (edit token)
+    // Event listener for modal form submission (edit token)
     document.getElementById('modalForm').addEventListener('submit', async function(e) { // Make it async
       e.preventDefault();
       const s = document.getElementById('editSubject').value.trim().toUpperCase();
@@ -1593,19 +1629,22 @@
       const t = document.getElementById('editToken').value.trim().toUpperCase();
       const editGoogleDriveUrl = editGoogleDriveUrlInput.value.trim(); // NEW: Get new Google Drive URL
       const answerKey = editAnswerKeyInput.value.trim().toUpperCase(); // NEW: Get answer key
-      let originalStartTime = new Date(document.getElementById('editStartTime').value); // Ambil waktu asli
-      const et = document.getElementById('editEndTime').value;
+      const startTimeInput = document.getElementById('editStartTime').value; // Get start time string directly
+      const endTimeInput = document.getElementById('editEndTime').value; // Get end time string directly
       const em = document.getElementById('editErrorMsg');
       em.innerText = "";
       editGoogleDriveUrlError.innerText = ""; // Clear Google Drive URL error
       editAnswerKeyError.innerText = ""; // Clear answer key error
 
-      if (!s || !k || !t || !editGoogleDriveUrl || !answerKey || !originalStartTime || !et) { // Changed editPdfFile to editGoogleDriveUrl
+      if (!s || !k || !t || !editGoogleDriveUrl || !answerKey || !startTimeInput || !endTimeInput) { // Changed editPdfFile to editGoogleDriveUrl
         em.innerText = "Semua field kecuali PDF baru harus diisi!"; // Adjusted message
         return;
       }
 
-      if (originalStartTime >= new Date(et)) {
+      const originalStartTime = new Date(startTimeInput); // Parse as local time
+      const originalEndTime = new Date(endTimeInput); // Parse as local time
+
+      if (originalStartTime >= originalEndTime) {
         em.innerText = "Waktu token dibuka harus sebelum waktu token ditutup!";
         return;
       }
@@ -1629,8 +1668,10 @@
 
       loadingOverlay.style.display = 'flex'; // Show loading
 
-      // Hitung waktu mulai yang disesuaikan untuk edit
+      // Calculate adjusted start time for edit
       const adjustedStartTime = calculateAdjustedStartTime(k, originalStartTime);
+      // Calculate duration in minutes
+      const durationMinutes = Math.round((originalEndTime.getTime() - adjustedStartTime.getTime()) / (1000 * 60));
 
       // Define the updates object here
       const updates = {
@@ -1640,8 +1681,9 @@
           googleDriveUrl: editGoogleDriveUrl, // Changed pdfUrl to googleDriveUrl
           // REMOVED: pdfStoragePath
           answerKey: answerKey, // NEW: Updated answer key
-          startTime: adjustedStartTime.toISOString().slice(0, 16), // Simpan dalam format datetime-local
-          endTime: et
+          startTime: formatLocalDateTime(adjustedStartTime), // Store adjusted time in local format
+          endTime: endTimeInput, // Store end time as is (local format)
+          durationMinutes: durationMinutes // NEW: Store duration
       };
 
       if (currentTokenId) {
@@ -1659,7 +1701,7 @@
       }
     });
 
-    // Fungsi untuk menutup modal edit token
+    // Function to close token edit modal
     window.closeEditModal = () => {
       document.getElementById('editModal').style.display = 'none';
       document.getElementById('editErrorMsg').innerText = "";
@@ -1670,19 +1712,19 @@
     };
 
     let deleteId = null;
-    // Fungsi untuk meminta konfirmasi penghapusan token
+    // Function to prompt token deletion confirmation
     window.promptDelete = (id) => {
       deleteId = id;
       document.getElementById('deleteModal').style.display = 'flex';
     };
 
-    // Fungsi untuk mengkonfirmasi penghapusan token
+    // Function to confirm token deletion
     window.confirmDelete = async () => { // Make it async
       if (deleteId) {
         const tokenDataToDelete = tokenCache.find(t => t.key === deleteId);
         const tokenValueToDelete = tokenDataToDelete ? tokenDataToDelete.token : null;
 
-        loadingOverlay.style.display = 'flex'; // Tampilkan loading
+        loadingOverlay.style.display = 'flex'; // Show loading
 
         try {
             // REMOVED: Delete PDF from Firebase Storage
@@ -1693,9 +1735,9 @@
             // Then delete the Realtime Database entry
             await remove(ref(db, 'tokens/' + deleteId));
 
-            // Hapus juga status akses terkait token ini
+            // Also delete associated access status for this token
             await remove(ref(db, `exam_access_status/${deleteId}`));
-            // Hapus juga status submit terkait token ini menggunakan nilai token
+            // Also delete associated submission status for this token using the token value
             if (tokenValueToDelete) {
                 await remove(ref(db, `submitted_exams/${tokenValueToDelete}`));
             }
@@ -1704,36 +1746,36 @@
             console.error("Gagal menghapus token:", err); // Adjusted message
             showNotification("Gagal menghapus token: " + err.message);
         } finally {
-            loadingOverlay.style.display = 'none'; // Sembunyikan loading
+            loadingOverlay.style.display = 'none'; // Hide loading
             closeDeleteModal();
         }
       }
     };
 
-    // Fungsi untuk menutup modal hapus token
+    // Function to close token delete modal
     window.closeDeleteModal = () => {
       document.getElementById('deleteModal').style.display = 'none';
       deleteId = null;
     };
 
-    // Event listener untuk mengubah input judul cetak menjadi huruf kapital
+    // Event listener to convert print title input to uppercase
     document.getElementById('printTitleInput').addEventListener('input', function() {
       this.value = this.value.toUpperCase();
     });
 
-    // Fungsi untuk membuka modal cetak
+    // Function to open print modal
     window.openPrintModal = () => {
       document.getElementById('printModal').style.display = 'flex';
     };
 
-    // Fungsi untuk menutup modal cetak
+    // Function to close print modal
     window.closePrintModal = () => {
       document.getElementById('printModal').style.display = 'none';
       document.getElementById('printTitleInput').value = '';
       document.getElementById('printTitleError').innerText = "";
     };
 
-    // Fungsi untuk mencetak daftar token
+    // Function to print token list
     window.printTokenList = () => {
       const printTitleElement = document.getElementById('printTitleInput');
       const printTitle = printTitleElement.value.trim();
@@ -1745,7 +1787,7 @@
         return;
       }
 
-      // Konversi newline (\n) menjadi <br> untuk URL
+      // Convert newline (\n) to <br> for URL
       const formattedTitle = printTitle.replace(/\n/g, '<br>');
       const printUrlWithTitle = `${PRINT_PAGE_URL}?title=${encodeURIComponent(formattedTitle)}`;
       window.open(printUrlWithTitle, '_blank');
@@ -1754,38 +1796,38 @@
       closePrintModal();
     };
 
-    // --- Fungsi BARU untuk Modal Info Cetak Kartu Peserta ---
+    // --- NEW Functions for Print Card Info Modal ---
     window.showPrintInfoModal = () => {
-        printInfoModal.style.display = 'flex'; // Tampilkan modal
+        printInfoModal.style.display = 'flex'; // Show modal
     };
 
     window.closePrintInfoModal = () => {
-        printInfoModal.style.display = 'none'; // Sembunyikan modal
+        printInfoModal.style.display = 'none'; // Hide modal
     };
 
-    // Opsional: Tutup modal saat mengklik di luar konten modal
+    // Optional: Close modal when clicking outside modal content
     window.onclick = function(event) {
         if (event.target == printInfoModal) {
             printInfoModal.style.display = 'none';
         }
     };
-    // --- AKHIR Fungsi BARU untuk Modal Info Cetak Kartu Peserta ---
+    // --- END NEW Functions for Print Card Info Modal ---
 
-    // Fungsi untuk meminta konfirmasi pengaktifan paksa token
+    // Function to prompt force active token confirmation
     window.promptForceActive = (tokenId) => {
       currentForceActiveTokenId = tokenId;
-      document.getElementById('forceActivePassword').value = ''; // Kosongkan password sebelumnya
-      document.getElementById('forceActivePasswordError').innerText = ''; // Hapus pesan error sebelumnya
+      document.getElementById('forceActivePassword').value = ''; // Clear previous password
+      document.getElementById('forceActivePasswordError').innerText = ''; // Clear previous error message
       document.getElementById('forceActiveModal').style.display = 'flex';
     };
 
-    // Fungsi untuk meminta konfirmasi penonaktifkan paksa token
+    // Function to prompt force inactive token confirmation
     window.promptForceInactive = (tokenId) => {
       currentForceActiveTokenId = tokenId;
       document.getElementById('forceInactiveModal').style.display = 'flex';
     };
 
-    // Fungsi untuk mengkonfirmasi pengaktifan paksa token
+    // Function to confirm force active token
     window.confirmForceActive = () => {
       const password = document.getElementById('forceActivePassword').value;
       const passwordError = document.getElementById('forceActivePasswordError');
@@ -1799,7 +1841,7 @@
         update(ref(db, 'tokens/' + currentForceActiveTokenId), { isForceActive: true, isActive: true })
           .then(() => {
             showNotification('Token dipaksa aktif!');
-            // Render ulang tabel akan ditangani oleh onValue listener untuk 'tokens'
+            // Table re-rendering will be handled by the onValue listener for 'tokens'
           })
           .catch(error => {
             console.error("Gagal mengaktifkan status paksa: ", error);
@@ -1815,7 +1857,7 @@
       }
     };
 
-    // Fungsi untuk menutup modal pengaktifan paksa
+    // Function to close force active modal
     window.closeForceActiveModal = () => {
       document.getElementById('forceActiveModal').style.display = 'none';
       document.getElementById('forceActivePassword').value = '';
@@ -1823,13 +1865,13 @@
       currentForceActiveTokenId = null;
     };
 
-    // Fungsi untuk mengkonfirmasi penonaktifkan paksa token
+    // Function to confirm force inactive token
     window.confirmForceInactive = () => {
       if (currentForceActiveTokenId) {
         update(ref(db, 'tokens/' + currentForceActiveTokenId), { isForceActive: false })
           .then(() => {
             showNotification('Token paksa aktif dinonaktifkan!');
-            // Render ulang tabel akan ditangani oleh onValue listener untuk 'tokens'
+            // Table re-rendering will be handled by the onValue listener for 'tokens'
           })
           .catch(error => {
             console.error("Gagal menonaktifkan status paksa: ", error);
@@ -1842,19 +1884,19 @@
       }
     };
 
-    // Fungsi untuk menutup modal penonaktifkan paksa
+    // Function to close force inactive modal
     window.closeForceInactiveModal = () => {
       document.getElementById('forceInactiveModal').style.display = 'none';
       currentForceActiveTokenId = null;
     };
 
-    // Fungsi untuk memeriksa dan memperbarui status token
+    // Function to check and update token status
     async function periksaAndUpdateStatusToken() {
       const now = new Date();
       for (const tokenData of tokenCache) {
         let newIsActive;
         if (tokenData.isForceActive) {
-          newIsActive = true; // Jika diaktifkan paksa, selalu aktif
+          newIsActive = true; // If force activated, always active
         } else {
           const startTime = new Date(tokenData.startTime);
           const endTime = new Date(tokenData.endTime);
@@ -1865,7 +1907,7 @@
           try {
             await update(ref(db, 'tokens/' + tokenData.key), { isActive: newIsActive });
             console.log(`Token ${tokenData.key} status diperbarui menjadi ${newIsActive ? 'aktif' : 'nonaktif'}.`);
-            // Render ulang tabel akan ditangani oleh onValue listener untuk 'tokens'
+            // Table re-rendering will be handled by the onValue listener for 'tokens'
           } catch (error) {
             console.error(`Gagal memperbarui status token ${tokenData.key}: `, error);
           }
@@ -1873,7 +1915,7 @@
       }
     }
 
-    // Fungsi untuk memperbarui tampilan waktu saat ini
+    // Function to update current time display
     function updateTime() {
       const now = new Date();
       const dateOptions = { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' };
@@ -1890,13 +1932,13 @@
     setInterval(updateTime, 1000);
     updateTime();
 
-    // Fungsi untuk mereset timer tidak aktif
+    // Function to reset inactivity timer
     function resetInactivityTimer() {
       clearTimeout(inactivityTimer);
       inactivityTimer = setTimeout(logoutDueToInactivity, INACTIVITY_TIMEOUT);
     }
 
-    // Fungsi untuk menangani logout karena tidak aktif
+    // Function to handle logout due to inactivity
     function logoutDueToInactivity() {
       localStorage.removeItem('isAdminLoggedIn');
       dashboardContent.style.display = 'none';
@@ -1906,13 +1948,13 @@
       showNotification('Anda telah logout karena tidak ada aktivitas, masukan password kembali!.');
     }
 
-    // Event listener untuk aktivitas pengguna untuk mereset timer tidak aktif
+    // Event listeners for user activity to reset inactivity timer
     window.addEventListener('mousemove', resetInactivityTimer);
     window.addEventListener('keypress', resetInactivityTimer);
     window.addEventListener('scroll', resetInactivityTimer);
     window.addEventListener('click', resetInactivityTimer);
 
-    // Logika pemuatan halaman awal
+    // Initial page load logic
     window.onload = function() {
       if (localStorage.getItem('isAdminLoggedIn') === 'true') {
         loginSection.style.display = 'none';
@@ -1922,7 +1964,7 @@
         loadTokens();
         loadStudents();
         loadSetlokasiSettings();
-        showSection('tokenSection'); // Tampilkan bagian token secara default
+        showSection('tokenSection'); // Show token section by default
         resetInactivityTimer();
       } else {
         loginSection.style.display = 'block';
@@ -1934,15 +1976,15 @@
     let statusCheckInterval;
     statusCheckInterval = setInterval(periksaAndUpdateStatusToken, 10000);
 
-    // Fungsi untuk memperbarui tampilan tabel pengaturan lokasi
+    // Function to update location settings table display
     function updateSetlokasiStatusDisplay() {
-      locationSettingsTableBody.innerHTML = ''; // Hapus baris yang ada
+      locationSettingsTableBody.innerHTML = ''; // Clear existing rows
       const row = document.createElement('tr');
       const statusText = isLocationEnabledAdmin ? 'ON' : 'OFF';
       const statusColor = isLocationEnabledAdmin ? 'green' : 'red';
 
       row.innerHTML = `
-        <td><a href="http://maps.google.com/?q=$$$${defaultLocationCoordinate}" target="_blank">${defaultLocationCoordinate}</a></td>
+        <td><a href="http://maps.google.com/?q=$$$$${defaultLocationCoordinate}" target="_blank">${defaultLocationCoordinate}</a></td>
         <td>${allowedRadiusMeterAdmin}m</td>
         <td style="color: ${statusColor}; font-weight: bold;">${statusText}</td>
         <td>
@@ -1954,29 +1996,29 @@
       locationSettingsTableBody.appendChild(row);
     }
 
-    // Fungsi untuk membuka modal pengaturan lokasi
+    // Function to open location settings modal
     window.openSetlokasiModal = () => {
       setlokasiModalElement.style.display = 'flex';
     };
 
-    // Fungsi untuk menutup modal pengaturan lokasi
+    // Function to close location settings modal
     window.closeSetlokasiModal = () => {
       setlokasiModalElement.style.display = 'none';
     };
 
-    // Fungsi untuk membuka modal ganti radius
+    // Function to open change radius modal
     window.openGantiRadiusModal = () => {
       gantiRadiusModalElement.style.display = 'flex';
       radiusMeterInputElement.value = allowedRadiusMeterAdmin;
       closeSetlokasiModal();
     };
 
-    // Fungsi untuk menutup modal ganti radius
+    // Function to close change radius modal
     window.closeGantiRadiusModal = () => {
       gantiRadiusModalElement.style.display = 'none';
     };
 
-    // Fungsi untuk mengaktifkan fitur lokasi
+    // Function to enable location feature
     window.aktifkanLokasi = () => {
       update(settingsRef, { isLocationEnabled: true })
         .then(() => {
@@ -1991,7 +2033,7 @@
         });
     };
 
-    // Fungsi untuk menonaktifkan fitur lokasi
+    // Function to disable location feature
     window.nonaktifkanLokasi = () => {
       update(settingsRef, { isLocationEnabled: false })
         .then(() => {
@@ -2006,7 +2048,7 @@
         });
     };
 
-    // Fungsi untuk mengubah radius dan mengaktifkan lokasi
+    // Function to change radius and enable location
     window.gantiRadiusDanAktifkan = () => {
       const radiusMeter = parseInt(radiusMeterInputElement.value);
       if (isNaN(radiusMeter) || radiusMeter <= 0) {
@@ -2029,7 +2071,7 @@
         });
     };
 
-    // Fungsi untuk memuat pengaturan lokasi dari Firebase
+    // Function to load location settings from Firebase
     function loadSetlokasiSettings() {
       onValue(settingsRef, (snapshot) => {
         const settings = snapshot.val();
@@ -2038,13 +2080,13 @@
           allowedRadiusMeterAdmin = (settings.allowedRadiusKm !== undefined ? settings.allowedRadiusKm : 0.075) * 1000;
           updateSetlokasiStatusDisplay();
         } else {
-          // Jika node 'setlokasi' belum ada, inisialisasi dengan nilai default
+          // If 'setlokasi' node does not exist, initialize with default values
           updateSetlokasiStatusDisplay();
         }
       });
     }
 
-    // Fungsi untuk membuka modal detail akses token
+    // Function to open token access detail modal
     window.openAccessDetailModal = async (tokenId, tokenValue) => {
         accessDetailTokenTitle.innerText = `Detail Akses Token: ${tokenValue}`;
         accessDetailTableBody.innerHTML = '<tr><td colspan="6">Memuat data...</td></tr>';
@@ -2054,16 +2096,16 @@
             const accessSnapshot = await get(ref(db, `exam_access_status/${tokenId}`));
             const accessData = accessSnapshot.val();
 
-            accessDetailTableBody.innerHTML = ''; // Hapus pesan loading
+            accessDetailTableBody.innerHTML = ''; // Clear loading message
 
             if (accessData) {
                 let counter = 0;
-                // Urutkan data akses berdasarkan ID siswa untuk tampilan yang konsisten
+                // Sort access data by student ID for consistent display
                 const sortedStudentIds = Object.keys(accessData).sort((a, b) => a.localeCompare(b));
 
                 for (const studentId of sortedStudentIds) {
                     counter++;
-                    const studentInfo = studentCache.find(s => s.id === studentId); // Cari info siswa dari cache
+                    const studentInfo = studentCache.find(s => s.id === studentId); // Find student info from cache
                     // UPDATED: Get submission data using tokenValue (actual token string)
                     const studentSubmissionData = submittedExamsCache[tokenValue] && submittedExamsCache[tokenValue][studentId]; 
                     
@@ -2074,14 +2116,19 @@
                     const isSubmitted = studentSubmissionData && studentSubmissionData.isSubmitted === true; // Check submission status
 
                     let displayStatus = 'Belum Mengakses';
-                    if (isSubmitted) { // Prioritaskan status submit
+                    if (isSubmitted) { // Prioritize submission status
                         displayStatus = 'Sudah submit';
+                        statusColor = 'green'; // Set color for submitted status
                     } else if (accessCount > 0) {
-                        if (accessCount === 1) { // Perbaikan di sini
+                        if (accessCount === 1) { // Correction here
                             displayStatus = 'Sedang mengerjakan';
                         } else {
                             displayStatus = `Sedang mengerjakan (${accessCount})`;
                         }
+                        statusColor = 'orange'; // Set color for in-progress status
+                    } else {
+                        displayStatus = 'Belum Mengakses';
+                        statusColor = 'red'; // Set color for not accessed status
                     }
 
                     const row = document.createElement('tr');
@@ -2090,7 +2137,7 @@
                         <td>${studentId}</td>
                         <td>${studentName}</td>
                         <td>${studentClass}</td>
-                        <td>${displayStatus}</td>
+                        <td style="color: ${statusColor}; font-weight: bold;">${displayStatus}</td>
                         <td>${firstAccessTime}</td>
                     `;
                     accessDetailTableBody.appendChild(row);
@@ -2104,24 +2151,24 @@
         }
     };
 
-    // Fungsi untuk menutup modal detail akses token
+    // Function to close token access detail modal
     window.closeAccessDetailModal = () => {
         accessDetailModal.style.display = 'none';
         accessDetailTableBody.innerHTML = '';
     };
 
-    /* --- Fungsi-fungsi Manajemen Siswa --- */
+    /* --- Student Management Functions --- */
 
-    // Fungsi pembantu untuk mengekstrak bagian numerik dan abjad untuk pengurutan kelas
+    // Helper function to extract numeric and alphabetic parts for class sorting
     const extractClassParts = (className) => {
         const match = className.match(/^(\d+)([A-Z]+)?$/);
         if (match) {
-            return { num: parseInt(match[1]), char: match[2] || '' }; // Tangani kasus seperti '7' tanpa karakter rombel
+            return { num: parseInt(match[1]), char: match[2] || '' }; // Handle cases like '7' without rombel character
         }
-        return { num: 0, char: String(className || '') }; // Fallback untuk format yang tidak terduga, pastikan string
+        return { num: 0, char: String(className || '') }; // Fallback for unexpected formats, ensure string
     };
 
-    // Fungsi untuk merender/memperbarui tabel siswa
+    // Function to render/update the student table
     async function renderStudentTable() {
         studentTableBody.innerHTML = '';
         let counter = 0;
@@ -2129,7 +2176,7 @@
 
         let studentsToDisplay = studentCache;
 
-        // Terapkan filter kelas terlebih dahulu
+        // Apply class filter first
         if (currentStudentClassFilter) {
             if (currentStudentClassFilter.endsWith('_all')) {
                 const classPrefix = currentStudentClassFilter.split('_')[0];
@@ -2143,20 +2190,20 @@
         if (currentExamStatusFilterToken) {
             selectedTokenForStatus = tokenCache.find(t => t.key === currentExamStatusFilterToken);
             if (selectedTokenForStatus) {
-                const tokenClassNumeric = selectedTokenForStatus.kelas; // misal: '7', '8', '9'
-                // Filter lebih lanjut siswa hanya untuk yang kelasnya dimulai dengan kelas token
+                const tokenClassNumeric = selectedTokenForStatus.kelas; // e.g., '7', '8', '9'
+                // Further filter students only for those whose class starts with the token class
                 studentsToDisplay = studentsToDisplay.filter(student => String(student.class || '').startsWith(tokenClassNumeric));
             } else {
-                // Token tidak ditemukan, mungkin sudah dihapus? Hapus filter internal tetapi pertahankan pilihan visual
-                currentExamStatusFilterToken = null; // Hapus filter internal
+                // Token not found, perhaps deleted? Clear internal filter but keep visual selection
+                currentExamStatusFilterToken = null; // Clear internal filter
                 showNotification("Token ujian yang dipilih tidak ditemukan atau telah dihapus. Menampilkan status saat ini.");
             }
         }
 
-        // Logika pengurutan
+        // Sorting logic
         studentsToDisplay.sort((a, b) => {
-            // Urutan utama: Berdasarkan status akses (Belum Mengakses/Belum Aktif diutamakan)
-            // HANYA JIKA token spesifik dipilih pada filter status ujian
+            // Primary sort: By access status (Not Accessed/Not Active prioritized)
+            // ONLY IF a specific token is selected in the exam status filter
             if (currentExamStatusFilterToken) {
                 let isAccessedA = (tokenAccessStatus[currentExamStatusFilterToken] && tokenAccessStatus[currentExamStatusFilterToken][a.id] && (tokenAccessStatus[currentExamStatusFilterToken][a.id].accessCount || 0) > 0);
                 let isAccessedB = (tokenAccessStatus[currentExamStatusFilterToken] && tokenAccessStatus[currentExamStatusFilterToken][b.id] && (tokenAccessStatus[currentExamStatusFilterToken][b.id].accessCount || 0) > 0);
@@ -2165,23 +2212,23 @@
                 if (isAccessedA && !isAccessedB) return 1;
             }
 
-            // Urutan kedua: Berdasarkan kelas (numerik lalu abjad)
+            // Secondary sort: By class (numeric then alphabetic)
             const classA = extractClassParts(a.class);
             const classB = extractClassParts(b.class);
 
             if (classA.num !== classB.num) {
                 return classA.num - classB.num;
             }
-            // Pastikan pengurutan abjad untuk karakter kelas (misal: A, B, C)
+            // Ensure alphabetic sorting for class characters (e.g., A, B, C)
             if (classA.char !== classB.char) {
                 return classA.char.localeCompare(classB.char);
             }
 
-            // Urutan ketiga: Berdasarkan nama
+            // Tertiary sort: By name
             return String(a.name || '').localeCompare(String(b.name || '')); // Safely compare names
         });
 
-        // Loop rendering
+        // Rendering loop
         for (const student of studentsToDisplay) {
             counter++;
             const row = document.createElement('tr');
@@ -2189,7 +2236,7 @@
             let statusColor = '';
 
             if (currentExamStatusFilterToken) {
-                // Status untuk token spesifik yang dipilih
+                // Status for the specific selected token
                 const selectedToken = tokenCache.find(t => t.key === currentExamStatusFilterToken);
                 if (selectedToken) {
                     const tokenAccessData = tokenAccessStatus[selectedToken.key] && tokenAccessStatus[selectedToken.key][student.id];
@@ -2212,32 +2259,32 @@
                             } else {
                                 studentStatus = `Sedang mengerjakan (${accessCount})`;
                             }
-                            statusColor = 'orange'; // Menggunakan orange sebagai pengganti kuning
+                            statusColor = 'orange'; // Using orange as a substitute for yellow
                         } else {
                             studentStatus = 'Belum login';
                             statusColor = 'red';
                         }
-                    } else { // Token tidak aktif
+                    } else { // Token not active
                         if (isAccessed) {
-                            studentStatus = 'Belum submit'; // Mengakses tapi belum submit dan token tidak aktif
+                            studentStatus = 'Belum submit'; // Accessed but not submitted and token not active
                             statusColor = 'red';
                         } else {
-                            // Cek apakah token pernah aktif (waktunya sudah lewat)
-                            if (hasTokenStarted) { // Token sudah pernah aktif
-                                studentStatus = 'Belum mengerjakan'; // Token sudah lewat, siswa belum pernah mengakses
+                            // Check if token was ever active (time has passed)
+                            if (hasTokenStarted) { // Token has passed
+                                studentStatus = 'Belum mengerjakan'; // Token has passed, student never accessed
                                 statusColor = 'red';
                             } else {
-                                studentStatus = '-'; // Token belum aktif, belum pernah diakses
+                                studentStatus = '-'; // Token not active yet, never accessed
                                 statusColor = 'grey';
                             }
                         }
                     }
                 } else {
-                    studentStatus = '-'; // Token yang dipilih tidak ditemukan
+                    studentStatus = '-'; // Selected token not found
                     statusColor = 'grey';
                 }
             } else {
-                // "TOKEN SAAT INI" dipilih (status umum di semua token yang relevan)
+                // "CURRENT TOKEN" selected (general status across all relevant tokens)
                 let hasRelevantActiveToken = false;
                 let hasRelevantPastActiveToken = false;
                 let studentAccessedAnyRelevantToken = false;
@@ -2265,7 +2312,7 @@
                     if (isTokenCurrentlyActive) {
                         hasRelevantActiveToken = true;
                     }
-                    if (hasTokenStarted) { // Token sudah pernah aktif atau sedang aktif
+                    if (hasTokenStarted) { // Token has been active or is currently active
                         hasRelevantPastActiveToken = true;
                     }
 
@@ -2302,7 +2349,7 @@
                         statusColor = 'red';
                     }
                 } else {
-                    studentStatus = '-'; // Tidak ada token relevan atau belum ada yang aktif
+                    studentStatus = '-'; // No relevant token or none active yet
                     statusColor = 'grey';
                 }
             }
@@ -2328,17 +2375,17 @@
         }
     }
 
-    // Fungsi untuk memuat data siswa dari Firebase
+    // Function to load student data from Firebase
     function loadStudents() {
         onValue(studentsRef, (snapshot) => {
             studentCache = [];
             snapshot.forEach(child => {
                 const data = child.val();
-                data.key = child.key; // Simpan Firebase key
+                data.key = child.key; // Store Firebase key
                 studentCache.push(data);
             });
 
-            // Tambahkan pengurutan awal ke studentCache untuk memastikan urutan dasar yang konsisten
+            // Add initial sorting to studentCache to ensure consistent base order
             studentCache.sort((a, b) => {
                 const classA = extractClassParts(a.class);
                 const classB = extractClassParts(b.class);
@@ -2352,27 +2399,27 @@
                 return String(a.name || '').localeCompare(String(b.name || '')); // Safely compare names
             });
 
-            populateClassFilter(); // Isi filter kelas setelah siswa dimuat
-            renderStudentTable(); // Render tanpa meneruskan filter token spesifik, menggunakan currentExamStatusFilterToken
+            populateClassFilter(); // Populate class filter after students are loaded
+            renderStudentTable(); // Render without passing specific token filter, using currentExamStatusFilterToken
         });
     }
 
-    // Event listener untuk form tambah/edit siswa
+    // Event listener for add/edit student form
     studentForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const studentId = padStudentId(studentIdInput.value.trim()); // Pad ID
-        const studentName = studentNameInput.value.trim().toUpperCase(); // Otomatis kapital
-        const studentClass = studentClassInput.value.trim().toUpperCase(); // Otomatis kapital
-        const studentRoom = padRoomNumber(studentRoomInput.value.trim()); // UPDATED: Ambil nilai ruang dan pad
+        const studentName = studentNameInput.value.trim().toUpperCase(); // Auto uppercase
+        const studentClass = studentClassInput.value.trim().toUpperCase(); // Auto uppercase
+        const studentRoom = padRoomNumber(studentRoomInput.value.trim()); // UPDATED: Get room value and pad
         studentErrorMsg.innerText = "";
 
-        // Validasi ID Siswa (harus angka)
+        // Validate Student ID (must be numeric)
         if (!/^\d+$/.test(studentId)) {
             studentErrorMsg.innerText = "ID Siswa harus berupa angka!";
             return;
         }
 
-        // Periksa duplikasi ID siswa
+        // Check for duplicate student ID
         const isIdDup = studentCache.some(s => s.id === studentId && s.key !== currentStudentKey);
         if (isIdDup) {
             studentErrorMsg.innerText = "ID Siswa sudah ada!";
@@ -2380,9 +2427,9 @@
         }
 
         if (currentStudentKey) {
-            // Mode Edit (ini seharusnya tidak dipanggil dari sini lagi setelah ada modal edit)
-            // Namun, jika tombol updateStudentButton tetap ada, ini akan menangani submit form
-            update(ref(db, 'students/' + currentStudentKey), { id: studentId, name: studentName, class: studentClass, room: studentRoom }) // UPDATED: Tambahkan ruang
+            // Edit Mode (this should no longer be called from here after edit modal)
+            // However, if the updateStudentButton remains, this will handle form submission
+            update(ref(db, 'students/' + currentStudentKey), { id: studentId, name: studentName, class: studentClass, room: studentRoom }) // UPDATED: Add room
                 .then(() => {
                     showNotification('Data siswa berhasil diperbarui.');
                     studentForm.reset();
@@ -2394,8 +2441,8 @@
                     studentErrorMsg.innerText = "Gagal memperbarui siswa: " + error.message;
                 });
         } else {
-            // Mode Tambah
-            push(studentsRef, { id: studentId, name: studentName, class: studentClass, room: studentRoom }) // UPDATED: Tambahkan ruang
+            // Add Mode
+            push(studentsRef, { id: studentId, name: studentName, class: studentClass, room: studentRoom }) // UPDATED: Add room
                 .then(() => {
                     showNotification('Siswa berhasil ditambahkan.');
                     studentForm.reset();
@@ -2406,29 +2453,29 @@
         }
     });
 
-    // Fungsi untuk membuka modal edit siswa
+    // Function to open student edit modal
     window.openEditStudentModal = (key) => {
       const student = studentCache.find(s => s.key === key);
       if (!student) return;
 
-      currentStudentKey = key; // Simpan key siswa yang sedang diedit
+      currentStudentKey = key; // Store the key of the student being edited
       modalStudentIdInput.value = student.id;
       modalStudentNameInput.value = student.name;
       modalStudentClassInput.value = student.class;
-      modalStudentRoomInput.value = student.room || ''; // NEW: Isi input ruang di modal edit, handle jika undefined
-      editStudentErrorMsg.innerText = ""; // Bersihkan pesan error sebelumnya
+      modalStudentRoomInput.value = student.room || ''; // NEW: Populate room input in edit modal, handle if undefined
+      editStudentErrorMsg.innerText = ""; // Clear previous error messages
       editStudentModal.style.display = 'flex';
     };
 
-    // Fungsi untuk mengkonfirmasi edit siswa dari modal
+    // Function to confirm student edit from modal
     window.confirmEditStudent = () => {
         const studentId = padStudentId(modalStudentIdInput.value.trim()); // Pad ID
         const studentName = modalStudentNameInput.value.trim().toUpperCase();
         const studentClass = modalStudentClassInput.value.trim().toUpperCase();
-        const studentRoom = padRoomNumber(modalStudentRoomInput.value.trim()); // UPDATED: Ambil nilai ruang dari modal dan pad
+        const studentRoom = padRoomNumber(modalStudentRoomInput.value.trim()); // UPDATED: Get room value from modal and pad
         editStudentErrorMsg.innerText = "";
 
-        if (!studentId || !studentName || !studentClass || !studentRoom) { // UPDATED: Validasi ruang
+        if (!studentId || !studentName || !studentClass || !studentRoom) { // UPDATED: Validate room
             editStudentErrorMsg.innerText = "Semua field harus diisi!";
             return;
         }
@@ -2445,7 +2492,7 @@
         }
 
         if (currentStudentKey) {
-            update(ref(db, 'students/' + currentStudentKey), { id: studentId, name: studentName, class: studentClass, room: studentRoom }) // UPDATED: Tambahkan ruang
+            update(ref(db, 'students/' + currentStudentKey), { id: studentId, name: studentName, class: studentClass, room: studentRoom }) // UPDATED: Add room
                 .then(() => {
                     showNotification('Data siswa berhasil diperbarui.');
                     closeEditStudentModal();
@@ -2456,20 +2503,20 @@
         }
     };
 
-    // Fungsi untuk menutup modal edit siswa
+    // Function to close student edit modal
     window.closeEditStudentModal = () => {
         editStudentModal.style.display = 'none';
         editStudentErrorMsg.innerText = "";
-        currentStudentKey = null; // Reset key siswa yang sedang diedit
+        currentStudentKey = null; // Reset the key of the student being edited
     };
 
-    // Fungsi untuk membuka modal konfirmasi hapus siswa
+    // Function to open student delete confirmation modal
     window.openDeleteStudentConfirmModal = (key) => {
-        deleteStudentKey = key; // Simpan key siswa yang akan dihapus
+        deleteStudentKey = key; // Store the key of the student to be deleted
         deleteStudentConfirmModal.style.display = 'flex';
     };
 
-    // Fungsi untuk mengkonfirmasi hapus siswa
+    // Function to confirm student deletion
     window.confirmDeleteStudent = async () => { // Make it async
         if (deleteStudentKey) {
             const studentToDelete = studentCache.find(s => s.key === deleteStudentKey);
@@ -2517,34 +2564,34 @@
         }
     };
 
-    // Fungsi untuk menutup modal konfirmasi hapus siswa
+    // Function to close student delete confirmation modal
     window.closeDeleteStudentConfirmModal = () => {
         deleteStudentConfirmModal.style.display = 'none';
-        deleteStudentKey = null; // Reset key siswa yang akan dihapus
+        deleteStudentKey = null; // Reset the key of the student to be deleted
     };
 
-    // --- Fungsi Impor Siswa dari CSV ---
+    // --- Student Import from CSV Functions ---
 
-    // Fungsi untuk membuka modal impor siswa
+    // Function to open student import modal
     window.openImportStudentModal = () => {
         importStudentModal.style.display = 'flex';
-        csvFileInput.value = ''; // Bersihkan input file
-        importFileError.innerText = ''; // Bersihkan pesan error
+        csvFileInput.value = ''; // Clear file input
+        importFileError.innerText = ''; // Clear error message
     };
 
-    // Fungsi untuk menutup modal impor siswa
+    // Function to close student import modal
     window.closeImportStudentModal = () => {
         importStudentModal.style.display = 'none';
     };
 
-    // Fungsi untuk menutup modal hasil impor
+    // Function to close import results modal
     window.closeImportResultModal = () => {
         importResultModal.style.display = 'none';
         importResultSummary.innerText = '';
         importResultDetails.innerHTML = '';
     };
 
-    // Fungsi untuk memproses file CSV
+    // Function to process CSV file
     window.processCsvFile = async () => {
         if (isImporting) {
             showNotification('Proses impor sedang berjalan, harap tunggu.');
@@ -2564,7 +2611,7 @@
 
         importFileError.innerText = '';
         isImporting = true; // Set flag to true
-        loadingOverlay.style.display = 'flex'; // Tampilkan loading spinner
+        loadingOverlay.style.display = 'flex'; // Show loading spinner
 
         const reader = new FileReader();
 
@@ -2576,25 +2623,25 @@
             let skippedCount = 0;
             let errorDetails = [];
             
-            // Objek untuk menampung semua pembaruan untuk operasi batch tunggal
+            // Object to hold all updates for a single batch operation
             const studentsToBatchUpdate = {};
 
-            // Mulai pembacaan dari baris kedua (indeks 1) untuk mengabaikan header
+            // Start reading from the second line (index 1) to skip header
             const dataLines = lines.slice(1); 
 
             for (let i = 0; i < dataLines.length; i++) {
                 const line = dataLines[i];
-                // Coba pisahkan dengan koma terlebih dahulu
+                // Try splitting by comma first
                 let parts = line.split(',');
                 let delimiter = ',';
 
-                // Jika pemisahan koma tidak menghasilkan 4 bagian, coba titik koma
+                // If comma separation doesn't yield 4 parts, try semicolon
                 if (parts.length !== 4) { // UPDATED: Expect 4 parts now
                     parts = line.split(';');
                     delimiter = ';';
                 }
 
-                const originalLineNumber = i + 2; // Nomor baris asli di file CSV (karena kita slice(1))
+                const originalLineNumber = i + 2; // Original line number in CSV file (since we slice(1))
 
                 if (parts.length !== 4) { // UPDATED: Check for 4 parts
                     errorDetails.push(`Baris ${originalLineNumber}: Format tidak valid (diharapkan ID,Nama,Kelas,Ruang). Baris: "${line}"`); // UPDATED message
@@ -2605,7 +2652,7 @@
                 const id = padStudentId(parts[0].trim());
                 const name = parts[1].trim().toUpperCase();
                 const studentClass = parts[2].trim().toUpperCase();
-                const studentRoom = padRoomNumber(parts[3].trim()); // UPDATED: Ambil data ruang dan pad
+                const studentRoom = padRoomNumber(parts[3].trim()); // UPDATED: Get room data and pad
 
                 // Validasi ID Siswa (harus angka)
                 if (!/^\d+$/.test(id)) {
@@ -2614,14 +2661,14 @@
                     continue;
                 }
 
-                // Validasi Nama Siswa (tidak boleh kosong)
+                // Validasi Nama Siswa (cannot be empty)
                 if (name === "") {
                     errorDetails.push(`Baris ${originalLineNumber}: Nama Siswa tidak boleh kosong.`);
                     skippedCount++;
                     continue;
                 }
 
-                // Periksa duplikasi ID siswa di cache lokal (sebelum push ke Firebase)
+                // Check for duplicate student ID in local cache (before pushing to Firebase)
                 const isIdDup = studentCache.some(s => s.id === id);
                 if (isIdDup) {
                     errorDetails.push(`Baris ${originalLineNumber}: Siswa dengan ID '${id}' sudah ada, dilewati.`);
@@ -2629,10 +2676,10 @@
                     continue;
                 }
 
-                // Hasilkan kunci baru dan tambahkan ke objek pembaruan batch
-                const newRef = push(studentsRef); // Dapatkan referensi baru dengan kunci unik
-                studentsToBatchUpdate[newRef.key] = { id: id, name: name, class: studentClass, room: studentRoom }; // UPDATED: Tambahkan ruang
-                importedCount++; // Tingkatkan segera untuk tujuan tampilan
+                // Generate new key and add to batch update object
+                const newRef = push(studentsRef); // Get new reference with unique key
+                studentsToBatchUpdate[newRef.key] = { id: id, name: name, class: studentClass, room: studentRoom }; // UPDATED: Add room
+                importedCount++; // Increment immediately for display purposes
             }
 
             try {
@@ -2645,12 +2692,12 @@
             } catch (error) {
                 console.error("Gagal melakukan batch import:", error);
                 showNotification(`Gagal mengimpor data: ${error.message}`);
-                // Jika seluruh batch gagal, semua importedCount yang sebelumnya dihitung harus dianggap dilewati/gagal
+                // If the entire batch fails, all previously counted importedCount should be considered skipped/failed
                 skippedCount += importedCount;
                 importedCount = 0;
                 errorDetails.push(`Kesalahan umum saat menyimpan ke Firebase: ${error.message}`);
             } finally {
-                isImporting = false; // Reset flag setelah impor selesai
+                isImporting = false; // Reset flag after import is complete
                 loadingOverlay.style.display = 'none';
                 closeImportStudentModal();
                 displayImportResults(importedCount, skippedCount, errorDetails);
@@ -2658,7 +2705,7 @@
         };
 
         reader.onerror = () => {
-            isImporting = false; // Reset flag saat terjadi error juga
+            isImporting = false; // Reset flag on error as well
             loadingOverlay.style.display = 'none';
             importFileError.innerText = 'Gagal membaca file.';
         };
@@ -2666,7 +2713,7 @@
         reader.readAsText(file);
     };
 
-    // Fungsi untuk menampilkan hasil impor
+    // Function to display import results
     function displayImportResults(importedCount, skippedCount, errorDetails) {
         importResultSummary.innerHTML = `Berhasil diimpor: <span style="font-weight: bold; color: green;">${importedCount}</span>, Dilewati/Gagal: <span style="font-weight: bold; color: orange;">${skippedCount}</span>.`;
         importResultDetails.innerHTML = '';
@@ -2687,10 +2734,10 @@
         importResultModal.style.display = 'flex';
     }
 
-    // --- Fungsi Kosongkan Daftar Peserta ---
+    // --- Empty Student List Function ---
     window.openEmptyStudentsModal = () => {
-        emptyStudentsPasswordInput.value = ''; // Bersihkan password
-        emptyStudentsPasswordError.innerText = ''; // Bersihkan error
+        emptyStudentsPasswordInput.value = ''; // Clear password
+        emptyStudentsPasswordError.innerText = ''; // Clear error
         emptyStudentsModal.style.display = 'flex';
     };
 
@@ -2705,33 +2752,33 @@
             return;
         }
 
-        loadingOverlay.style.display = 'flex'; // Tampilkan loading spinner
+        loadingOverlay.style.display = 'flex'; // Show loading spinner
         try {
-            await remove(studentsRef); // Hapus semua data siswa
-            await remove(examAccessStatusRef); // Hapus juga semua status akses ujian
-            // NEW: Hapus juga semua status submit ujian
+            await remove(studentsRef); // Delete all student data
+            await remove(examAccessStatusRef); // Also delete all exam access statuses
+            // NEW: Also delete all exam submission statuses
             await remove(submittedExamsRef);
             showNotification('Semua data peserta berhasil dikosongkan!');
         } catch (error) {
             console.error("Gagal mengosongkan daftar peserta:", error);
             showNotification('Gagal mengosongkan daftar peserta: ' + error.message);
         } finally {
-            loadingOverlay.style.display = 'none'; // Sembunyikan loading spinner
+            loadingOverlay.style.display = 'none'; // Hide loading spinner
             closeEmptyStudentsModal();
         }
     };
 
-    // --- Fungsi Filter Siswa (berdasarkan kelas) ---
+    // --- Student Filter Function (by class) ---
     window.filterStudentsByClass = (filterValue) => {
-        currentStudentClassFilter = filterValue === "" ? null : filterValue; // null untuk "SEMUA KELAS"
+        currentStudentClassFilter = filterValue === "" ? null : filterValue; // null for "ALL CLASSES"
         renderStudentTable();
     };
 
-    // Fungsi untuk mengisi dropdown filter kelas
+    // Function to populate class filter dropdown
     function populateClassFilter() {
-        classFilterDropdownSelect.innerHTML = '<option value="">SEMUA KELAS</option>'; // Opsi default
+        classFilterDropdownSelect.innerHTML = '<option value="">SEMUA KELAS</option>'; // Default option
 
-        // Kumpulkan tingkatan kelas unik (7, 8, 9) dan rombel (7A, 7B, dll.)
+        // Collect unique grade levels (7, 8, 9) and rombels (7A, 7B, etc.)
         const grades = new Set();
         const rombels = new Set();
 
@@ -2747,9 +2794,9 @@
             }
         });
 
-        // Urutkan tingkatan kelas secara numerik
+        // Sort grade levels numerically
         const sortedGrades = Array.from(grades).sort((a, b) => a - b);
-        // Urutkan rombel secara abjad
+        // Sort rombels alphabetically
         const sortedRombels = Array.from(rombels).sort((a, b) => {
             const classA = extractClassParts(a);
             const classB = extractClassParts(b);
@@ -2760,13 +2807,13 @@
         });
 
         sortedGrades.forEach(grade => {
-            // Tambahkan opsi "Semua Rombel X"
+            // Add "All Rombel X" option
             const allRombelOption = document.createElement('option');
             allRombelOption.value = `${grade}_all`;
             allRombelOption.innerText = `KELAS ${grade} (SEMUA ROMBEL)`;
             classFilterDropdownSelect.appendChild(allRombelOption);
 
-            // Tambahkan opsi rombel spesifik untuk tingkatan kelas ini
+            // Add specific rombel options for this grade level
             sortedRombels.filter(r => String(r || '').startsWith(String(grade))) // Safely access r
                          .forEach(rombel => {
                 const rombelOption = document.createElement('option');
@@ -2776,31 +2823,31 @@
             });
         });
 
-        // Tetapkan nilai yang dipilih jika filter aktif
+        // Set the selected value if a filter is active
         if (currentStudentClassFilter) {
             classFilterDropdownSelect.value = currentStudentClassFilter;
         } else {
-            classFilterDropdownSelect.value = ""; // Pastikan "SEMUA KELAS" dipilih jika tidak ada filter
+            classFilterDropdownSelect.value = ""; // Ensure "SEMUA KELAS" is selected if no filter
         }
     }
 
 
-    // --- Fungsi Filter Siswa (berdasarkan status ujian/token) ---
+    // --- Student Filter Function (by exam status/token) ---
     window.filterStudentsByExamStatus = (selectedTokenKey) => {
         currentExamStatusFilterToken = selectedTokenKey === "" ? null : selectedTokenKey;
         renderStudentTable();
     };
 
-    // Fungsi untuk mengisi dropdown filter status ujian
+    // Function to populate exam status filter dropdown
     function populateExamStatusFilter() {
-        examStatusFilterDropdown.innerHTML = '<option value="">TOKEN SAAT INI</option>'; // Teks diubah di sini
+        examStatusFilterDropdown.innerHTML = '<option value="">TOKEN SAAT INI</option>'; // Text changed here
         tokenCache.forEach(token => {
             const option = document.createElement('option');
             option.value = token.key;
             option.innerText = `${token.token} (${token.subject} Kelas ${token.kelas})`;
             examStatusFilterDropdown.appendChild(option);
         });
-        // Tetapkan nilai yang dipilih jika filter aktif
+        // Set the selected value if a filter is active
         if (currentExamStatusFilterToken) {
             examStatusFilterDropdown.value = currentExamStatusFilterToken;
         }
