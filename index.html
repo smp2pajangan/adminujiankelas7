@@ -1862,6 +1862,21 @@
         return adjustedTime;
     }
 
+    /**
+     * Fungsi untuk mengonversi URL Google Drive dari view menjadi preview.
+     * @param {string} url - URL Google Drive.
+     * @returns {string} URL yang sudah dikonversi ke format preview.
+     */
+    function convertToPreviewLink(url) {
+        if (!url || typeof url !== 'string') {
+            return url;
+        }
+        // Ganti '/view?usp=sharing' atau '/view' dengan '/preview'
+        // Ini menangani kasus umum dan juga link yang mungkin hanya '/view'
+        let convertedUrl = url.replace(/\/view(\?usp=sharing)?$/, '/preview');
+        return convertedUrl;
+    }
+
 
     // Fungsi untuk mencatat akses tautan dan membukanya (DEMO untuk panel admin)
     window.trackAndOpenLinkDemo = async (tokenId, googleDriveUrl) => { // Mengubah pdfUrl menjadi googleDriveUrl
@@ -1946,7 +1961,8 @@
       const s = document.getElementById('subject').value.trim().toUpperCase();
       const k = document.getElementById('kelas').value.trim(); // Dapatkan kelas sebagai string (misalnya, "7", "8", "9")
       const t = document.getElementById('token').value.trim().toUpperCase(); // Ini adalah token dasar
-      const googleDriveUrl = googleDriveUrlInput.value.trim(); // Dapatkan URL Google Drive
+      const originalGoogleDriveUrl = googleDriveUrlInput.value.trim(); // Simpan URL asli
+      const googleDriveUrlPreview = convertToPreviewLink(originalGoogleDriveUrl); // Konversi ke link preview
       const answerKey = answerKeyInput.value.trim().toUpperCase(); // Re-added
       const startTimeInput = document.getElementById('startTime').value; // Dapatkan string waktu mulai secara langsung
       const endTimeInput = document.getElementById('endTime').value; // Dapatkan string waktu akhir secara langsung
@@ -1962,7 +1978,7 @@
           return;
       }
 
-      if (!s || !k || !t || !googleDriveUrl || !answerKey || !startTimeInput || !endTimeInput) { // answerKey re-added to validation
+      if (!s || !k || !t || !originalGoogleDriveUrl || !answerKey || !startTimeInput || !endTimeInput) { // answerKey re-added to validation
         em.innerText = "Semua field harus diisi!";
         return;
       }
@@ -1981,7 +1997,7 @@
       }
 
       // Validasi URL dasar untuk tautan Google Drive
-      if (!googleDriveUrl.startsWith('http')) {
+      if (!originalGoogleDriveUrl.startsWith('http')) {
           googleDriveUrlError.innerText = "URL Google Drive tidak valid.";
           return;
       }
@@ -2004,7 +2020,8 @@
           subject: s,
           kelas: k, // Simpan kelas sesuai yang diberikan (misalnya, "7", "8", "9")
           token: t,
-          googleDriveUrl: googleDriveUrl,
+          googleDriveUrl: googleDriveUrlPreview, // Simpan link preview
+          originalGoogleDriveUrl: originalGoogleDriveUrl, // Simpan link asli
           answerKey: answerKey, // Re-added
           startTime: formatLocalDateTime(adjustedStartTime), // Simpan waktu yang disesuaikan dalam format lokal
           endTime: endTimeInput, // Simpan waktu akhir apa adanya (format lokal)
@@ -2041,8 +2058,8 @@
       document.getElementById('editKelas').value = token.kelas;
       document.getElementById('editToken').value = token.token;
       
-      // Atur URL Google Drive
-      editGoogleDriveUrlInput.value = token.googleDriveUrl || '';
+      // Atur URL Google Drive: Gunakan originalGoogleDriveUrl jika ada, jika tidak gunakan googleDriveUrl (untuk kompatibilitas mundur)
+      editGoogleDriveUrlInput.value = token.originalGoogleDriveUrl || token.googleDriveUrl || '';
       editGoogleDriveUrlError.innerText = ''; // Hapus kesalahan
 
       // Atur kunci jawaban (Re-added)
@@ -2063,7 +2080,8 @@
       const s = document.getElementById('editSubject').value.trim().toUpperCase();
       const newKelas = document.getElementById('editKelas').value.trim(); // Kelas baru
       const t = document.getElementById('editToken').value.trim().toUpperCase();
-      const editGoogleDriveUrl = editGoogleDriveUrlInput.value.trim();
+      const originalGoogleDriveUrl = editGoogleDriveUrlInput.value.trim(); // Simpan URL asli dari input edit
+      const googleDriveUrlPreview = convertToPreviewLink(originalGoogleDriveUrl); // Konversi ke link preview
       const answerKey = editAnswerKeyInput.value.trim().toUpperCase(); // Re-added
       const startTimeInput = document.getElementById('editStartTime').value;
       const endTimeInput = document.getElementById('editEndTime').value;
@@ -2087,7 +2105,7 @@
           return;
       }
 
-      if (!s || !newKelas || !t || !editGoogleDriveUrl || !answerKey || !startTimeInput || !endTimeInput) { // answerKey re-added
+      if (!s || !newKelas || !t || !originalGoogleDriveUrl || !answerKey || !startTimeInput || !endTimeInput) { // answerKey re-added
         em.innerText = "Semua field harus diisi!";
         return;
       }
@@ -2105,7 +2123,7 @@
           return;
       }
 
-      if (!editGoogleDriveUrl.startsWith('http')) {
+      if (!originalGoogleDriveUrl.startsWith('http')) {
           editGoogleDriveUrlError.innerText = "URL Google Drive tidak valid.";
           return;
       }
@@ -2131,7 +2149,8 @@
           subject: s,
           kelas: newKelas,
           token: t,
-          googleDriveUrl: editGoogleDriveUrl,
+          googleDriveUrl: googleDriveUrlPreview, // Simpan link preview
+          originalGoogleDriveUrl: originalGoogleDriveUrl, // Simpan link asli
           answerKey: answerKey, // Re-added
           startTime: formatLocalDateTime(adjustedStartTime),
           endTime: endTimeInput,
