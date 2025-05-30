@@ -4,135 +4,254 @@
   <meta charset="UTF-8" />
   <title>Panel Admin Ujian</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', sans-serif; /* Menggunakan font Inter */
       margin: 0;
-      padding: 20px; /* Global padding for desktop */
-      background-color: #f0f0f0;
-      box-sizing: border-box; /* Include padding in element's total width and height */
+      padding: 0;
+      background-color: #f4f7f6; /* Warna latar belakang yang lebih terang */
+      display: flex; /* Menggunakan flexbox untuk layout utama */
+      min-height: 100vh; /* Memastikan body mengisi seluruh tinggi viewport */
+      overflow-x: hidden; /* Mencegah scroll horizontal yang tidak diinginkan pada body */
     }
 
-    /* Global styles for alignment and max-width */
-    .header-blue-bg,
-    .dashboard-nav-wrapper,
-    .container {
-      max-width: 800px; /* Unified max-width for all main content blocks */
-      margin: 0 auto; /* Center them */
-      box-sizing: border-box; /* Ensure padding is included in width */
-    }
-
-    /* Specific padding and border-radius for each section based on its role */
-    .header-blue-bg {
-      background-color: #0066cc;
-      padding: 15px 20px;
-      text-align: center;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
-    }
-    .header-blue-bg .header-inner {
+    /* Sidebar styles */
+    .sidebar {
+      width: 80px; /* Lebar default (collapsed) */
+      background-color: #2c3e50; /* Warna gelap untuk sidebar */
       color: white;
-    }
-    .logo {
-      display: block;
-      margin: 0 auto;
-      width: 100px; /* Original width */
-    }
-
-    .dashboard-nav-wrapper {
-      background-color: #e0e0e0;
-      padding: 10px 20px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      display: none; /* Controlled by JS */
-      border-bottom-left-radius: 10px;
-      border-bottom-right-radius: 10px;
-    }
-    .dashboard-nav-wrapper .dashboard-nav-inner {
+      padding: 20px 0; /* Padding vertikal saja */
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
       display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .dashboard-nav-wrapper button {
-      background-color: #007bff;
-      color: white;
-      padding: 8px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 15px;
-      margin: 0;
-      transition: background-color 0.3s ease;
-    }
-    .dashboard-nav-wrapper button.active {
-      background-color: #6c757d;
-    }
-    .dashboard-nav-wrapper button:hover:not(.active) {
-      background-color: #0056b3;
+      flex-direction: column;
+      align-items: center;
+      position: sticky; /* Sidebar tetap di tempatnya saat scroll */
+      top: 0;
+      height: 100vh; /* Mengisi seluruh tinggi viewport */
+      overflow-y: auto; /* Scrollable jika konten sidebar terlalu panjang */
+      transition: width 0.3s ease-in-out, padding 0.3s ease-in-out; /* Transisi untuk lebar dan padding */
+      flex-shrink: 0; /* Mencegah sidebar menyusut lebih jauh */
+      z-index: 20; /* Pastikan sidebar di atas konten utama saat meluncur */
     }
 
-    .container { /* This applies to login section and dashboard sections */
-      background: white;
+    .sidebar.expanded {
+      width: 250px; /* Lebar saat diperluas */
       padding: 20px;
+    }
+
+    .sidebar .logo-container {
+      text-align: center;
+      margin-bottom: 30px;
+      width: 100%; /* Memastikan logo container mengambil lebar penuh */
+      padding: 0 10px; /* Padding untuk logo container saat collapsed */
+      box-sizing: border-box;
+    }
+
+    .sidebar.expanded .logo-container {
+      padding: 0; /* Hapus padding saat expanded */
+    }
+
+    .sidebar .logo {
+      width: 60px; /* Ukuran logo di sidebar saat collapsed */
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #3498db;
+      padding: 3px;
+      background-color: white;
+      transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+    }
+
+    .sidebar.expanded .logo {
+      width: 80px; /* Ukuran logo saat diperluas */
+      height: 80px;
+    }
+
+    .sidebar h2 {
+      font-size: 1.2em;
+      margin-top: 10px;
+      color: #ecf0f1;
+      opacity: 0; /* Sembunyikan teks nama sekolah secara default */
+      transition: opacity 0.3s ease-in-out;
+      white-space: nowrap; /* Mencegah teks patah baris */
+      overflow: hidden; /* Sembunyikan overflow */
+      height: 0; /* Sembunyikan tinggi */
+    }
+
+    .sidebar.expanded h2 {
+      opacity: 1; /* Tampilkan teks nama sekolah saat diperluas */
+      height: auto; /* Kembalikan tinggi */
+    }
+
+    .sidebar-nav {
+      width: 100%;
+      flex-grow: 1; /* Memungkinkan navigasi tumbuh */
+    }
+
+    .sidebar-nav button {
+      background-color: transparent;
+      color: white;
+      border: none;
+      padding: 12px 0; /* Padding vertikal, padding horizontal diatur oleh teks/ikon */
+      margin-bottom: 10px;
+      width: 100%;
+      text-align: center; /* Pusatkan ikon saat collapsed */
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease, padding 0.3s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center; /* Pusatkan ikon */
+      gap: 0; /* Tidak ada gap saat collapsed */
+    }
+
+    .sidebar.expanded .sidebar-nav button {
+      padding: 12px 15px; /* Padding saat diperluas */
+      justify-content: flex-start; /* Sejajarkan ke kiri saat diperluas */
+      gap: 10px; /* Tambahkan gap saat diperluas */
+    }
+
+    .sidebar-nav button:hover {
+      background-color: #34495e;
+      transform: translateX(5px);
+    }
+
+    .sidebar-nav button.active {
+      background-color: #3498db;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .sidebar-nav button i {
+      font-size: 18px;
+      flex-shrink: 0; /* Mencegah ikon menyusut */
+    }
+
+    .sidebar-nav button span {
+      opacity: 0; /* Sembunyikan teks menu secara default */
+      transition: opacity 0.3s ease-in-out;
+      white-space: nowrap;
+      overflow: hidden;
+      max-width: 0; /* Sembunyikan lebar teks */
+    }
+
+    .sidebar.expanded .sidebar-nav button span {
+      opacity: 1; /* Tampilkan teks menu saat diperluas */
+      max-width: 150px; /* Beri lebar maksimum untuk teks */
+    }
+
+    .sidebar .footer {
+      width: 100%;
+      padding: 20px 10px;
+      box-sizing: border-box;
+      opacity: 0; /* Sembunyikan footer secara default */
+      transition: opacity 0.3s ease-in-out;
+      white-space: nowrap;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .sidebar.expanded .footer {
+      opacity: 1; /* Tampilkan footer saat diperluas */
+    }
+
+    /* Main content area */
+    .main-content {
+      flex-grow: 1; /* Mengisi sisa ruang */
+      padding: 20px;
+      background-color: #f4f7f6;
+      display: flex;
+      flex-direction: column;
+      overflow-x: auto; /* Memungkinkan scroll horizontal */
+      overflow-y: auto; /* Memungkinkan scroll vertikal */
+      height: 100vh; /* Memastikan main-content mengisi sisa tinggi */
+      box-sizing: border-box; /* Pastikan padding termasuk dalam tinggi */
+    }
+
+    /* Container for sections */
+    .container {
+      background: white;
+      padding: 25px;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      position: relative;
-    }
-    /* Specific margin-top for content sections to separate from header/nav */
-    .container#loginSection {
-        margin-top: 20px;
-    }
-    .dashboard-section.container {
-        margin-top: 20px;
+      margin-bottom: 20px;
+      width: 100%; /* Memastikan container mengisi lebar penuh */
+      box-sizing: border-box;
     }
 
-    input, select {
-      padding: 10px;
+    input, select, textarea {
+      padding: 12px;
       margin: 8px 0;
       width: 100%;
       box-sizing: border-box;
       font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #3498db;
+      box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+      outline: none;
+    }
+
     button {
-      padding: 10px 20px;
+      padding: 12px 25px;
       margin: 10px auto;
       display: block;
       font-size: 16px;
       cursor: pointer;
-      background-color: #007bff;
+      background-color: #3498db; /* Warna tombol utama */
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
     button:hover {
-      background-color: #0056b3;
+      background-color: #2980b9;
+      transform: translateY(-2px);
     }
+    button:active {
+      transform: translateY(0);
+    }
+
     .error {
-      color: red;
+      color: #e74c3c;
       font-size: 14px;
       text-align: center;
+      margin-top: 5px;
     }
-    /* Wrapper for table to allow horizontal scrolling */
+    
     .table-responsive {
         overflow-x: auto;
-        -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+        -webkit-overflow-scrolling: touch;
+        border-radius: 8px; /* Sudut membulat untuk tabel */
+        overflow: hidden; /* Memastikan sudut membulat terlihat */
     }
     table {
       width: 100%;
       border-collapse: collapse;
       font-size: 14px;
-      min-width: 600px; /* Minimum width for the table to prevent it from being too narrow */
+      min-width: 700px; /* Minimum width untuk tabel agar tidak terlalu sempit */
     }
     th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
+      border: 1px solid #e0e0e0;
+      padding: 10px;
       word-wrap: break-word;
       text-align: left;
     }
     th {
-      background-color: #f4f4f4;
+      background-color: #ecf0f1; /* Warna header tabel */
       text-align: center;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    tr:nth-child(even) {
+        background-color: #f9f9f9; /* Warna zebra striping */
     }
 
     /* Specific alignment for Location Settings Table */
@@ -149,14 +268,14 @@
     #tokenTableBody td:nth-child(1) { text-align: center; }
     #tokenTableBody td:nth-child(3) { text-align: center; }
     #tokenTableBody td:nth-child(4) { text-align: center; }
-    /* UPDATED: Adjust nth-child for new 'Durasi' column */
-    #tokenTableBody td:nth-child(9) { text-align: center; } /* TOKEN DIBUKA */
-    #tokenTableBody td:nth-child(10) { text-align: center; } /* TOKEN DITUTUP */
-    #tokenTableBody td:nth-child(11) { text-align: center; } /* STATUS */
-    #tokenTableBody td:nth-child(12) { text-align: center; } /* AKSES */
-    #tokenTableBody td:nth-child(13) { text-align: center; } /* AKSI */
+    #tokenTableBody td:nth-child(7) { text-align: center; } /* TOKEN DIBUKA */
+    #tokenTableBody td:nth-child(8) { text-align: center; } /* TOKEN DITUTUP */
+    #tokenTableBody td:nth-child(9) { text-align: center; } /* DURASI (MENIT) */
+    #tokenTableBody td:nth-child(10) { text-align: center; } /* STATUS */
+    #tokenTableBody td:nth-child(11) { text-align: center; } /* AKSES */
+    #tokenTableBody td:nth-child(12) { text-align: center; white-space: nowrap; } /* AKSI - Prevent wrapping */
 
-    /* NEW: Alignment for PDF and Answer Key columns */
+    /* Alignment for PDF and Answer Key columns */
     #tokenTableBody td:nth-child(5) { text-align: center; } /* PDF */
     #tokenTableBody td:nth-child(6) {
         text-align: center; /* Answer Key */
@@ -165,9 +284,6 @@
         text-overflow: ellipsis; /* Display ellipsis (...) for truncated text */
         white-space: nowrap; /* Ensure text stays on one line */
     }
-    /* NEW: Alignment for Duration column */
-    #tokenTableBody td:nth-child(9) { text-align: center; }
-
 
     /* Specific alignment for Student List Table */
     #studentTableBody td:nth-child(1) { text-align: center; }
@@ -191,25 +307,24 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 24px; /* Button size */
-        height: 24px; /* Button size */
-        border-radius: 4px;
+        width: 28px; /* Button size */
+        height: 28px; /* Button size */
+        border-radius: 50%; /* Membuat tombol bulat */
         transition: background-color 0.2s ease;
     }
     .student-action-buttons button:hover {
         background-color: #e0e0e0;
     }
-    /* NEW: Icon size in student action buttons */
     .student-action-buttons button img {
-        width: 14px; /* Icon size */
-        height: 14px; /* Icon size */
+        width: 16px; /* Icon size */
+        height: 16px; /* Icon size */
     }
 
     .footer {
       text-align: center;
       margin-top: 20px;
-      color: #555;
-      font-size: 14px;
+      color: #7f8c8d;
+      font-size: 13px;
     }
     .date-time {
       font-size: 14px;
@@ -218,174 +333,190 @@
     .modal {
       display: none;
       position: fixed;
-      z-index: 100;
+      z-index: 1000; /* Lebih tinggi dari elemen lain */
       left: 0; top: 0;
       width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.6); /* Latar belakang modal lebih gelap */
       justify-content: center;
       align-items: center;
     }
     .modal-content {
       background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      width: 90%; /* More flexible for mobile */
-      max-width: 400px;
-      box-sizing: border-box; /* Ensure padding is included in width */
+      padding: 30px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 450px; /* Maks lebar modal */
+      box-sizing: border-box;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    .modal h4 {
+        color: #2c3e50;
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 1.5em;
+    }
+    .modal p {
+        margin-bottom: 20px;
+        color: #34495e;
     }
     .modal button {
-      margin: 5px;
+      margin: 8px;
       display: inline-block;
       width: auto;
+      min-width: 100px;
+      padding: 10px 20px;
+      font-size: 15px;
+    }
+    .modal button.confirm-button {
+        background-color: #28a745; /* Green for confirm */
+    }
+    .modal button.confirm-button:hover {
+        background-color: #218838;
+    }
+    .modal button.cancel-button {
+        background-color: #dc3545; /* Red for cancel */
+    }
+    .modal button.cancel-button:hover {
+        background-color: #c82333;
     }
     .login-link {
-      color: #007BFF;
+      color: #3498db;
       text-decoration: underline;
       font-weight: bold;
+      transition: color 0.3s ease;
     }
     .login-link:hover {
-      color: darkorange;
+      color: #2980b9;
       cursor: pointer;
     }
     .login-link:active {
-      color: red;
+      color: #e74c3c;
     }
-    /* NEW: General style for icon-only buttons */
+    
     .icon-button {
       background: none;
       border: none;
       cursor: pointer;
-      padding: 5px; /* Padding for button */
+      padding: 8px;
       margin: 0;
-      display: inline-flex; /* To center icon */
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      border-radius: 5px;
+      border-radius: 8px;
       transition: background-color 0.2s ease;
     }
     .icon-button:hover {
       background-color: #e0e0e0;
     }
-    /* NEW: Icon size in icon buttons */
     .icon-button img {
-      width: 18px; /* Icon size */
-      height: 18px; /* Icon size */
+      width: 20px;
+      height: 20px;
       display: block;
     }
-
-    /* REMOVED: .action-button-icon as it's not explicitly used and replaced by .icon-button */
-    /* .action-button-icon {
-      background: none;
-      border: none;
-      padding: 0;
-      margin: 0;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 24px;
-      height: 24px;
-      border-radius: 4px;
-    }
-    .action-button-icon img {
-      width: 16px;
-      height: 16px;
-      display: block;
-    }
-    .action-button-icon:hover {
-      background-color: #e0e0e0;
-    }
-    .action-button-icon:active {
-      background-color: #c0c0c0;
-    } */
 
     /* Mobile-specific adjustments */
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       body {
-        padding: 10px; /* Consistent padding from all edges on mobile */
+        flex-direction: column; /* Stack sidebar and main content */
       }
-      /* Override global max-width and margin for full-width alignment on mobile */
-      .header-blue-bg,
-      .dashboard-nav-wrapper,
+      .sidebar {
+        width: 100%; /* Full width for sidebar */
+        height: auto; /* Tinggi otomatis */
+        position: relative; /* Tidak sticky di mobile */
+        border-radius: 0; /* Tanpa sudut di mobile */
+        padding: 15px 10px;
+      }
+      .sidebar.expanded { /* Di mobile, expanded tetap full width */
+        width: 100%;
+      }
+      .sidebar .logo-container {
+        padding: 0; /* Hapus padding di mobile */
+      }
+      .sidebar .logo {
+        width: 50px; /* Lebih kecil di mobile */
+        height: 50px;
+      }
+      .sidebar.expanded .logo { /* Logo tetap ukuran mobile saat expanded di mobile */
+        width: 50px;
+        height: 50px;
+      }
+      .sidebar h2 {
+        font-size: 1em;
+        height: auto; /* Selalu tampil di mobile */
+        opacity: 1;
+      }
+      .sidebar-nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 15px;
+      }
+      .sidebar-nav button {
+        width: auto; /* Lebar otomatis */
+        padding: 10px 12px;
+        font-size: 14px;
+        flex-grow: 1; /* Biarkan tombol tumbuh */
+        justify-content: center; /* Pusatkan teks dan ikon */
+      }
+      .sidebar-nav button span {
+        display: none; /* Sembunyikan teks menu di mobile sangat kecil */
+      }
+      .sidebar-nav button i {
+        margin-right: 0; /* Hapus margin ikon */
+      }
+      .sidebar.expanded .sidebar-nav button span { /* Teks menu tetap tersembunyi di mobile */
+        display: none;
+      }
+      .sidebar .footer {
+        opacity: 1; /* Selalu tampil di mobile */
+        height: auto;
+      }
+      /* No sidebar-toggle button in mobile */
+
+      .main-content {
+        padding: 15px;
+        height: auto; /* Allow height to adjust based on content */
+        min-height: 100vh; /* Ensure it takes at least full viewport height */
+      }
+      /* Removed header-content, so no need for its mobile adjustments */
       .container {
-        max-width: none; /* Remove max-width constraint on mobile */
-        width: 100%; /* Make them take full width within body padding */
-        margin: 0; /* Remove auto margin, let body padding handle spacing */
-        border-radius: 0; /* Full width look */
-      }
-      /* Adjust internal padding for mobile for better spacing */
-      .header-blue-bg {
-        padding: 10px; /* Smaller padding for header on mobile */
-      }
-      .dashboard-nav-wrapper {
-        padding: 8px 10px; /* Smaller padding for nav on mobile */
-      }
-      .container {
-        padding: 15px; /* Smaller padding for content on mobile */
+        padding: 15px;
       }
 
-      /* Adjust font sizes and button spacing for mobile */
-      .header-blue-bg h2 {
-        font-size: 1.2em;
-      }
-      .dashboard-nav-wrapper .dashboard-nav-inner {
-        flex-wrap: wrap;
-        gap: 5px;
-        padding: 0;
-      }
-      .dashboard-nav-wrapper button {
-        padding: 6px 10px;
-        font-size: 13px;
-      }
-      h2, h3 {
-        font-size: 1.5em;
-      }
-      input, select, button {
+      input, select, textarea {
         font-size: 14px;
-        padding: 8px;
-        margin: 6px 0;
+        padding: 10px;
+      }
+      button {
+        font-size: 14px;
+        padding: 10px 20px;
       }
       table {
         font-size: 11px;
         min-width: 500px; /* Adjust table min-width for mobile */
       }
       th, td {
-        padding: 6px;
+        padding: 8px;
       }
       /* Hide specific columns on small screens for token table */
       #tokenTable thead th:nth-child(5), /* PDF */
       #tokenTable tbody td:nth-child(5),
       #tokenTable thead th:nth-child(6), /* ANSWER KEY */
       #tokenTable tbody td:nth-child(6),
-      #tokenTable thead th:nth-child(7), /* TOKEN OPENED */
+      #tokenTable thead th:nth-child(7), /* TOKEN DIBUKA */
       #tokenTable tbody td:nth-child(7),
-      #tokenTable thead th:nth-child(8), /* TOKEN CLOSED */
+      #tokenTable thead th:nth-child(8), /* TOKEN DITUTUP */
       #tokenTable tbody td:nth-child(8) {
         display: none;
       }
-      /* NEW: Hide Duration column on small screens */
+      /* Hide Duration column on small screens */
       #tokenTable thead th:nth-child(9), /* Durasi */
       #tokenTable tbody td:nth-child(9) {
         display: none;
       }
 
-      /* Hide specific columns on small screens for student table */
-      /* #studentTable thead th:nth-child(5), */ /* STATUS - Keep visible */
-      /* #studentTable tbody td:nth-child(5), */
-      /* #studentTable thead th:nth-child(6), */ /* ACTION - Keep visible */
-      /* #studentTable tbody td:nth-child(6) */
-      .action-buttons {
-        flex-direction: row;
-        justify-content: center;
-      }
-      .modal-content {
-        padding: 15px;
-        width: 95%;
-      }
-      .modal button {
-        padding: 8px 12px;
-        font-size: 14px;
-      }
       .student-filters-container {
         flex-direction: column;
         align-items: flex-start;
@@ -400,148 +531,41 @@
         width: 100%;
         max-width: none;
       }
+      .modal-content {
+        padding: 20px;
+        width: 95%;
+      }
+      .modal button {
+        padding: 10px 15px;
+        font-size: 14px;
+      }
     }
 
-    @media (max-width: 400px) {
-      .header-blue-bg .logo {
-        width: 60px;
+    @media (max-width: 480px) {
+      .sidebar-nav button span {
+        display: none; /* Pastikan teks menu hilang */
       }
-      .title {
-        font-size: 18px;
-      }
-      .card-body {
-        padding: 15px;
-      }
-      input {
-        font-size: 14px;
-        padding: 8px;
-      }
-      button {
-        font-size: 14px;
-        padding: 8px 15px;
-      }
-      .footer {
-        font-size: 10px;
-      }
-      table {
-        min-width: 400px;
+      .sidebar-nav button {
+        padding: 10px; /* Hanya ikon */
       }
     }
+
     #notification {
       display: none;
       position: fixed;
       top: 20px;
       left: 50%;
       transform: translateX(-50%);
-      background-color: #4CAF50;
+      background-color: #28a745; /* Warna notifikasi hijau */
       color: white;
-      padding: 15px;
-      border-radius: 5px;
-      z-index: 1000;
-      text-align: center;
-    }
-    .print-button-container {
-      display: none;
-      justify-content: flex-end;
-      margin-bottom: 10px;
-    }
-    #printModal {
-      display: none;
-      position: fixed;
-      z-index: 101;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      justify-content: center;
-      align-items: center;
-    }
-    #printModal .modal-content {
-      background: #fff;
-      padding: 20px;
+      padding: 15px 25px;
       border-radius: 8px;
-      width: 90%;
-      max-width: 400px;
+      z-index: 10000; /* Pastikan di atas semua modal */
       text-align: center;
-    }
-    #printModal .modal-content input[type="text"] {
-      width: calc(100% - 20px);
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-      font-size: 16px;
-    }
-    #printModal .modal-content button {
-      padding: 10px 15px;
-      margin: 5px;
-      font-size: 16px;
-      border-radius: 5px;
-      border: none;
-      cursor: pointer;
-    }
-    #printModal .print-button {
-      background-color: #28a745;
-      color: white;
-    }
-    #printModal .cancel-button {
-      background-color: #dc3545;
-      color: white;
-    }
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 30px;
-      height: 16px;
-    }
-
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: .4s;
-      border-radius: 34px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 12px;
-      width: 12px;
-      left: 2px;
-      bottom: 2px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
-    }
-
-    input:checked + .slider {
-      background-color: #2196F3;
-    }
-
-    input:focus + .slider {
-      box-shadow: 0 0 1px #2196F3;
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(16px);
-    }
-    .cetak-link {
-      color: #007bff;
-      text-decoration: underline;
-      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       font-weight: bold;
     }
+    
     .loading-overlay {
         display: none;
         position: fixed;
@@ -553,15 +577,15 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        z-index: 9999;
+        z-index: 99999; /* Sangat tinggi */
     }
 
     .spinner {
-        border: 4px solid rgba(0, 0, 0, 0.1);
-        width: 36px;
-        height: 36px;
+        border: 5px solid rgba(0, 0, 0, 0.1);
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
-        border-left-color: #007bff;
+        border-left-color: #3498db; /* Warna spinner */
         animation: spin 1s ease infinite;
     }
 
@@ -569,252 +593,200 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
     }
-
-    .student-filters-container {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        gap: 15px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        flex-wrap: wrap;
-    }
-    .student-filters-container > div {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    .student-filters-container label {
-        font-weight: bold;
-        white-space: nowrap;
-    }
-    .student-filters-container select {
-        width: auto;
-        max-width: 200px;
-        flex-grow: 1;
-        margin: 0;
-    }
-
-    /* Custom style for print card info modal */
-    #printInfoModal .modal-content {
-        max-width: 500px; /* Override max-width of generic modal-content */
-        border: 1px solid #888; /* Add border */
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); /* Add specific shadow */
-        text-align: center; /* Center text within modal */
-        font-size: 16px; /* Adjust font size */
-    }
-
-    #printInfoModal .modal-content p {
-        margin: 0 0 10px 0; /* Default margin for paragraphs */
-    }
-    #printInfoModal .modal-content p:last-of-type {
-        margin-bottom: 0; /* No bottom margin for the last paragraph */
-    }
-    #printInfoModal .modal-content a {
-        color: #007bff;
-        text-decoration: none;
-        font-weight: bold;
-    }
-    #printInfoModal .modal-content a:hover {
-        text-decoration: underline;
-    }
-    #printInfoModal .close-button {
-        position: absolute;
-        right: 15px;
-        top: 10px;
-        color: #aaa;
-        font-size: 28px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-    #printInfoModal .close-button:hover,
-    #printInfoModal .close-button:focus {
-        color: #000;
-        text-decoration: none;
-        cursor: pointer;
-    }
   </style>
 </head>
 <body>
-  <div id="headerBlueBg" class="header-blue-bg">
-    <div class="header-inner">
+  <div class="sidebar" id="sidebar">
+    <div class="logo-container">
       <img src="https://raw.githubusercontent.com/smp2pajangan/gambar/refs/heads/main/logosmpn2pjg.png" alt="Logo SMPN 2 Pajangan" class="logo">
       <h2>SMP NEGERI 2 PAJANGAN</h2>
     </div>
-  </div>
-
-  <nav id="dashboardNav" class="dashboard-nav-wrapper">
-    <div class="dashboard-nav-inner">
-      <button id="tokenMenuBtn" onclick="showSection('tokenSection')">Token</button>
-      <button id="lokasiMenuBtn" onclick="showSection('locationSection')">Lokasi</button>
-      <button id="pesertaMenuBtn" onclick="showSection('studentSection')">Peserta</button>
-      <button onclick="promptLogout()">Keluar</button>
-    </div>
-  </nav>
-
-  <div class="container" id="loginSection">
-    <h3 style="text-align: center;">LOGIN ADMINISTRASI</h3>
-    <p id="loginError" class="error"></p>
-    <input type="text" id="username" placeholder="Username" />
-    <input type="password" id="password" placeholder="Password" />
-    <button onclick="login()">Login</button>
-    <p style="text-align: center; font-size: 14px; margin-top: 10px;">
-      Halaman login ujian siswa?
-      <a href="http://smp2pajangan.github.io/loginujian" class="login-link">Loginujian</a>
-    </p>
-    <div class="footer">
+    <nav class="sidebar-nav">
+      <button id="tokenMenuBtn" data-section-id="tokenSection" onclick="handleMenuClick(this)">
+        <i class="fas fa-key"></i> <span>Token</span>
+      </button>
+      <button id="lokasiMenuBtn" data-section-id="locationSection" onclick="handleMenuClick(this)">
+        <i class="fas fa-map-marker-alt"></i> <span>Lokasi</span>
+      </button>
+      <button id="pesertaMenuBtn" data-section-id="studentSection" onclick="handleMenuClick(this)">
+        <i class="fas fa-users"></i> <span>Peserta</span>
+      </button>
+      <button data-action="promptLogout" onclick="handleMenuClick(this)">
+        <i class="fas fa-sign-out-alt"></i> <span>Keluar</span>
+      </button>
+    </nav>
+    <div class="footer" style="margin-top: auto; padding-top: 20px;">
       <div>@Admin SMPN 2 Pajangan</div>
-      <div id="currentTime" class="date-time"></div>
+      <div id="adminDateTime" class="date-time" style="color: #bdc3c7;"></div>
     </div>
   </div>
 
-  <div id="dashboardContent" style="display:none;">
-    <div id="tokenSection" class="dashboard-section container">
-      <h3>TAMBAH / EDIT TOKEN</h3>
-      <form id="tokenForm">
-        <label>Mata Pelajaran</label>
-        <input type="text" id="subject" placeholder="Gunakan kapital" required />
-        <label>Kelas</label>
-        <input type="text" id="kelas" placeholder="Berupa angka saja" required />
-        <label>Token Ujian (Base Token)</label>
-        <input type="text" id="token" placeholder="Berupa huruf/angka (gunakan kapital)" required />
-        
-        <label for="googleDriveUrl">Link Google Drive PDF Soal</label>
-        <input type="url" id="googleDriveUrl" placeholder="Contoh: https://drive.google.com/file/d/FILE_ID/view?usp=sharing" required />
-        <p id="googleDriveUrlError" class="error"></p>
-
-        <label for="answerKey">Kunci Jawaban (Contoh: A,B,C,D,D)</label>
-        <input type="text" id="answerKey" placeholder="Hanya A,B,C,D dipisah koma" required />
-        <p id="answerKeyError" class="error"></p>
-
-        <label>Waktu Token Dibuka</label>
-        <input type="datetime-local" id="startTime" required />
-        <label>Waktu Token Ditutup</labeL>
-        <input type="datetime-local" id="endTime" required />
-        <button type="submit">Tambah</button>
-        <p id="errorMsg" class="error"></p>
-      </form>
-
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-        <h3>DAFTAR TOKEN</h3>
-        <button class="icon-button" onclick="openPrintModal()">
-          <img src="https://raw.githubusercontent.com/smp2pajangan/gambar/refs/heads/main/print.png" alt="Cetak">
-        </button>
-      </div>
-
-      <p style="font-size: 11px; color: #555; margin-top: -10px; margin-bottom: 10px; text-align: center;">
-        Token yang ditambahkan akan dihapus otomatis setelah 30 hari!
+  <div class="main-content" id="mainContent">
+    <div class="container" id="loginSection">
+      <h3 style="text-align: center; color: #2c3e50;">LOGIN ADMINISTRASI</h3>
+      <p id="loginError" class="error"></p>
+      <input type="text" id="username" placeholder="Username" />
+      <input type="password" id="password" placeholder="Password" />
+      <button onclick="login()">Login</button>
+      <p style="text-align: center; font-size: 14px; margin-top: 10px;">
+        Halaman login ujian siswa?
+        <a href="http://smp2pajangan.github.io/loginujian" class="login-link">Loginujian</a>
       </p>
-
-      <div class="table-responsive">
-        <table id="tokenTable">
-          <thead>
-            <tr>
-              <th>NO</th>
-              <th>MAPEL</th>
-              <th>KELAS</th>
-              <th>TOKEN</th>
-              <th>PDF</th>
-              <th>KUNCI JAWABAN</th>
-              <th>TOKEN DIBUKA</th>
-              <th>TOKEN DITUTUP</th>
-              <th>DURASI (MENIT)</th> <th>  STATUS  </th>
-              <th>AKSES</th>
-              <th>AKSI</th>
-            </tr>
-          </thead>
-          <tbody id="tokenTableBody"></tbody>
-        </table>
+      <div class="footer">
+        <div>@Admin SMPN 2 Pajangan</div>
+        <div id="currentTime" class="date-time"></div>
       </div>
     </div>
 
-    <div id="locationSection" class="dashboard-section container">
-      <div style="margin-bottom: 20px;">
-        <h3>ATUR AKSES LOKASI</h3>
-        <div class="table-responsive">
-          <table id="locationSettingsTable">
-            <thead>
-              <tr>
-                <th>KOORDINAT LOKASI</th>
-                <th>RADIUS</th>
-                <th>STATUS</th>
-                <th>AKSI</th>
-              </tr>
-            </thead>
-            <tbody id="locationSettingsTableBody">
-              </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <div id="studentSection" class="dashboard-section container">
-      <div style="margin-bottom: 20px;">
-        <h3>MANAJEMEN SISWA</h3>
-        <form id="studentForm">
-          <label>ID Siswa</label>
-          <input type="text" id="studentId" placeholder="Contoh: 001" required />
-          <label>Nama Siswa</label>
-          <input type="text" id="studentName" placeholder="Nama Lengkap Siswa" required />
+    <div id="dashboardContent" style="display:none;">
+      <div id="tokenSection" class="dashboard-section container">
+        <h1 id="tokenSectionTitle" style="text-align: left; margin-bottom: 20px; color: #34495e;">Manajemen Token</h1>
+        <h3>TAMBAH / EDIT TOKEN</h3>
+        <form id="tokenForm">
+          <label>Mata Pelajaran</label>
+          <input type="text" id="subject" placeholder="Gunakan kapital" required />
           <label>Kelas</label>
-          <input type="text" id="studentClass" placeholder="Contoh: 7A, 8B, 9C" required />
-          <label>Ruang</label>
-          <input type="text" id="studentRoom" placeholder="Contoh: 01, 02, dsb" required /> <button type="submit" id="addStudentButton">Tambah Siswa</button>
-          <button type="button" id="updateStudentButton" style="display:none;">Perbarui Siswa</button>
-          <p id="studentErrorMsg" class="error"></p>
+          <input type="text" id="kelas" placeholder="Berupa angka saja (7, 8, atau 9)" required />
+          <label>Token Ujian (Base Token)</label>
+          <input type="text" id="token" placeholder="Berupa huruf/angka (gunakan kapital)" required />
+          
+          <label for="googleDriveUrl">Link Google Drive PDF Soal</label>
+          <input type="url" id="googleDriveUrl" placeholder="Contoh: https://drive.google.com/file/d/FILE_ID/view?usp=sharing" required />
+          <p id="googleDriveUrlError" class="error"></p>
+
+          <label for="answerKey">Kunci Jawaban (Contoh: A,B,C,D,D)</label>
+          <input type="text" id="answerKey" placeholder="Hanya A,B,C,D dipisah koma" required />
+          <p id="answerKeyError" class="error"></p>
+
+          <label>Waktu Token Dibuka</label>
+          <input type="datetime-local" id="startTime" required />
+          <label>Waktu Token Ditutup</labeL>
+          <input type="datetime-local" id="endTime" required />
+          <button type="submit">Tambah</button>
+          <p id="errorMsg" class="error"></p>
         </form>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; margin-bottom: 10px;">
-          <h3>DAFTAR SISWA</h3>
-          <div style="display: flex; gap: 10px;">
-            <button class="icon-button" onclick="openImportStudentModal()">
-                <img src="https://raw.githubusercontent.com/smp2pajangan/gambar/refs/heads/main/impor.png" alt="Impor">
-            </button>
-            <button class="icon-button" onclick="openEmptyStudentsModal()">
-                <img src="https://raw.githubusercontent.com/smp2pajangan/gambar/refs/heads/main/hapus%20total.png" alt="Kosongkan Daftar">
-            </button>
-            <button class="icon-button" onclick="showPrintInfoModal()">
-              <img src="https://raw.githubusercontent.com/smp2pajangan/gambar/refs/heads/main/print.png" alt="Cetak Kartu">
-            </button>
-          </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; margin-top: 30px;">
+          <h3 style="margin-bottom: 0;">DAFTAR TOKEN</h3>
+          <button class="icon-button" onclick="openPrintModal()">
+            <img src="https://raw.githubusercontent.com/smp2pajangan/gambar/refs/heads/main/print.png" alt="Cetak">
+          </button>
         </div>
 
-        <div class="student-filters-container">
-            <div>
-                <label for="classFilterDropdownSelect">KELAS:</label>
-                <select id="classFilterDropdownSelect" onchange="filterStudentsByClass(this.value)">
-                    <option value="">SEMUA KELAS</option>
-                    </select>
-            </div>
-            <div>
-                <label for="examStatusFilter">STATUS UJIAN:</label>
-                <select id="examStatusFilter" onchange="filterStudentsByExamStatus(this.value)">
-                    <option value="">TOKEN SAAT INI</option>
-                    </select>
-            </div>
-        </div>
+        <p style="font-size: 11px; color: #555; margin-top: -10px; margin-bottom: 10px; text-align: center;">
+          Token yang ditambahkan akan dihapus otomatis setelah 30 hari!
+        </p>
 
         <div class="table-responsive">
-          <table id="studentTable">
+          <table id="tokenTable">
             <thead>
               <tr>
                 <th>NO</th>
-                <th>ID SISWA</th>
-                <th>NAMA</th>
+                <th>MAPEL</th>
                 <th>KELAS</th>
-                <th>RUANG</th>
+                <th>TOKEN</th>
+                <th>PDF</th>
+                <th>KUNJAB</th>
+                <th>TOKEN DIBUKA</th>
+                <th>TOKEN DITUTUP</th>
+                <th>DURASI</th>
                 <th>STATUS</th>
+                <th>AKSES</th>
                 <th>AKSI</th>
               </tr>
             </thead>
-            <tbody id="studentTableBody"></tbody>
+            <tbody id="tokenTableBody"></tbody>
           </table>
         </div>
       </div>
-    </div>
-    <div class="footer">
-      <div>@Admin SMPN 2 Pajangan</div>
-      <div id="adminDateTime" class="date-time"></div>
+
+      <div id="locationSection" class="dashboard-section container">
+        <h1 id="locationSectionTitle" style="text-align: left; margin-bottom: 20px; color: #34495e;">Pengaturan Lokasi</h1>
+        <div style="margin-bottom: 20px;">
+          <h3>ATUR AKSES LOKASI</h3>
+          <div class="table-responsive">
+            <table id="locationSettingsTable">
+              <thead>
+                <tr>
+                  <th>KOORDINAT LOKASI</th>
+                  <th>RADIUS</th>
+                  <th>STATUS</th>
+                  <th>AKSI</th>
+                </tr>
+              </thead>
+              <tbody id="locationSettingsTableBody">
+                </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="studentSection" class="dashboard-section container">
+        <h1 id="studentSectionTitle" style="text-align: left; margin-bottom: 20px; color: #34495e;">Manajemen Peserta</h1>
+        <div style="margin-bottom: 20px;">
+          <h3>MANAJEMEN SISWA</h3>
+          <form id="studentForm">
+            <label>ID Siswa</label>
+            <input type="text" id="studentId" placeholder="Contoh: 001" required />
+            <label>Nama Siswa</label>
+            <input type="text" id="studentName" placeholder="Nama Lengkap Siswa" required />
+            <label>Kelas</label>
+            <input type="text" id="studentClass" placeholder="Contoh: 7A, 8B, 9C" required />
+            <label>Ruang</label>
+            <input type="text" id="studentRoom" placeholder="Contoh: 01, 02, dsb" required /> 
+            <button type="submit" id="addStudentButton">Tambah Siswa</button>
+            <button type="button" id="updateStudentButton" style="display:none;">Perbarui Siswa</button>
+            <p id="studentErrorMsg" class="error"></p>
+          </form>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 30px; margin-bottom: 10px;">
+            <h3 style="margin-bottom: 0;">DAFTAR SISWA</h3>
+            <div style="display: flex; gap: 10px;">
+              <button class="icon-button" onclick="openImportStudentModal()">
+                  <img src="https://raw.githubusercontent.com/smp2pajangan/gambar/refs/heads/main/impor.png" alt="Impor">
+              </button>
+              <button class="icon-button" onclick="openEmptyStudentsModal()">
+                  <img src="https://raw.githubusercontent.com/smp2pajangan/gambar/refs/heads/main/hapus%20total.png" alt="Kosongkan Daftar">
+              </button>
+              <button class="icon-button" onclick="showPrintInfoModal()">
+                <img src="https://raw.githubusercontent.com/smp2pajangan/gambar/refs/heads/main/print.png" alt="Cetak Kartu">
+              </button>
+            </div>
+          </div>
+
+          <div class="student-filters-container">
+              <div>
+                  <label for="classFilterDropdownSelect">KELAS:</label>
+                  <select id="classFilterDropdownSelect" onchange="filterStudentsByClass(this.value)">
+                      <option value="">SEMUA KELAS</option>
+                      </select>
+              </div>
+              <div>
+                  <label for="examStatusFilter">STATUS UJIAN:</label>
+                  <select id="examStatusFilter" onchange="filterStudentsByExamStatus(this.value)">
+                      <option value="">TOKEN SAAT INI</option>
+                      </select>
+              </div>
+          </div>
+
+          <div class="table-responsive">
+            <table id="studentTable">
+              <thead>
+                <tr>
+                  <th>NO</th>
+                  <th>ID SISWA</th>
+                  <th>NAMA</th>
+                  <th>KELAS</th>
+                  <th>RUANG</th>
+                  <th>STATUS</th>
+                  <th>AKSI</th>
+                </tr>
+              </thead>
+              <tbody id="studentTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -825,7 +797,7 @@
         <label>Mata Pelajaran</label>
         <input type="text" id="editSubject" required />
         <label>Kelas</label>
-        <input type="text" id="editKelas" required />
+        <input type="text" id="editKelas" placeholder="Berupa angka saja (7, 8, atau 9)" required />
         <label>Token Ujian</label>
         <input type="text" id="editToken" required />
         
@@ -843,7 +815,7 @@
         <input type="datetime-local" id="editEndTime" required />
         <p id="editErrorMsg" class="error"></p>
         <button type="submit">Simpan</button>
-        <button type="button" onclick="closeEditModal()">Batal</button>
+        <button type="button" onclick="closeEditModal()" class="cancel-button">Batal</button>
       </form>
     </div>
   </div>
@@ -851,8 +823,8 @@
   <div id="deleteModal" class="modal">
     <div class="modal-content">
       <p>Yakin ingin menghapus token ini?</p>
-      <button onclick="confirmDelete()">Hapus</button>
-      <button onclick="closeDeleteModal()">Batal</button>
+      <button onclick="confirmDelete()" class="confirm-button">Hapus</button>
+      <button onclick="closeDeleteModal()" class="cancel-button">Batal</button>
     </div>
   </div>
 
@@ -864,16 +836,16 @@
         <input type="password" id="forceActivePassword">
         <p id="forceActivePasswordError" class="error"></p>
       </div>
-      <button onclick="confirmForceActive()">Mengaktifkan</button>
-      <button onclick="closeForceActiveModal()">Batal</button>
+      <button onclick="confirmForceActive()" class="confirm-button">Mengaktifkan</button>
+      <button onclick="closeForceActiveModal()" class="cancel-button">Batal</button>
     </div>
   </div>
 
   <div id="forceInactiveModal" class="modal">
     <div class="modal-content">
       <p>Apakah Anda yakin ingin <b>menonaktifkan token secara paksa</b>? Hal ini akan membuat token kembali ke pengaturan jadwal!</p>
-      <button onclick="confirmForceInactive()">Nonaktifkan</button>
-      <button onclick="closeForceInactiveModal()">Batal</button>
+      <button onclick="confirmForceInactive()" class="confirm-button">Nonaktifkan</button>
+      <button onclick="closeForceInactiveModal()" class="cancel-button">Batal</button>
     </div>
   </div>
 
@@ -883,7 +855,7 @@
 
   <div id="printModal" class="modal">
     <div class="modal-content">
-      <h4 style="font-size: 1em; font-weight: normal; color: #555; margin-bottom: 10px;">Berikan judul pada tabel token</h4>
+      <h4 style="font-size: 1.2em; font-weight: normal; color: #555; margin-bottom: 10px;">Berikan judul pada tabel token</h4>
       <div id="printTitleError" class="error" style="text-align: center; margin-bottom: 5px;"></div>
       <textarea id="printTitleInput" placeholder="Tulis dengan huruf kapital" style="width: calc(100% - 20px); padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; height: 80px;"></textarea>
       <button class="print-button" onclick="printTokenList()">Cetak</button>
@@ -912,10 +884,10 @@
   <div id="setlokasiModal" class="modal">
     <div class="modal-content" style="text-align: center;">
       <h4>Pengaturan Lokasi</h4>
-      <button onclick="aktifkanLokasi()" style="background-color: green; color: white; padding: 10px 15px; border: none; border-radius: 5px; margin: 5px; cursor: pointer;">Aktifkan</button>
-      <button onclick="openGantiRadiusModal()" style="background-color: gold; color: black; padding: 10px 15px; border: none; border-radius: 5px; margin: 5px; cursor: pointer;">Ganti Radius</button>
-      <button onclick="nonaktifkanLokasi()" style="background-color: red; color: white; padding: 10px 15px; border: none; border-radius: 5px; margin: 5px; cursor: pointer;">Nonaktifkan</button>
-      <button onclick="closeSetlokasiModal()" style="margin-top: 10px;">Batal</button>
+      <button onclick="aktifkanLokasi()" style="background-color: #28a745; color: white;">Aktifkan</button>
+      <button onclick="openGantiRadiusModal()" style="background-color: #ffc107; color: black;">Ganti Radius</button>
+      <button onclick="nonaktifkanLokasi()" style="background-color: #dc3545; color: white;">Nonaktifkan</button>
+      <button onclick="closeSetlokasiModal()" class="cancel-button" style="margin-top: 10px;">Batal</button>
     </div>
   </div>
 
@@ -925,14 +897,14 @@
       <label for="radiusMeter">Radius (meter):</label>
       <input type="number" id="radiusMeter" placeholder="Contoh: 75" required />
       <div style="text-align: center; margin-top: 10px;">
-        <button onclick="gantiRadiusDanAktifkan()" style="background-color: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 5px; margin: 5px; cursor: pointer;">Ganti & Aktifkan</button>
-        <button onclick="closeGantiRadiusModal()">Batal</button>
+        <button onclick="gantiRadiusDanAktifkan()">Ganti & Aktifkan</button>
+        <button onclick="closeGantiRadiusModal()" class="cancel-button">Batal</button>
       </div>
     </div>
   </div>
 
   <div id="accessDetailModal" class="modal">
-    <div class="modal-content" style="max-width: 600px;">
+    <div class="modal-content" style="max-width: 700px;">
       <h4 id="accessDetailTokenTitle">Detail Akses Token: [Token]</h4>
       <div class="table-responsive">
         <table id="accessDetailTable">
@@ -963,34 +935,36 @@
       <label for="modalStudentName">Nama Siswa</label>
       <input type="text" id="modalStudentName" required />
       <label for="modalStudentClass">Kelas</label>
-      <input type="text" id="modalStudentClass" required />
+      <input type="text" id="modalStudentClass" placeholder="Contoh: 7A, 8B, 9C" required />
       <label for="modalStudentRoom">Ruang</label>
-      <input type="text" id="modalStudentRoom" placeholder="Contoh: 01, 02, dsb" required /> <button onclick="confirmEditStudent()">Simpan</button>
-      <button type="button" onclick="closeEditStudentModal()">Batal</button>
+      <input type="text" id="modalStudentRoom" placeholder="Contoh: 01, 02, dsb" required /> 
+      <button onclick="confirmEditStudent()">Simpan</button>
+      <button type="button" onclick="closeEditStudentModal()" class="cancel-button">Batal</button>
     </div>
   </div>
 
   <div id="deleteStudentConfirmModal" class="modal">
     <div class="modal-content">
       <p>Yakin ingin menghapus siswa ini?</p>
-      <button onclick="confirmDeleteStudent()">Hapus</button>
-      <button onclick="closeDeleteStudentConfirmModal()">Batal</button>
+      <button onclick="confirmDeleteStudent()" class="confirm-button">Hapus</button>
+      <button onclick="closeDeleteStudentConfirmModal()" class="cancel-button">Batal</button>
     </div>
   </div>
 
   <div id="importStudentModal" class="modal">
     <div class="modal-content">
-      <h4>Import Data Peserta dari csv</h4>
+      <h4>Import Data Peserta dari CSV</h4>
       <p style="font-size: 0.9em; color: #555; text-align: left;">
         Perhatikan hal-hal berikut!<br>
         1. Siapkan data peserta dengan 4 kolom: ID Peserta (angka), Nama Lengkap, Kelas, dan Ruang<br>
         2. Simpan file dengan format *.csv (comma delimited)<br>
         3. Pastikan tidak ada kolom tambahan
       </p>
-      <a href="https://drive.google.com/uc?export=download&id=16rzsLjQ3AVm0wIPqWnzsauzbrwGfO7An" target="_blank" style="display: block; text-align: center; margin: 15px 0; padding: 10px 20px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px;">Unduh Template CSV</a> <input type="file" id="csvFileInput" accept=".csv" style="margin-top: 15px; margin-bottom: 10px;" />
+      <a href="https://drive.google.com/uc?export=download&id=16rzsLjQ3AVm0wIPqWnzsauzbrwGfO7An" target="_blank" style="display: block; text-align: center; margin: 15px 0; padding: 10px 20px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px;">Unduh Template CSV</a> 
+      <input type="file" id="csvFileInput" accept=".csv" style="margin-top: 15px; margin-bottom: 10px;" />
       <p id="importFileError" class="error"></p>
       <button onclick="processCsvFile()">Mulai Impor</button>
-      <button onclick="closeImportStudentModal()">Batal</button>
+      <button onclick="closeImportStudentModal()" class="cancel-button">Batal</button>
     </div>
   </div>
 
@@ -1012,8 +986,8 @@
         <input type="password" id="emptyStudentsPassword">
         <p id="emptyStudentsPasswordError" class="error"></p>
       </div>
-      <button onclick="confirmEmptyStudents()">Konfirmasi Hapus Semua</button>
-      <button onclick="closeEmptyStudentsModal()">Batal</button>
+      <button onclick="confirmEmptyStudents()" class="confirm-button">Konfirmasi Hapus Semua</button>
+      <button onclick="closeEmptyStudentsModal()" class="cancel-button">Batal</button>
     </div>
   </div>
 
@@ -1021,8 +995,8 @@
     <div class="modal-content">
       <h4>Konfirmasi Logout</h4>
       <p>Anda yakin ingin keluar dari panel admin?</p>
-      <button onclick="confirmLogout()">Ya, Keluar</button>
-      <button onclick="closeLogoutModal()">Batal</button>
+      <button onclick="confirmLogout()" class="confirm-button">Ya, Keluar</button>
+      <button onclick="closeLogoutModal()" class="cancel-button">Batal</button>
     </div>
   </div>
 
@@ -1035,25 +1009,54 @@
     // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
     import { getDatabase, ref, push, onValue, update, remove, runTransaction, get } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
-    // REMOVED: Firebase Storage imports
-    // import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-storage.js";
 
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
+    // --- Firebase Configurations for each class ---
+    const firebaseConfig7 = {
       apiKey: "AIzaSyCII45EsItVdjv3zHSL5CaBQ4nF45z4IuM",
       authDomain: "ujiankupdf.firebaseapp.com",
       databaseURL: "https://ujiankupdf-default-rtdb.firebaseio.com",
       projectId: "ujiankupdf",
-      // REMOVED: storageBucket
+      storageBucket: "ujiankupdf.firebasestorage.app",
       messagingSenderId: "302885602120",
       appId: "1:302885602120:web:e0839370e6d667cda6297d"
     };
-    
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    // REMOVED: storage initialization
-    // const storage = getStorage(app); 
+
+    const firebaseConfig8 = {
+      apiKey: "AIzaSyDqxYYrYzae5y9lqwQTXS6VoYgBtFWME8I",
+      authDomain: "ujianonlinepdf8-9d913.firebaseapp.com",
+      databaseURL: "https://ujianonlinepdf8-9d913-default-rtdb.firebaseio.com",
+      projectId: "ujianonlinepdf8-9d913",
+      storageBucket: "ujianonlinepdf8-9d913.firebasestorage.app",
+      messagingSenderId: "487436559172",
+      appId: "1:487436559172:web:80d78ed209f0ada59eed11"
+    };
+
+    const firebaseConfig9 = {
+      apiKey: "AIzaSyCUReE6pmkleeR7jIz3sPO9N943v96uUro",
+      authDomain: "ujianonlinepdf9-c7aba.firebaseapp.com",
+      databaseURL: "https://ujianonlinepdf9-c7aba-default-rtdb.firebaseio.com",
+      projectId: "ujianonlinepdf9-c7aba",
+      storageBucket: "ujianonlinepdf9-c7aba.firebasestorage.app",
+      messagingSenderId: "382098344813",
+      appId: "1:382098344813:web:f3eb483dca58c21e56a864"
+    };
+
+    // Initialize Firebase Apps
+    const app7 = initializeApp(firebaseConfig7, 'app7');
+    const db7 = getDatabase(app7);
+
+    const app8 = initializeApp(firebaseConfig8, 'app8');
+    const db8 = getDatabase(app8);
+
+    const app9 = initializeApp(firebaseConfig9, 'app9');
+    const db9 = getDatabase(app9);
+
+    // Map class numbers to their respective database instances
+    const classDbMap = {
+        '7': db7,
+        '8': db8,
+        '9': db9
+    };
 
     // Admin Credentials
     const ADMIN_USER = "admin";
@@ -1061,10 +1064,10 @@
     let currentTokenId = null;
     let currentStudentKey = null; // For editing/deleting students
     let deleteStudentKey = null; // For student delete confirmation
-    let tokenCache = [];
-    let studentCache = []; // Cache for student data
-    let tokenAccessStatus = {}; // Cache for token access status per student
-    let submittedExamsCache = {}; // Cache for exam submission status
+    let tokenCache = []; // Unified cache for all tokens from all classes
+    let studentCache = []; // Unified cache for all students from all classes
+    let tokenAccessStatus = {}; // Cache for token access status per student (unified)
+    let submittedExamsCache = {}; // Cache for exam submission status (unified)
     const THIRTY_DAYS_IN_MS = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
     const EDIT_ICON_URL = "https://raw.githubusercontent.com/smp2pajangan/gambar/refs/heads/main/edit.png";
     const DELETE_ICON_URL = "https://raw.githubusercontent.com/smp2pajangan/gambar/refs/heads/main/hapus.png";
@@ -1076,11 +1079,9 @@
     let currentStudentClassFilter = null; // Filter for student list (e.g., '7A', '7_all', or null for all)
     let currentExamStatusFilterToken = null; // Filter for exam status (token key)
 
-    // Reference to 'setlokasi' node in Firebase
-    const settingsRef = ref(db, 'setlokasi');
-    const studentsRef = ref(db, 'students'); // Reference to student node
-    const examAccessStatusRef = ref(db, 'exam_access_status'); // Reference to exam access status node
-    const submittedExamsRef = ref(db, 'submitted_exams'); // Reference to submitted_exams node
+    // Reference to 'setlokasi' node in Firebase (assuming this is global and not per class)
+    // If setlokasi needs to be per class, this will need to be adapted. For now, assuming global.
+    const settingsRef = ref(db7, 'setlokasi'); // Using db7 as the primary for global settings
 
     // Variables to store location status and radius
     let isLocationEnabledAdmin = false;
@@ -1140,13 +1141,16 @@
     const printInfoModal = document.getElementById('printInfoModal');
 
     // Navigation buttons and header elements
-    const headerBlueBg = document.getElementById('headerBlueBg');
-    const dashboardNav = document.getElementById('dashboardNav');
+    const sidebar = document.getElementById('sidebar');
     const loginSection = document.getElementById('loginSection');
     const dashboardContent = document.getElementById('dashboardContent');
     const tokenMenuBtn = document.getElementById('tokenMenuBtn');
     const lokasiMenuBtn = document.getElementById('lokasiMenuBtn');
     const pesertaMenuBtn = document.getElementById('pesertaMenuBtn');
+    
+    // Global variable to track sidebar state
+    let isSidebarExpanded = false; // Initial state
+
 
     // NEW: Google Drive URL and Answer Key input elements
     const googleDriveUrlInput = document.getElementById('googleDriveUrl');
@@ -1159,7 +1163,6 @@
     const editGoogleDriveUrlError = document.getElementById('editGoogleDriveUrlError');
     const editAnswerKeyInput = document.getElementById('editAnswerKey');
     const editAnswerKeyError = document.getElementById('editAnswerKeyError');
-    // REMOVED: currentPdfLink as it's not needed for Google Drive links
 
 
     // Helper function to pad student ID with leading zeros
@@ -1167,7 +1170,7 @@
         return String(id).padStart(3, '0');
     }
 
-    // NEW: Helper function to pad room number with leading zeros (2 digits)
+    // Helper function to pad room number with leading zeros (2 digits)
     function padRoomNumber(room) {
         if (!room) return '-'; // Handle empty or null room
         // Attempt to convert to number and pad, otherwise return as is
@@ -1193,6 +1196,42 @@
         return `${year}-${month}-${day}T${hours}:${minutes}`;
     }
 
+    /**
+     * Helper function to get the numeric class from a class string (e.g., "7A" -> "7").
+     * @param {string} classString - The class string (e.g., "7A", "8", "9C").
+     * @returns {string|null} The numeric class as a string (e.g., "7", "8", "9") or null if not found.
+     */
+    function getNumericClass(classString) {
+        const match = String(classString || '').match(/^(\d+)/);
+        return match ? match[1] : null;
+    }
+
+    /**
+     * Helper function to get the database instance based on the class.
+     * @param {string} kelas - The class number (e.g., '7', '8', '9').
+     * @returns {object|null} The Firebase database instance or null if not found.
+     */
+    function getDbForClass(kelas) {
+        const numericClass = getNumericClass(kelas);
+        if (numericClass && classDbMap[numericClass]) {
+            return classDbMap[numericClass];
+        }
+        console.error(`Database instance not found for class: ${kelas}`);
+        return null;
+    }
+
+    // Function to expand sidebar
+    window.expandSidebar = () => {
+        sidebar.classList.add('expanded');
+        isSidebarExpanded = true;
+    };
+
+    // Function to collapse sidebar
+    window.collapseSidebar = () => {
+        sidebar.classList.remove('expanded');
+        isSidebarExpanded = false;
+    };
+
     // Function to show/hide dashboard sections
     window.showSection = (sectionId) => {
         // Hide all dashboard content sections
@@ -1203,23 +1242,72 @@
         document.getElementById(sectionId).style.display = 'block';
 
         // Set navigation button styles
-        document.querySelectorAll('.dashboard-nav-wrapper button').forEach(button => {
+        document.querySelectorAll('.sidebar-nav button').forEach(button => {
             button.classList.remove('active');
         });
+        // Add active class to the corresponding button
+        const activeBtn = document.querySelector(`.sidebar-nav button[data-section-id="${sectionId}"]`);
+        if (activeBtn) {
+            activeBtn.classList.add('active');
+        }
+
         if (sectionId === 'tokenSection') {
-            tokenMenuBtn.classList.add('active');
-            renderTokenTable(); // Re-render token table
+            renderTokenTable();
         } else if (sectionId === 'locationSection') {
-            lokasiMenuBtn.classList.add('active');
-            updateSetlokasiStatusDisplay(); // Update location display
+            updateSetlokasiStatusDisplay();
         } else if (sectionId === 'studentSection') {
-            pesertaMenuBtn.classList.add('active');
-            // Ensure filters are populated and table is rendered
             populateClassFilter();
             populateExamStatusFilter();
             renderStudentTable();
         }
     };
+
+    // Main handler for sidebar menu clicks
+    window.handleMenuClick = (buttonElement) => {
+        const sectionId = buttonElement.dataset.sectionId;
+        const action = buttonElement.dataset.action; // For logout
+
+        if (!isSidebarExpanded) {
+            // If sidebar is collapsed, expand it and then perform the action
+            expandSidebar();
+            // Use a small delay to allow CSS transition to start before content changes
+            setTimeout(() => {
+                if (action === 'promptLogout') {
+                    promptLogout();
+                } else {
+                    showSection(sectionId);
+                }
+            }, 100); // Adjust delay as needed for smoother UX
+        } else {
+            // If sidebar is already expanded
+            if (action === 'promptLogout') {
+                promptLogout();
+                // Sidebar remains expanded for logout modal, will collapse on confirmLogout
+            } else {
+                const currentActiveSection = document.querySelector('.dashboard-section[style*="display: block"]');
+                const currentActiveSectionId = currentActiveSection ? currentActiveSection.id : null;
+
+                if (sectionId === currentActiveSectionId) {
+                    // Clicked on the currently active section, do nothing (sidebar remains expanded)
+                    console.log('Already on this section, doing nothing.');
+                } else {
+                    // Clicked on a different section, change content but keep sidebar expanded
+                    showSection(sectionId);
+                }
+            }
+        }
+    };
+
+    // Global click listener to collapse sidebar when clicking outside it
+    document.addEventListener('click', (event) => {
+        const isClickInsideSidebar = sidebar.contains(event.target);
+        const isClickInsideModal = event.target.closest('.modal'); // Check if click is inside any modal
+
+        if (isSidebarExpanded && !isClickInsideSidebar && !isClickInsideModal) {
+            collapseSidebar();
+        }
+    });
+
 
     // Function to display notifications
     function showNotification(message) {
@@ -1238,14 +1326,17 @@
       if(u === ADMIN_USER && p === ADMIN_PASS) {
         localStorage.setItem('isAdminLoggedIn', 'true');
         loginSection.style.display = 'none'; // Hide login section
-        dashboardContent.style.display = 'block'; // Show dashboard content
-        dashboardNav.style.display = 'block'; // Show dashboard navigation
+        sidebar.style.display = 'flex'; // Show sidebar
+        dashboardContent.style.display = 'flex'; // Show dashboard content
         
-        loadTokens();
-        loadStudents(); // Load student data upon login
-        loadSetlokasiSettings(); // Load location settings upon login
+        loadTokens(); // Load tokens from all databases
+        loadStudents(); // Load students from all databases
+        loadTokenAccessStatus(); // Load access status from all DBs
+        loadSubmittedExamsStatus(); // Load submission status from all DBs
+        loadSetlokasiSettings(); // Load location settings (from primary db)
         showSection('tokenSection'); // Show token section by default
         resetInactivityTimer(); // Start inactivity timer after successful login
+        collapseSidebar(); // Ensure sidebar starts collapsed after login
       } else {
         document.getElementById("loginError").innerText = "Username atau password salah.";
       }
@@ -1260,11 +1351,12 @@
     window.confirmLogout = () => {
       localStorage.removeItem('isAdminLoggedIn');
       dashboardContent.style.display = 'none'; // Hide dashboard content
-      dashboardNav.style.display = 'none'; // Hide dashboard navigation
+      sidebar.style.display = 'none'; // Hide sidebar
       loginSection.style.display = 'block'; // Show login section
       document.getElementById('password').value = ''; // Clear password on logout
       showNotification('Anda telah logout.');
       closeLogoutModal();
+      collapseSidebar(); // Ensure sidebar is collapsed after logout
     };
 
     // Function to close logout confirmation modal
@@ -1304,13 +1396,14 @@
             }
 
             // Get the number of students who accessed this token
+            // Note: tokenAccessStatus is unified, so this should work across databases
             const accessedStudents = tokenAccessStatus[data.key] ? Object.keys(tokenAccessStatus[data.key]).length : 0;
 
             row.innerHTML = `
                 <td>${sortedCounter}</td>
                 <td>${data.subject}</td>
                 <td>${data.kelas}</td>
-                <td>${tokenDisplay}</td>
+                <td><a href="#" onclick="openAccessDetailModal('${data.key}', '${data.token}')">${tokenDisplay}</a></td>
                 <td>${data.googleDriveUrl ? `<a href="${data.googleDriveUrl}" target="_blank">Lihat PDF</a>` : '-'}</td>
                 <td>${data.answerKey || '-'}</td>
                 <td>${startTimeFormatted}</td>
@@ -1336,68 +1429,127 @@
         populateExamStatusFilter(); // Ensure exam status filter is updated when tokens change
     }
 
-    // Function to load tokens from Firebase
+    // Function to load tokens from all Firebase projects
     function loadTokens() {
-      onValue(ref(db, 'tokens'), (snapshot) => {
         tokenCache = [];
-        snapshot.forEach(child => {
-          const data = child.val();
-          data.key = child.key;
-          // Delete tokens older than 30 days
-          if (data.createdAt && (Date.now() - data.createdAt) > THIRTY_DAYS_IN_MS) {
-            remove(ref(db, 'tokens/' + data.key))
-              .then(() => console.log(`Token ${data.key} dihapus.`))
-              .catch(error => console.error(`Gagal hapus ${data.key}: `, error));
-            return;
-          }
-          tokenCache.push(data);
+        const tokenPromises = [];
+
+        Object.keys(classDbMap).forEach(classNum => {
+            const dbInstance = classDbMap[classNum];
+            if (dbInstance) {
+                tokenPromises.push(new Promise((resolve) => {
+                    onValue(ref(dbInstance, 'tokens'), (snapshot) => {
+                        const classTokens = [];
+                        snapshot.forEach(child => {
+                            const data = child.val();
+                            data.key = child.key;
+                            data.firebaseClass = classNum; // Store which Firebase project it came from
+                            // Delete tokens older than 30 days
+                            if (data.createdAt && (Date.now() - data.createdAt) > THIRTY_DAYS_IN_MS) {
+                                remove(ref(dbInstance, 'tokens/' + data.key))
+                                    .then(() => console.log(`Token ${data.key} dari kelas ${classNum} dihapus.`))
+                                    .catch(error => console.error(`Gagal hapus ${data.key} dari kelas ${classNum}: `, error));
+                                return;
+                            }
+                            classTokens.push(data);
+                        });
+                        resolve(classTokens);
+                    }, (error) => {
+                        console.error(`Error loading tokens from class ${classNum}:`, error);
+                        resolve([]); // Resolve with empty array on error
+                    });
+                }));
+            }
         });
 
-        // Sort tokens by startTime first, then by class
-        tokenCache.sort((a, b) => {
-          const timeA = new Date(a.startTime).getTime();
-          const timeB = new Date(b.startTime).getTime();
-          if (timeA !== timeB) {
-            return timeA - timeB;
-          }
+        Promise.all(tokenPromises).then(allTokensArrays => {
+            tokenCache = [].concat(...allTokensArrays); // Flatten the array of arrays
+            
+            // Sort tokens by startTime first, then by class
+            tokenCache.sort((a, b) => {
+                const timeA = new Date(a.startTime).getTime();
+                const timeB = new Date(b.startTime).getTime();
+                if (timeA !== timeB) {
+                    return timeA - timeB;
+                }
 
-          // Ensure classes are strings, fallback to empty string if undefined/null
-          const kelasA = String(a.kelas || '');
-          const kelasB = String(b.kelas || '');
+                // Ensure classes are strings, fallback to empty string if undefined/null
+                const kelasA = String(a.kelas || '');
+                const kelasB = String(b.kelas || '');
 
-          const numKelasA = parseInt(kelasA);
-          const numKelasB = parseInt(kelasB);
+                const numKelasA = parseInt(kelasA);
+                const numKelasB = parseInt(kelasB);
 
-          if (!isNaN(numKelasA) && !isNaN(numKelasB)) {
-            return numKelasA - numKelasB;
-          } else {
-            // If not both numbers, compare as strings
-            return kelasA.localeCompare(kelasB);
-          }
+                if (!isNaN(numKelasA) && !isNaN(numKelasB)) {
+                    return numKelasA - numKelasB;
+                } else {
+                    // If not both numbers, compare as strings
+                    return kelasA.localeCompare(kelasB);
+                }
+            });
+
+            renderTokenTable(); // Re-render table after all tokens are loaded/sorted
+            clearInterval(statusCheckInterval);
+            statusCheckInterval = setInterval(periksaAndUpdateStatusToken, 10000); // Check every 10 seconds
+            periksaAndUpdateStatusToken();
         });
-
-        renderTokenTable(); // Re-render table after tokens are loaded/sorted
-        clearInterval(statusCheckInterval);
-        statusCheckInterval = setInterval(periksaAndUpdateStatusToken, 10000); // Check every 10 seconds
-        periksaAndUpdateStatusToken();
-      });
     }
 
-    // Listener for token access status per student
-    onValue(examAccessStatusRef, (snapshot) => {
-        tokenAccessStatus = snapshot.val() || {};
-        renderTokenTable(); // Re-render token table to update access count
-        renderStudentTable(); // Also update student table for access status
-    });
+    // Listener for token access status per student (unified from all DBs)
+    function loadTokenAccessStatus() {
+        tokenAccessStatus = {}; // Clear cache before loading
+        const accessPromises = [];
 
-    // Listener for exam submission status per student
-    onValue(submittedExamsRef, (snapshot) => {
-        submittedExamsCache = snapshot.val() || {};
-        renderStudentTable(); // Re-render student table
-    });
+        Object.keys(classDbMap).forEach(classNum => {
+            const dbInstance = classDbMap[classNum];
+            if (dbInstance) {
+                accessPromises.push(new Promise((resolve) => {
+                    onValue(ref(dbInstance, 'exam_access_status'), (snapshot) => {
+                        const classAccessData = snapshot.val() || {};
+                        // Merge into global tokenAccessStatus
+                        Object.assign(tokenAccessStatus, classAccessData);
+                        resolve(); // Resolve when this class's data is processed
+                    }, (error) => {
+                        console.error(`Error loading exam_access_status from class ${classNum}:`, error);
+                        resolve(); // Resolve even on error to allow Promise.all to complete
+                    });
+                }));
+            }
+        });
 
-    // REMOVED: uploadPdfToFirebaseStorage function
-    // REMOVED: deletePdfFromFirebaseStorage function
+        Promise.all(accessPromises).then(() => {
+            renderTokenTable(); // Re-render token table to update access count
+            renderStudentTable(); // Also update student table for access status
+        });
+    }
+
+    // Listener for exam submission status per student (unified from all DBs)
+    function loadSubmittedExamsStatus() {
+        submittedExamsCache = {}; // Clear cache before loading
+        const submissionPromises = [];
+
+        Object.keys(classDbMap).forEach(classNum => {
+            const dbInstance = classDbMap[classNum];
+            if (dbInstance) {
+                submissionPromises.push(new Promise((resolve) => {
+                    onValue(ref(dbInstance, 'submitted_exams'), (snapshot) => {
+                        const classSubmissionData = snapshot.val() || {};
+                        // Merge into global submittedExamsCache
+                        Object.assign(submittedExamsCache, classSubmissionData);
+                        resolve(); // Resolve when this class's data is processed
+                    }, (error) => {
+                        console.error(`Error loading submitted_exams from class ${classNum}:`, error);
+                        resolve(); // Resolve even on error to allow Promise.all to complete
+                    });
+                }));
+            }
+        });
+
+        Promise.all(submissionPromises).then(() => {
+            renderStudentTable(); // Re-render student table
+        });
+    }
+
 
     /**
      * Function to validate the answer key format.
@@ -1443,7 +1595,7 @@
 
 
     // Function to log link access and open it (DEMO for admin panel)
-    window.trackAndOpenLinkDemo = (tokenId, googleDriveUrl) => { // Changed pdfUrl to googleDriveUrl
+    window.trackAndOpenLinkDemo = async (tokenId, googleDriveUrl) => { // Changed pdfUrl to googleDriveUrl
         const studentIdDemo = prompt("Masukkan ID Siswa untuk simulasi akses (misal: 001, 002):");
         if (!studentIdDemo) {
             showNotification("Akses dibatalkan. ID Siswa diperlukan untuk simulasi.");
@@ -1463,16 +1615,22 @@
         }
 
         // Extract the numeric part of the student's class (e.g., '7' from '7A')
-        const studentClassNumericMatch = student.class.match(/\d+/);
-        const studentClassNumeric = studentClassNumericMatch ? studentClassNumeric[0] : null;
+        const studentClassNumeric = getNumericClass(student.class);
 
         // Compare the numeric part of the student's class with the general token class
-        if (!studentClassNumeric || studentClassNumeric !== token.kelas) {
+        if (!studentClassNumeric || studentClassNumeric !== getNumericClass(token.kelas)) { // Compare numeric class
             showNotification(`Akses ditolak: Siswa dari kelas ${student.class} tidak dapat mengakses token untuk kelas ${token.kelas}.`);
             return;
         }
 
-        const tokenAccessRef = ref(db, `exam_access_status/${tokenId}/${student.id}`); // Use padded student.id
+        // Determine target database for access status based on token's class
+        const targetDbForAccess = getDbForClass(token.kelas);
+        if (!targetDbForAccess) {
+            showNotification("Gagal mencatat akses: Database untuk kelas token tidak ditemukan.");
+            return;
+        }
+
+        const tokenAccessRef = ref(targetDbForAccess, `exam_access_status/${tokenId}/${student.id}`); // Use token's class DB
 
         runTransaction(tokenAccessRef, (currentAccess) => {
             const now = Date.now();
@@ -1499,7 +1657,7 @@
             }
         })
         .then(() => {
-            console.log(`Akses token ${tokenId} oleh siswa ${student.id} berhasil dicatat.`);
+            console.log(`Akses token ${tokenId} oleh siswa ${student.id} berhasil dicatat di DB kelas ${getNumericClass(token.kelas)}.`);
             showNotification(`Siswa ${student.id} dari kelas ${student.class} berhasil mengakses token ${token.token} (kelas ${token.kelas}).`);
             window.open(googleDriveUrl, '_blank'); // Open Google Drive URL
         })
@@ -1515,10 +1673,10 @@
     document.getElementById('tokenForm').addEventListener('submit', async function(e) { // Make it async
       e.preventDefault();
       const s = document.getElementById('subject').value.trim().toUpperCase();
-      const k = document.getElementById('kelas').value.trim();
+      const k = document.getElementById('kelas').value.trim(); // Get class as string (e.g., "7", "8", "9")
       const t = document.getElementById('token').value.trim().toUpperCase(); // This is the base token
-      const googleDriveUrl = googleDriveUrlInput.value.trim(); // NEW: Get Google Drive URL
-      const answerKey = answerKeyInput.value.trim().toUpperCase(); // NEW: Get answer key
+      const googleDriveUrl = googleDriveUrlInput.value.trim(); // Get Google Drive URL
+      const answerKey = answerKeyInput.value.trim().toUpperCase(); // Get answer key
       const startTimeInput = document.getElementById('startTime').value; // Get start time string directly
       const endTimeInput = document.getElementById('endTime').value; // Get end time string directly
       const em= document.getElementById('errorMsg');
@@ -1526,7 +1684,14 @@
       googleDriveUrlError.innerText = ""; // Clear Google Drive URL error
       answerKeyError.innerText = ""; // Clear answer key error
 
-      if (!s || !k || !t || !googleDriveUrl || !answerKey || !startTimeInput || !endTimeInput) { // Changed pdfFile to googleDriveUrl
+      // Determine target database based on class
+      const targetDb = getDbForClass(k);
+      if (!targetDb) {
+          em.innerText = "Kelas tidak valid atau konfigurasi Firebase belum lengkap untuk kelas ini (harus 7, 8, atau 9).";
+          return;
+      }
+
+      if (!s || !k || !t || !googleDriveUrl || !answerKey || !startTimeInput || !endTimeInput) {
         em.innerText = "Semua field harus diisi!";
         return;
       }
@@ -1550,10 +1715,10 @@
           return;
       }
 
-      // Check for duplicate base token only
-      const isTokenDup = tokenCache.some(item => item.token === t);
+      // Check for duplicate base token only within the target database
+      const isTokenDup = tokenCache.some(item => item.token === t && getNumericClass(item.kelas) === getNumericClass(k));
       if (isTokenDup) {
-        em.innerText = "Token (Base Token) sudah ada!";
+        em.innerText = "Token (Base Token) sudah ada untuk kelas ini!";
         return;
       }
 
@@ -1566,20 +1731,19 @@
 
       const data = {
           subject: s,
-          kelas: k,
+          kelas: k, // Store class as provided (e.g., "7", "8", "9")
           token: t,
-          googleDriveUrl: googleDriveUrl, // Changed pdfUrl to googleDriveUrl
-          // REMOVED: pdfStoragePath
-          answerKey: answerKey, // NEW: Answer key
+          googleDriveUrl: googleDriveUrl,
+          answerKey: answerKey,
           startTime: formatLocalDateTime(adjustedStartTime), // Store adjusted time in local format
           endTime: endTimeInput, // Store end time as is (local format)
-          durationMinutes: durationMinutes, // NEW: Store duration
+          durationMinutes: durationMinutes, // Store duration
           createdAt: Date.now(),
           isActive: false,
           isForceActive: false
       };
 
-      push(ref(db, 'tokens'), data)
+      push(ref(targetDb, 'tokens'), data) // Push to the specific class database
         .then(() => {
           this.reset();
           googleDriveUrlError.innerText = ''; // Clear Google Drive URL error
@@ -1604,15 +1768,13 @@
       document.getElementById('editKelas').value = token.kelas;
       document.getElementById('editToken').value = token.token;
       
-      // NEW: Set Google Drive URL
+      // Set Google Drive URL
       editGoogleDriveUrlInput.value = token.googleDriveUrl || '';
       editGoogleDriveUrlError.innerText = ''; // Clear error
 
-      // NEW: Set answer key
+      // Set answer key
       editAnswerKeyInput.value = token.answerKey || '';
       editAnswerKeyError.innerText = ''; // Clear error
-
-      // REMOVED: currentPdfLink display
 
       // Set values directly from stored strings (which are in local datetime format)
       document.getElementById('editStartTime').value = token.startTime;
@@ -1625,24 +1787,39 @@
     document.getElementById('modalForm').addEventListener('submit', async function(e) { // Make it async
       e.preventDefault();
       const s = document.getElementById('editSubject').value.trim().toUpperCase();
-      const k = document.getElementById('editKelas').value.trim();
+      const newKelas = document.getElementById('editKelas').value.trim(); // New class
       const t = document.getElementById('editToken').value.trim().toUpperCase();
-      const editGoogleDriveUrl = editGoogleDriveUrlInput.value.trim(); // NEW: Get new Google Drive URL
-      const answerKey = editAnswerKeyInput.value.trim().toUpperCase(); // NEW: Get answer key
-      const startTimeInput = document.getElementById('editStartTime').value; // Get start time string directly
-      const endTimeInput = document.getElementById('editEndTime').value; // Get end time string directly
+      const editGoogleDriveUrl = editGoogleDriveUrlInput.value.trim();
+      const answerKey = editAnswerKeyInput.value.trim().toUpperCase();
+      const startTimeInput = document.getElementById('editStartTime').value;
+      const endTimeInput = document.getElementById('editEndTime').value;
       const em = document.getElementById('editErrorMsg');
       em.innerText = "";
-      editGoogleDriveUrlError.innerText = ""; // Clear Google Drive URL error
-      editAnswerKeyError.innerText = ""; // Clear answer key error
+      editGoogleDriveUrlError.innerText = "";
+      editAnswerKeyError.innerText = "";
 
-      if (!s || !k || !t || !editGoogleDriveUrl || !answerKey || !startTimeInput || !endTimeInput) { // Changed editPdfFile to editGoogleDriveUrl
-        em.innerText = "Semua field kecuali PDF baru harus diisi!"; // Adjusted message
+      // Find the original token data to get its original class
+      const originalTokenData = tokenCache.find(item => item.key === currentTokenId);
+      if (!originalTokenData) {
+          em.innerText = "Token asli tidak ditemukan.";
+          return;
+      }
+      const oldKelas = originalTokenData.kelas;
+      const oldDb = getDbForClass(oldKelas);
+      const newDb = getDbForClass(newKelas);
+
+      if (!oldDb || !newDb) {
+          em.innerText = "Kelas tidak valid atau konfigurasi Firebase belum lengkap untuk kelas ini (harus 7, 8, atau 9).";
+          return;
+      }
+
+      if (!s || !newKelas || !t || !editGoogleDriveUrl || !answerKey || !startTimeInput || !endTimeInput) {
+        em.innerText = "Semua field harus diisi!";
         return;
       }
 
-      const originalStartTime = new Date(startTimeInput); // Parse as local time
-      const originalEndTime = new Date(endTimeInput); // Parse as local time
+      const originalStartTime = new Date(startTimeInput);
+      const originalEndTime = new Date(endTimeInput);
 
       if (originalStartTime >= originalEndTime) {
         em.innerText = "Waktu token dibuka harus sebelum waktu token ditutup!";
@@ -1654,51 +1831,72 @@
           return;
       }
 
-      // Basic URL validation for Google Drive link
       if (!editGoogleDriveUrl.startsWith('http')) {
           editGoogleDriveUrlError.innerText = "URL Google Drive tidak valid.";
           return;
       }
 
-      const isTokenDup = tokenCache.some(item => item.token === t && item.key !== currentTokenId);
+      // Check for duplicate base token only within the target database (if class changes)
+      // Or within the same database (if class doesn't change)
+      const isTokenDup = tokenCache.some(item => 
+          item.token === t && 
+          item.key !== currentTokenId && // Exclude the current token being edited
+          getNumericClass(item.kelas) === getNumericClass(newKelas) // Check against the new class's numeric value
+      );
       if (isTokenDup) {
-        em.innerText = "Token sudah digunakan oleh data lain!";
+        em.innerText = "Token (Base Token) sudah ada untuk kelas ini!";
         return;
       }
 
       loadingOverlay.style.display = 'flex'; // Show loading
 
-      // Calculate adjusted start time for edit
-      const adjustedStartTime = calculateAdjustedStartTime(k, originalStartTime);
-      // Calculate duration in minutes
+      const adjustedStartTime = calculateAdjustedStartTime(newKelas, originalStartTime);
       const durationMinutes = Math.round((originalEndTime.getTime() - adjustedStartTime.getTime()) / (1000 * 60));
 
-      // Define the updates object here
-      const updates = {
+      const updatedData = {
           subject: s,
-          kelas: k,
+          kelas: newKelas,
           token: t,
-          googleDriveUrl: editGoogleDriveUrl, // Changed pdfUrl to googleDriveUrl
-          // REMOVED: pdfStoragePath
-          answerKey: answerKey, // NEW: Updated answer key
-          startTime: formatLocalDateTime(adjustedStartTime), // Store adjusted time in local format
-          endTime: endTimeInput, // Store end time as is (local format)
-          durationMinutes: durationMinutes // NEW: Store duration
+          googleDriveUrl: editGoogleDriveUrl,
+          answerKey: answerKey,
+          startTime: formatLocalDateTime(adjustedStartTime),
+          endTime: endTimeInput,
+          durationMinutes: durationMinutes,
+          createdAt: originalTokenData.createdAt // Preserve original creation time
       };
 
-      if (currentTokenId) {
-        update(ref(db, 'tokens/' + currentTokenId), updates)
-          .then(() => {
-            closeEditModal();
-            showNotification('Token berhasil diedit!');
-          })
-          .catch(err => {
-            em.innerText = "Gagal menyimpan perubahan: " + err.message;
-          })
-          .finally(() => {
-            loadingOverlay.style.display = 'none';
-          });
-      }
+      try {
+          if (getNumericClass(oldKelas) !== getNumericClass(newKelas)) {
+              // Class has changed, perform a "move" operation
+              console.log(`Token ${currentTokenId} dipindahkan dari kelas ${oldKelas} ke kelas ${newKelas}.`);
+
+              // 1. Delete token from old database
+              await remove(ref(oldDb, 'tokens/' + currentTokenId));
+              console.log(`Token ${currentTokenId} dihapus dari DB kelas ${oldKelas}.`);
+
+              // 2. Delete associated access status from old database
+              await remove(ref(oldDb, `exam_access_status/${currentTokenId}`));
+              console.log(`exam_access_status untuk token ${currentTokenId} dihapus dari DB kelas ${oldKelas}.`);
+
+              // 3. Delete associated submitted exam status from old database
+              await remove(ref(oldDb, `submitted_exams/${originalTokenData.token}`)); // Use original token value
+              console.log(`submitted_exams untuk token ${originalTokenData.token} dihapus dari DB kelas ${oldKelas}.`);
+
+              // 4. Add token to new database
+              await push(ref(newDb, 'tokens'), updatedData);
+              showNotification(`Token berhasil dipindahkan ke kelas ${newKelas}! Riwayat akses/pengiriman token di kelas lama telah direset.`);
+          } else {
+              // Class has not changed, just update in the same database
+              await update(ref(newDb, 'tokens/' + currentTokenId), updatedData);
+              showNotification('Token berhasil diedit!');
+          }
+          closeEditModal();
+      } catch (err) {
+          em.innerText = "Gagal menyimpan perubahan token: " + err.message;
+          console.error("Error saving token changes:", err);
+      } finally {
+          loadingOverlay.style.display = 'none';
+        }
     });
 
     // Function to close token edit modal
@@ -1707,7 +1905,6 @@
       document.getElementById('editErrorMsg').innerText = "";
       editGoogleDriveUrlError.innerText = ""; // Clear Google Drive URL error
       editAnswerKeyError.innerText = "";
-      // REMOVED: currentPdfLink clear
       currentTokenId = null;
     };
 
@@ -1722,24 +1919,31 @@
     window.confirmDelete = async () => { // Make it async
       if (deleteId) {
         const tokenDataToDelete = tokenCache.find(t => t.key === deleteId);
-        const tokenValueToDelete = tokenDataToDelete ? tokenDataToDelete.token : null;
+        if (!tokenDataToDelete) {
+            showNotification("Token tidak ditemukan.");
+            closeDeleteModal();
+            return;
+        }
+
+        const tokenValueToDelete = tokenDataToDelete.token;
+        const targetDb = getDbForClass(tokenDataToDelete.kelas); // Get db based on token's class
+        if (!targetDb) {
+            showNotification("Gagal menghapus: Database untuk kelas token tidak ditemukan.");
+            closeDeleteModal();
+            return;
+        }
 
         loadingOverlay.style.display = 'flex'; // Show loading
 
         try {
-            // REMOVED: Delete PDF from Firebase Storage
-            // if (tokenDataToDelete && tokenDataToDelete.pdfStoragePath) {
-            //     await deletePdfFromFirebaseStorage(tokenDataToDelete.pdfStoragePath);
-            // }
+            // Delete the Realtime Database entry from its specific database
+            await remove(ref(targetDb, 'tokens/' + deleteId));
 
-            // Then delete the Realtime Database entry
-            await remove(ref(db, 'tokens/' + deleteId));
-
-            // Also delete associated access status for this token
-            await remove(ref(db, `exam_access_status/${deleteId}`));
-            // Also delete associated submission status for this token using the token value
+            // Also delete associated access status for this token (from its specific database)
+            await remove(ref(targetDb, `exam_access_status/${deleteId}`));
+            // Also delete associated submission status for this token using the token value (from its specific database)
             if (tokenValueToDelete) {
-                await remove(ref(db, `submitted_exams/${tokenValueToDelete}`));
+                await remove(ref(targetDb, `submitted_exams/${tokenValueToDelete}`));
             }
             showNotification('Token berhasil dihapus!');
         } catch (err) {
@@ -1807,8 +2011,51 @@
 
     // Optional: Close modal when clicking outside modal content
     window.onclick = function(event) {
+        // Only close if the click is on the modal background itself, not its content
         if (event.target == printInfoModal) {
             printInfoModal.style.display = 'none';
+        }
+        if (event.target == editModal) {
+            closeEditModal();
+        }
+        if (event.target == deleteModal) {
+            closeDeleteModal();
+        }
+        if (event.target == forceActiveModal) {
+            closeForceActiveModal();
+        }
+        if (event.target == forceInactiveModal) {
+            closeForceInactiveModal();
+        }
+        if (event.target == printModal) {
+            closePrintModal();
+        }
+        if (event.target == setlokasiModalElement) {
+            closeSetlokasiModal();
+        }
+        if (event.target == gantiRadiusModalElement) {
+            closeGantiRadiusModal();
+        }
+        if (event.target == accessDetailModal) {
+            closeAccessDetailModal();
+        }
+        if (event.target == editStudentModal) {
+            closeEditStudentModal();
+        }
+        if (event.target == deleteStudentConfirmModal) {
+            closeDeleteStudentConfirmModal();
+        }
+        if (event.target == importStudentModal) {
+            closeImportStudentModal();
+        }
+        if (event.target == importResultModal) {
+            closeImportResultModal();
+        }
+        if (event.target == emptyStudentsModal) {
+            closeEmptyStudentsModal();
+        }
+        if (event.target == logoutConfirmModal) {
+            closeLogoutModal();
         }
     };
     // --- END NEW Functions for Print Card Info Modal ---
@@ -1837,8 +2084,21 @@
         return;
       }
 
+      const tokenData = tokenCache.find(t => t.key === currentForceActiveTokenId);
+      if (!tokenData) {
+          showNotification("Token tidak ditemukan.");
+          closeForceActiveModal();
+          return;
+      }
+      const targetDb = getDbForClass(tokenData.kelas);
+      if (!targetDb) {
+          showNotification("Gagal mengaktifkan: Database untuk kelas token tidak ditemukan.");
+          closeForceActiveModal();
+          return;
+      }
+
       if (currentForceActiveTokenId) {
-        update(ref(db, 'tokens/' + currentForceActiveTokenId), { isForceActive: true, isActive: true })
+        update(ref(targetDb, 'tokens/' + currentForceActiveTokenId), { isForceActive: true, isActive: true })
           .then(() => {
             showNotification('Token dipaksa aktif!');
             // Table re-rendering will be handled by the onValue listener for 'tokens'
@@ -1867,8 +2127,21 @@
 
     // Function to confirm force inactive token
     window.confirmForceInactive = () => {
+      const tokenData = tokenCache.find(t => t.key === currentForceActiveTokenId);
+      if (!tokenData) {
+          showNotification("Token tidak ditemukan.");
+          closeForceInactiveModal();
+          return;
+      }
+      const targetDb = getDbForClass(tokenData.kelas);
+      if (!targetDb) {
+          showNotification("Gagal menonaktifkan: Database untuk kelas token tidak ditemukan.");
+          closeForceInactiveModal();
+          return;
+      }
+
       if (currentForceActiveTokenId) {
-        update(ref(db, 'tokens/' + currentForceActiveTokenId), { isForceActive: false })
+        update(ref(targetDb, 'tokens/' + currentForceActiveTokenId), { isForceActive: false })
           .then(() => {
             showNotification('Token paksa aktif dinonaktifkan!');
             // Table re-rendering will be handled by the onValue listener for 'tokens'
@@ -1890,7 +2163,7 @@
       currentForceActiveTokenId = null;
     };
 
-    // Function to check and update token status
+    // Function to check and update token status across all databases
     async function periksaAndUpdateStatusToken() {
       const now = new Date();
       for (const tokenData of tokenCache) {
@@ -1904,12 +2177,17 @@
         }
 
         if (tokenData.isActive !== newIsActive) {
-          try {
-            await update(ref(db, 'tokens/' + tokenData.key), { isActive: newIsActive });
-            console.log(`Token ${tokenData.key} status diperbarui menjadi ${newIsActive ? 'aktif' : 'nonaktif'}.`);
-            // Table re-rendering will be handled by the onValue listener for 'tokens'
-          } catch (error) {
-            console.error(`Gagal memperbarui status token ${tokenData.key}: `, error);
+          const targetDb = getDbForClass(tokenData.kelas);
+          if (targetDb) {
+            try {
+              await update(ref(targetDb, 'tokens/' + tokenData.key), { isActive: newIsActive });
+              console.log(`Token ${tokenData.key} dari kelas ${tokenData.kelas} status diperbarui menjadi ${newIsActive ? 'aktif' : 'nonaktif'}.`);
+              // Table re-rendering will be handled by the onValue listener for 'tokens'
+            } catch (error) {
+              console.error(`Gagal memperbarui status token ${tokenData.key} dari kelas ${tokenData.kelas}: `, error);
+            }
+          } else {
+            console.warn(`Could not find database for token ${tokenData.key} (class ${tokenData.kelas}) to update status.`);
           }
         }
       }
@@ -1942,7 +2220,7 @@
     function logoutDueToInactivity() {
       localStorage.removeItem('isAdminLoggedIn');
       dashboardContent.style.display = 'none';
-      dashboardNav.style.display = 'none';
+      sidebar.style.display = 'none';
       loginSection.style.display = 'block';
       document.getElementById('password').value = '';
       showNotification('Anda telah logout karena tidak ada aktivitas, masukan password kembali!.');
@@ -1958,18 +2236,22 @@
     window.onload = function() {
       if (localStorage.getItem('isAdminLoggedIn') === 'true') {
         loginSection.style.display = 'none';
-        dashboardContent.style.display = 'block';
-        dashboardNav.style.display = 'block';
+        sidebar.style.display = 'flex'; // Show sidebar on load if logged in
+        dashboardContent.style.display = 'flex';
         
         loadTokens();
         loadStudents();
+        loadTokenAccessStatus();
+        loadSubmittedExamsStatus();
         loadSetlokasiSettings();
         showSection('tokenSection'); // Show token section by default
         resetInactivityTimer();
+        collapseSidebar(); // Ensure sidebar starts collapsed after login
       } else {
         loginSection.style.display = 'block';
+        sidebar.style.display = 'none'; // Hide sidebar if not logged in
         dashboardContent.style.display = 'none';
-        dashboardNav.style.display = 'none';
+        collapseSidebar(); // Ensure sidebar is collapsed on login page
       }
     };
 
@@ -2018,7 +2300,7 @@
       gantiRadiusModalElement.style.display = 'none';
     };
 
-    // Function to enable location feature
+    // Function to enable location feature (uses db7 as primary)
     window.aktifkanLokasi = () => {
       update(settingsRef, { isLocationEnabled: true })
         .then(() => {
@@ -2033,7 +2315,7 @@
         });
     };
 
-    // Function to disable location feature
+    // Function to disable location feature (uses db7 as primary)
     window.nonaktifkanLokasi = () => {
       update(settingsRef, { isLocationEnabled: false })
         .then(() => {
@@ -2048,7 +2330,7 @@
         });
     };
 
-    // Function to change radius and enable location
+    // Function to change radius and enable location (uses db7 as primary)
     window.gantiRadiusDanAktifkan = () => {
       const radiusMeter = parseInt(radiusMeterInputElement.value);
       if (isNaN(radiusMeter) || radiusMeter <= 0) {
@@ -2071,7 +2353,7 @@
         });
     };
 
-    // Function to load location settings from Firebase
+    // Function to load location settings from Firebase (uses db7 as primary)
     function loadSetlokasiSettings() {
       onValue(settingsRef, (snapshot) => {
         const settings = snapshot.val();
@@ -2092,8 +2374,21 @@
         accessDetailTableBody.innerHTML = '<tr><td colspan="6">Memuat data...</td></tr>';
         accessDetailModal.style.display = 'flex';
 
+        const tokenData = tokenCache.find(t => t.key === tokenId);
+        if (!tokenData) {
+            accessDetailTableBody.innerHTML = '<tr><td colspan="6" style="color: red;">Token tidak ditemukan.</td></tr>';
+            return;
+        }
+
+        const targetDb = getDbForClass(tokenData.kelas);
+        if (!targetDb) {
+            accessDetailTableBody.innerHTML = '<tr><td colspan="6" style="color: red;">Database untuk kelas token tidak ditemukan.</td></tr>';
+            return;
+        }
+
         try {
-            const accessSnapshot = await get(ref(db, `exam_access_status/${tokenId}`));
+            // Access status is stored in the token's specific database
+            const accessSnapshot = await get(ref(targetDb, `exam_access_status/${tokenId}`));
             const accessData = accessSnapshot.val();
 
             accessDetailTableBody.innerHTML = ''; // Clear loading message
@@ -2105,9 +2400,9 @@
 
                 for (const studentId of sortedStudentIds) {
                     counter++;
-                    const studentInfo = studentCache.find(s => s.id === studentId); // Find student info from cache
-                    // UPDATED: Get submission data using tokenValue (actual token string)
-                    const studentSubmissionData = submittedExamsCache[tokenValue] && submittedExamsCache[tokenValue][studentId]; 
+                    const studentInfo = studentCache.find(s => s.id === studentId); // Find student info from unified cache
+                    // Get submission data using tokenValue (actual token string) from the token's specific database
+                    const studentSubmissionData = (await get(ref(targetDb, `submitted_exams/${tokenValue}/${studentId}`))).val();
                     
                     const studentName = studentInfo ? studentInfo.name : 'Tidak Ditemukan';
                     const studentClass = studentInfo ? studentInfo.class : 'Tidak Ditemukan';
@@ -2116,6 +2411,7 @@
                     const isSubmitted = studentSubmissionData && studentSubmissionData.isSubmitted === true; // Check submission status
 
                     let displayStatus = 'Belum Mengakses';
+                    let statusColor = '';
                     if (isSubmitted) { // Prioritize submission status
                         displayStatus = 'Sudah submit';
                         statusColor = 'green'; // Set color for submitted status
@@ -2125,7 +2421,7 @@
                         } else {
                             displayStatus = `Sedang mengerjakan (${accessCount})`;
                         }
-                        statusColor = 'orange'; // Set color for in-progress status
+                        statusColor = 'orange'; // Using orange as a substitute for yellow
                     } else {
                         displayStatus = 'Belum Mengakses';
                         statusColor = 'red'; // Set color for not accessed status
@@ -2291,11 +2587,10 @@
                 let studentSubmittedAnyRelevantToken = false;
                 let totalAccessCountForRelevantToken = 0;
 
-                const studentClassNumeric = String(student.class || '').match(/\d+/);
-                const studentClassPrefix = studentClassNumeric ? studentClassNumeric[0] : null;
-
+                const studentClassNumeric = getNumericClass(student.class);
+                
                 const relevantTokensForStudent = tokenCache.filter(token => 
-                    String(token.kelas || '') === studentClassPrefix
+                    getNumericClass(token.kelas) === studentClassNumeric
                 );
 
                 for (const token of relevantTokensForStudent) {
@@ -2375,15 +2670,34 @@
         }
     }
 
-    // Function to load student data from Firebase
+    // Function to load student data from all Firebase projects
     function loadStudents() {
-        onValue(studentsRef, (snapshot) => {
-            studentCache = [];
-            snapshot.forEach(child => {
-                const data = child.val();
-                data.key = child.key; // Store Firebase key
-                studentCache.push(data);
-            });
+        studentCache = [];
+        const studentPromises = [];
+
+        Object.keys(classDbMap).forEach(classNum => {
+            const dbInstance = classDbMap[classNum];
+            if (dbInstance) {
+                studentPromises.push(new Promise((resolve) => {
+                    onValue(ref(dbInstance, 'students'), (snapshot) => {
+                        const classStudents = [];
+                        snapshot.forEach(child => {
+                            const data = child.val();
+                            data.key = child.key;
+                            data.firebaseClass = classNum; // Store which Firebase project it came from
+                            classStudents.push(data);
+                        });
+                        resolve(classStudents);
+                    }, (error) => {
+                        console.error(`Error loading students from class ${classNum}:`, error);
+                        resolve([]); // Resolve with empty array on error
+                    });
+                }));
+            }
+        });
+
+        Promise.all(studentPromises).then(allStudentsArrays => {
+            studentCache = [].concat(...allStudentsArrays); // Flatten the array of arrays
 
             // Add initial sorting to studentCache to ensure consistent base order
             studentCache.sort((a, b) => {
@@ -2410,8 +2724,14 @@
         const studentId = padStudentId(studentIdInput.value.trim()); // Pad ID
         const studentName = studentNameInput.value.trim().toUpperCase(); // Auto uppercase
         const studentClass = studentClassInput.value.trim().toUpperCase(); // Auto uppercase
-        const studentRoom = padRoomNumber(studentRoomInput.value.trim()); // UPDATED: Get room value and pad
+        const studentRoom = padRoomNumber(studentRoomInput.value.trim()); // Get room value and pad
         studentErrorMsg.innerText = "";
+
+        const targetDb = getDbForClass(studentClass);
+        if (!targetDb) {
+            studentErrorMsg.innerText = "Kelas siswa tidak valid atau konfigurasi Firebase belum lengkap untuk kelas ini (harus 7, 8, atau 9).";
+            return;
+        }
 
         // Validate Student ID (must be numeric)
         if (!/^\d+$/.test(studentId)) {
@@ -2419,38 +2739,23 @@
             return;
         }
 
-        // Check for duplicate student ID
-        const isIdDup = studentCache.some(s => s.id === studentId && s.key !== currentStudentKey);
+        // Check for duplicate student ID within the target database's cache
+        const isIdDup = studentCache.some(s => s.id === studentId && s.key !== currentStudentKey && getNumericClass(s.class) === getNumericClass(studentClass));
         if (isIdDup) {
-            studentErrorMsg.innerText = "ID Siswa sudah ada!";
+            studentErrorMsg.innerText = "ID Siswa sudah ada untuk kelas ini!";
             return;
         }
 
-        if (currentStudentKey) {
-            // Edit Mode (this should no longer be called from here after edit modal)
-            // However, if the updateStudentButton remains, this will handle form submission
-            update(ref(db, 'students/' + currentStudentKey), { id: studentId, name: studentName, class: studentClass, room: studentRoom }) // UPDATED: Add room
-                .then(() => {
-                    showNotification('Data siswa berhasil diperbarui.');
-                    studentForm.reset();
-                    addStudentButton.style.display = 'block';
-                    updateStudentButton.style.display = 'none';
-                    currentStudentKey = null;
-                })
-                .catch(error => {
-                    studentErrorMsg.innerText = "Gagal memperbarui siswa: " + error.message;
-                });
-        } else {
-            // Add Mode
-            push(studentsRef, { id: studentId, name: studentName, class: studentClass, room: studentRoom }) // UPDATED: Add room
-                .then(() => {
-                    showNotification('Siswa berhasil ditambahkan.');
-                    studentForm.reset();
-                })
-                .catch(error => {
-                    studentErrorMsg.innerText = "Gagal menambahkan siswa: " + error.message;
-                });
-        }
+        // This section is for adding a new student.
+        // Editing is now handled by the modal and confirmEditStudent function.
+        push(ref(targetDb, 'students'), { id: studentId, name: studentName, class: studentClass, room: studentRoom })
+            .then(() => {
+                showNotification('Siswa berhasil ditambahkan.');
+                studentForm.reset();
+            })
+            .catch(error => {
+                studentErrorMsg.innerText = "Gagal menambahkan siswa: " + error.message;
+            });
     });
 
     // Function to open student edit modal
@@ -2462,20 +2767,34 @@
       modalStudentIdInput.value = student.id;
       modalStudentNameInput.value = student.name;
       modalStudentClassInput.value = student.class;
-      modalStudentRoomInput.value = student.room || ''; // NEW: Populate room input in edit modal, handle if undefined
+      modalStudentRoomInput.value = student.room || ''; // Populate room input in edit modal, handle if undefined
       editStudentErrorMsg.innerText = ""; // Clear previous error messages
       editStudentModal.style.display = 'flex';
     };
 
     // Function to confirm student edit from modal
-    window.confirmEditStudent = () => {
+    window.confirmEditStudent = async () => { // Make it async
         const studentId = padStudentId(modalStudentIdInput.value.trim()); // Pad ID
         const studentName = modalStudentNameInput.value.trim().toUpperCase();
-        const studentClass = modalStudentClassInput.value.trim().toUpperCase();
-        const studentRoom = padRoomNumber(modalStudentRoomInput.value.trim()); // UPDATED: Get room value from modal and pad
+        const newStudentClass = modalStudentClassInput.value.trim().toUpperCase();
+        const studentRoom = padRoomNumber(modalStudentRoomInput.value.trim()); // Get room value from modal and pad
         editStudentErrorMsg.innerText = "";
 
-        if (!studentId || !studentName || !studentClass || !studentRoom) { // UPDATED: Validate room
+        const originalStudentData = studentCache.find(s => s.key === currentStudentKey);
+        if (!originalStudentData) {
+            editStudentErrorMsg.innerText = "Data siswa asli tidak ditemukan.";
+            return;
+        }
+        const oldStudentClass = originalStudentData.class;
+        const oldDb = getDbForClass(oldStudentClass);
+        const newDb = getDbForClass(newStudentClass);
+
+        if (!oldDb || !newDb) {
+            editStudentErrorMsg.innerText = "Kelas siswa tidak valid atau konfigurasi Firebase belum lengkap untuk kelas ini (harus 7, 8, atau 9).";
+            return;
+        }
+
+        if (!studentId || !studentName || !newStudentClass || !studentRoom) {
             editStudentErrorMsg.innerText = "Semua field harus diisi!";
             return;
         }
@@ -2485,21 +2804,63 @@
             return;
         }
 
-        const isIdDup = studentCache.some(s => s.id === studentId && s.key !== currentStudentKey);
+        // Check for duplicate student ID in the target database (if class changes)
+        // Or within the same database (if class doesn't change)
+        const isIdDup = studentCache.some(s => 
+            s.id === studentId && 
+            s.key !== currentStudentKey && // Exclude the current student being edited
+            getNumericClass(s.class) === getNumericClass(newStudentClass) // Check against the new class's numeric value
+        );
         if (isIdDup) {
-            editStudentErrorMsg.innerText = "ID Siswa sudah ada!";
+            editStudentErrorMsg.innerText = "ID Siswa sudah ada untuk kelas ini!";
             return;
         }
 
-        if (currentStudentKey) {
-            update(ref(db, 'students/' + currentStudentKey), { id: studentId, name: studentName, class: studentClass, room: studentRoom }) // UPDATED: Add room
-                .then(() => {
-                    showNotification('Data siswa berhasil diperbarui.');
-                    closeEditStudentModal();
-                })
-                .catch(error => {
-                    editStudentErrorMsg.innerText = "Gagal memperbarui siswa: " + error.message;
-                });
+        loadingOverlay.style.display = 'flex'; // Show loading
+
+        const updatedStudentData = {
+            id: studentId,
+            name: studentName,
+            class: newStudentClass,
+            room: studentRoom
+        };
+
+        try {
+            if (getNumericClass(oldStudentClass) !== getNumericClass(newStudentClass)) {
+                // Class has changed, perform a "move" operation
+                console.log(`Siswa ${originalStudentData.id} dipindahkan dari kelas ${oldStudentClass} ke kelas ${newStudentClass}.`);
+
+                // 1. Delete student from old database
+                await remove(ref(oldDb, 'students/' + currentStudentKey));
+                console.log(`Siswa ${currentStudentKey} dihapus dari DB kelas ${oldStudentClass}.`);
+
+                // 2. Delete associated exam_access_status for this student from the old database
+                const tokensInOldClass = tokenCache.filter(t => getNumericClass(t.kelas) === getNumericClass(oldStudentClass));
+                for (const token of tokensInOldClass) {
+                    await remove(ref(oldDb, `exam_access_status/${token.key}/${originalStudentData.id}`));
+                    console.log(`exam_access_status untuk siswa ${originalStudentData.id} dan token ${token.key} dihapus dari DB kelas ${oldStudentClass}.`);
+                }
+
+                // 3. Delete associated submitted_exams for this student from the old database
+                for (const token of tokensInOldClass) {
+                    await remove(ref(oldDb, `submitted_exams/${token.token}/${originalStudentData.id}`));
+                    console.log(`submitted_exams untuk siswa ${originalStudentData.id} dan token ${token.token} dihapus dari DB kelas ${oldStudentClass}.`);
+                }
+
+                // 4. Add student to new database
+                await push(ref(newDb, 'students'), updatedStudentData);
+                showNotification(`Siswa berhasil dipindahkan ke kelas ${newStudentClass}! Riwayat akses/pengiriman siswa di kelas lama telah direset.`);
+            } else {
+                // Class has not changed, just update in the same database
+                await update(ref(newDb, 'students/' + currentStudentKey), updatedStudentData);
+                showNotification('Data siswa berhasil diperbarui.');
+            }
+            closeEditStudentModal();
+        } catch (error) {
+            editStudentErrorMsg.innerText = "Gagal memperbarui siswa: " + error.message;
+            console.error("Error updating student:", error);
+        } finally {
+            loadingOverlay.style.display = 'none';
         }
     };
 
@@ -2526,32 +2887,38 @@
                 return;
             }
             const studentId = studentToDelete.id; // Get the padded student ID
+            const targetDb = getDbForClass(studentToDelete.class); // Get db based on student's class
+            if (!targetDb) {
+                showNotification("Gagal menghapus: Database untuk kelas siswa tidak ditemukan.");
+                closeDeleteStudentConfirmModal();
+                return;
+            }
 
             loadingOverlay.style.display = 'flex'; // Show loading
 
             try {
-                // 1. Delete the student record itself
-                await remove(ref(db, 'students/' + deleteStudentKey));
+                // 1. Delete the student record itself from its specific database
+                await remove(ref(targetDb, 'students/' + deleteStudentKey));
 
-                // 2. Delete associated access status for this student across all tokens
-                const accessPromises = tokenCache.map(async (token) => {
+                // 2. Delete associated access status for this student across all tokens (from its specific database)
+                // Iterate through tokens *of the same class* as the student
+                const tokensInStudentClass = tokenCache.filter(t => getNumericClass(t.kelas) === getNumericClass(studentToDelete.class));
+                for (const token of tokensInStudentClass) {
                     const accessPath = `exam_access_status/${token.key}/${studentId}`;
-                    const accessSnapshot = await get(ref(db, accessPath)); // Check if path exists
+                    const accessSnapshot = await get(ref(targetDb, accessPath)); // Check if path exists in targetDb
                     if (accessSnapshot.exists()) {
-                        await remove(ref(db, accessPath));
+                        await remove(ref(targetDb, accessPath));
                     }
-                });
-                await Promise.all(accessPromises);
+                }
 
-                // 3. Delete associated submitted exam status for this student across all tokens
-                const submittedPromises = tokenCache.map(async (token) => {
+                // 3. Delete associated submitted exam status for this student across all tokens (from its specific database)
+                for (const token of tokensInStudentClass) {
                     const submittedPath = `submitted_exams/${token.token}/${studentId}`; // Use token.token here
-                    const submittedSnapshot = await get(ref(db, submittedPath)); // Check if path exists
+                    const submittedSnapshot = await get(ref(targetDb, submittedPath)); // Check if path exists in targetDb
                     if (submittedSnapshot.exists()) {
-                        await remove(ref(db, submittedPath));
+                        await remove(ref(targetDb, submittedPath));
                     }
-                });
-                await Promise.all(submittedPromises);
+                }
 
                 showNotification('Siswa dan semua data terkait berhasil dihapus.');
             } catch (error) {
@@ -2623,8 +2990,17 @@
             let skippedCount = 0;
             let errorDetails = [];
             
-            // Object to hold all updates for a single batch operation
-            const studentsToBatchUpdate = {};
+            // Objects to hold updates for each database
+            const studentsToBatchUpdate7 = {};
+            const studentsToBatchUpdate8 = {};
+            const studentsToBatchUpdate9 = {};
+
+            // Map to store which batch object to use
+            const batchUpdateMap = {
+                '7': studentsToBatchUpdate7,
+                '8': studentsToBatchUpdate8,
+                '9': studentsToBatchUpdate9
+            };
 
             // Start reading from the second line (index 1) to skip header
             const dataLines = lines.slice(1); 
@@ -2636,15 +3012,15 @@
                 let delimiter = ',';
 
                 // If comma separation doesn't yield 4 parts, try semicolon
-                if (parts.length !== 4) { // UPDATED: Expect 4 parts now
+                if (parts.length !== 4) {
                     parts = line.split(';');
                     delimiter = ';';
                 }
 
                 const originalLineNumber = i + 2; // Original line number in CSV file (since we slice(1))
 
-                if (parts.length !== 4) { // UPDATED: Check for 4 parts
-                    errorDetails.push(`Baris ${originalLineNumber}: Format tidak valid (diharapkan ID,Nama,Kelas,Ruang). Baris: "${line}"`); // UPDATED message
+                if (parts.length !== 4) {
+                    errorDetails.push(`Baris ${originalLineNumber}: Format tidak valid (diharapkan ID,Nama,Kelas,Ruang). Baris: "${line}"`);
                     skippedCount++;
                     continue;
                 }
@@ -2652,7 +3028,17 @@
                 const id = padStudentId(parts[0].trim());
                 const name = parts[1].trim().toUpperCase();
                 const studentClass = parts[2].trim().toUpperCase();
-                const studentRoom = padRoomNumber(parts[3].trim()); // UPDATED: Get room data and pad
+                const studentRoom = padRoomNumber(parts[3].trim());
+
+                const numericClass = getNumericClass(studentClass);
+                const targetBatch = batchUpdateMap[numericClass];
+                const targetDb = getDbForClass(studentClass);
+
+                if (!targetDb || !targetBatch) {
+                    errorDetails.push(`Baris ${originalLineNumber}: Kelas siswa '${studentClass}' tidak valid atau konfigurasi Firebase belum lengkap untuk kelas ini.`);
+                    skippedCount++;
+                    continue;
+                }
 
                 // Validasi ID Siswa (harus angka)
                 if (!/^\d+$/.test(id)) {
@@ -2669,26 +3055,33 @@
                 }
 
                 // Check for duplicate student ID in local cache (before pushing to Firebase)
-                const isIdDup = studentCache.some(s => s.id === id);
+                const isIdDup = studentCache.some(s => s.id === id && getNumericClass(s.class) === numericClass);
                 if (isIdDup) {
-                    errorDetails.push(`Baris ${originalLineNumber}: Siswa dengan ID '${id}' sudah ada, dilewati.`);
+                    errorDetails.push(`Baris ${originalLineNumber}: Siswa dengan ID '${id}' sudah ada untuk kelas ${numericClass}, dilewati.`);
                     skippedCount++;
                     continue;
                 }
 
-                // Generate new key and add to batch update object
-                const newRef = push(studentsRef); // Get new reference with unique key
-                studentsToBatchUpdate[newRef.key] = { id: id, name: name, class: studentClass, room: studentRoom }; // UPDATED: Add room
+                // Generate new key and add to appropriate batch update object
+                const newRef = push(ref(targetDb, 'students')); // Get new reference with unique key for the specific db
+                targetBatch[newRef.key] = { id: id, name: name, class: studentClass, room: studentRoom };
                 importedCount++; // Increment immediately for display purposes
             }
 
             try {
-                if (Object.keys(studentsToBatchUpdate).length > 0) {
-                    await update(studentsRef, studentsToBatchUpdate);
-                    showNotification(`${importedCount} siswa berhasil diimpor!`);
-                } else {
-                    showNotification('Tidak ada data siswa yang valid untuk diimpor.');
+                const batchPromises = [];
+                if (Object.keys(studentsToBatchUpdate7).length > 0) {
+                    batchPromises.push(update(ref(db7, 'students'), studentsToBatchUpdate7));
                 }
+                if (Object.keys(studentsToBatchUpdate8).length > 0) {
+                    batchPromises.push(update(ref(db8, 'students'), studentsToBatchUpdate8));
+                }
+                if (Object.keys(studentsToBatchUpdate9).length > 0) {
+                    batchPromises.push(update(ref(db9, 'students'), studentsToBatchUpdate9));
+                }
+                
+                await Promise.all(batchPromises);
+                showNotification(`${importedCount} siswa berhasil diimpor!`);
             } catch (error) {
                 console.error("Gagal melakukan batch import:", error);
                 showNotification(`Gagal mengimpor data: ${error.message}`);
@@ -2754,10 +3147,20 @@
 
         loadingOverlay.style.display = 'flex'; // Show loading spinner
         try {
-            await remove(studentsRef); // Delete all student data
-            await remove(examAccessStatusRef); // Also delete all exam access statuses
-            // NEW: Also delete all exam submission statuses
-            await remove(submittedExamsRef);
+            const deletePromises = [];
+            Object.keys(classDbMap).forEach(classNum => {
+                const dbInstance = classDbMap[classNum];
+                if (dbInstance) {
+                    deletePromises.push(remove(ref(dbInstance, 'students'))); // Delete all student data for each class
+                    deletePromises.push(remove(ref(dbInstance, 'exam_access_status'))); // Delete access status for each class
+                    deletePromises.push(remove(ref(dbInstance, 'submitted_exams'))); // Delete submission status for each class
+                }
+            });
+            await Promise.all(deletePromises);
+            
+            // Note: setlokasi is treated as global and remains in db7
+            // If setlokasi was also per-class, it would need to be added to the loop above.
+
             showNotification('Semua data peserta berhasil dikosongkan!');
         } catch (error) {
             console.error("Gagal mengosongkan daftar peserta:", error);
