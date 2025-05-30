@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
+    /* Gaya dasar body */
     body {
       font-family: 'Inter', sans-serif; /* Menggunakan font Inter */
       margin: 0;
@@ -16,7 +17,7 @@
       overflow-x: hidden; /* Mencegah scroll horizontal yang tidak diinginkan pada body */
     }
 
-    /* Sidebar styles */
+    /* Gaya sidebar */
     .sidebar {
       width: 80px; /* Lebar default (collapsed) */
       background-color: #2c3e50; /* Warna gelap untuk sidebar */
@@ -36,7 +37,7 @@
     }
 
     .sidebar.expanded {
-      width: 250px; /* Lebar saat diperluas */
+      width: 200px; /* Lebar saat diperluas (diperkecil) */
       padding: 20px;
     }
 
@@ -53,8 +54,8 @@
     }
 
     .sidebar .logo {
-      width: 60px; /* Ukuran logo di sidebar saat collapsed */
-      height: 60px;
+      width: 50px; /* Ukuran logo di sidebar saat collapsed (diperkecil) */
+      height: 50px; /* Ukuran logo di sidebar saat collapsed (diperkecil) */
       border-radius: 50%;
       object-fit: cover;
       border: 3px solid #3498db;
@@ -64,12 +65,12 @@
     }
 
     .sidebar.expanded .logo {
-      width: 80px; /* Ukuran logo saat diperluas */
-      height: 80px;
+      width: 70px; /* Ukuran logo saat diperluas (diperkecil) */
+      height: 70px; /* Ukuran logo saat diperluas (diperkecil) */
     }
 
     .sidebar h2 {
-      font-size: 1.2em;
+      font-size: 1em; /* Ukuran font nama sekolah (disesuaikan) */
       margin-top: 10px;
       color: #ecf0f1;
       opacity: 0; /* Sembunyikan teks nama sekolah secara default */
@@ -103,14 +104,8 @@
       transition: background-color 0.3s ease, transform 0.2s ease, padding 0.3s ease-in-out;
       display: flex;
       align-items: center;
-      justify-content: center; /* Pusatkan ikon */
+      justify-content: center; /* Pusatkan ikon saat collapsed */
       gap: 0; /* Tidak ada gap saat collapsed */
-    }
-
-    .sidebar.expanded .sidebar-nav button {
-      padding: 12px 15px; /* Padding saat diperluas */
-      justify-content: flex-start; /* Sejajarkan ke kiri saat diperluas */
-      gap: 10px; /* Tambahkan gap saat diperluas */
     }
 
     .sidebar-nav button:hover {
@@ -137,6 +132,12 @@
       max-width: 0; /* Sembunyikan lebar teks */
     }
 
+    .sidebar.expanded .sidebar-nav button {
+        justify-content: flex-start; /* Rata kiri saat diperluas */
+        padding-left: 20px; /* Sesuaikan padding agar tidak terlalu mepet tepi */
+        gap: 10px; /* Jarak antara ikon dan teks */
+    }
+
     .sidebar.expanded .sidebar-nav button span {
       opacity: 1; /* Tampilkan teks menu saat diperluas */
       max-width: 150px; /* Beri lebar maksimum untuk teks */
@@ -157,20 +158,20 @@
       opacity: 1; /* Tampilkan footer saat diperluas */
     }
 
-    /* Main content area */
+    /* Area konten utama */
     .main-content {
       flex-grow: 1; /* Mengisi sisa ruang */
       padding: 20px;
       background-color: #f4f7f6;
       display: flex;
       flex-direction: column;
-      overflow-x: auto; /* Memungkinkan scroll horizontal */
+      /* overflow-x: auto; Dikelola oleh .table-responsive di dalam */
       overflow-y: auto; /* Memungkinkan scroll vertikal */
       height: 100vh; /* Memastikan main-content mengisi sisa tinggi */
       box-sizing: border-box; /* Pastikan padding termasuk dalam tinggi */
     }
 
-    /* Container for sections */
+    /* Kontainer untuk bagian */
     .container {
       background: white;
       padding: 25px;
@@ -181,6 +182,7 @@
       box-sizing: border-box;
     }
 
+    /* Gaya input, select, textarea */
     input, select, textarea {
       padding: 12px;
       margin: 8px 0;
@@ -198,6 +200,7 @@
       outline: none;
     }
 
+    /* Gaya tombol */
     button {
       padding: 12px 25px;
       margin: 10px auto;
@@ -219,6 +222,44 @@
       transform: translateY(0);
     }
 
+    /* Gaya tombol teks baru */
+    .text-button {
+        padding: 10px 20px;
+        margin: 5px; /* Sesuaikan margin agar tidak terlalu jauh */
+        font-size: 15px;
+        cursor: pointer;
+        border: none;
+        border-radius: 6px;
+        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        display: inline-block; /* Agar bisa sejajar */
+        text-align: center;
+        white-space: nowrap; /* Pastikan teks tidak patah baris */
+    }
+    .text-button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    .text-button:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    /* Warna spesifik untuk tombol teks */
+    .text-button.blue-gray { background-color: #607d8b; color: white; }
+    .text-button.blue-gray:hover { background-color: #455a64; }
+    .text-button.green { background-color: #4CAF50; color: white; }
+    .text-button.green:hover { background-color: #43A047; }
+    .text-button.red { background-color: #f44336; color: white; }
+    .text-button.red:hover { background-color: #e53935; }
+    .text-button.gray { background-color: #9e9e9e; color: white; }
+    .text-button.gray:hover { background-color: #757575; }
+    .text-button.light-blue { background-color: #2196F3; color: white; }
+    .text-button.light-blue:hover { background-color: #1976D2; }
+    .text-button.orange { background-color: #FF9800; color: white; }
+    .text-button.orange:hover { background-color: #FB8C00; }
+
+
+    /* Gaya pesan error */
     .error {
       color: #e74c3c;
       font-size: 14px;
@@ -226,35 +267,102 @@
       margin-top: 5px;
     }
     
+    /* Gaya tabel responsif */
     .table-responsive {
-        overflow-x: auto;
+        overflow-x: auto; /* Kunci untuk gulir horizontal */
         -webkit-overflow-scrolling: touch;
         border-radius: 8px; /* Sudut membulat untuk tabel */
-        overflow: hidden; /* Memastikan sudut membulat terlihat */
+        overflow-y: hidden; /* Pastikan tidak ada scroll vertikal di sini */
     }
     table {
-      width: 100%;
+      width: 100%; /* Agar tabel mengisi lebar container */
       border-collapse: collapse;
       font-size: 14px;
-      min-width: 700px; /* Minimum width untuk tabel agar tidak terlalu sempit */
+      min-width: 1300px; /* Lebar minimum yang lebih besar untuk tabel token */
     }
+    #studentTable {
+      min-width: 750px; /* Lebar minimum yang lebih besar untuk tabel siswa */
+    }
+    #scoreTable {
+        min-width: 900px; /* Lebar minimum yang lebih besar untuk tabel nilai */
+    }
+
     th, td {
       border: 1px solid #e0e0e0;
       padding: 10px;
       word-wrap: break-word;
       text-align: left;
     }
+    /* Default td max-width, overridden by specific rules */
+    td {
+        white-space: nowrap; /* Default untuk sel agar tidak patah baris */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 150px; /* Batasi lebar sel agar tidak terlalu lebar */
+    }
+
     th {
       background-color: #ecf0f1; /* Warna header tabel */
-      text-align: center;
+      text-align: center; /* Default center for headers */
       font-weight: bold;
       color: #2c3e50;
+      white-space: nowrap; /* Pastikan header tidak patah baris */
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
+
+    /* --- Gaya Khusus Tabel Nilai --- */
+    #scoreTableHeader th:nth-child(1),
+    #scoreTableBody td:nth-child(1) { /* NO */
+        width: 60px;
+        min-width: 60px;
+        max-width: 60px;
+        text-align: center;
+    }
+    #scoreTableHeader th:nth-child(2) { /* NAMA SISWA Header */
+        text-align: center; /* Diubah menjadi rata tengah */
+        width: auto; /* Lebar otomatis */
+        white-space: normal; /* Izinkan teks membungkus */
+    }
+    #scoreTableBody td:nth-child(2) { /* NAMA SISWA Body */
+        text-align: left; /* Nama siswa tetap rata kiri */
+        width: auto;
+        white-space: normal; /* Izinkan teks membungkus */
+    }
+    #scoreTableHeader th:nth-child(3),
+    #scoreTableBody td:nth-child(3) { /* KELAS */
+        width: 80px;
+        min-width: 80px;
+        max-width: 80px;
+        text-align: center;
+    }
+    /* Kolom Mata Pelajaran di Header Tabel Nilai (setelah NO, NAMA SISWA, KELAS) */
+    #scoreTableHeader th:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(3)) {
+        text-align: center; /* Rata tengah untuk singkatan mapel */
+        font-style: italic; /* Teks miring */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100px; /* Lebar maksimum tetap untuk singkatan */
+        min-width: 80px; /* Minimum width for abbreviation */
+        width: 100px;
+    }
+
+    /* Kolom Nilai di Body Tabel Nilai (setelah NO, NAMA SISWA, KELAS) */
+    #scoreTableBody td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(3)) { 
+        text-align: center; /* Rata tengah untuk nilai */
+        max-width: 80px; /* Batasi lebar kolom nilai */
+        min-width: 80px;
+        width: 80px;
+    }
+    /* --- Akhir Gaya Khusus Tabel Nilai --- */
+
+
     tr:nth-child(even) {
         background-color: #f9f9f9; /* Warna zebra striping */
     }
 
-    /* Specific alignment for Location Settings Table */
+    /* Penjajaran khusus untuk Tabel Pengaturan Lokasi */
     #locationSettingsTableBody td:nth-child(1) { text-align: center; }
     #locationSettingsTableBody td:nth-child(2) { text-align: center; }
     #locationSettingsTableBody td:nth-child(3) { text-align: center; }
@@ -264,39 +372,34 @@
       margin: 0;
     }
 
-    /* Specific alignment for Token List Table */
-    #tokenTableBody td:nth-child(1) { text-align: center; }
-    #tokenTableBody td:nth-child(3) { text-align: center; }
-    #tokenTableBody td:nth-child(4) { text-align: center; }
-    #tokenTableBody td:nth-child(7) { text-align: center; } /* TOKEN DIBUKA */
-    #tokenTableBody td:nth-child(8) { text-align: center; } /* TOKEN DITUTUP */
-    #tokenTableBody td:nth-child(9) { text-align: center; } /* DURASI (MENIT) */
-    #tokenTableBody td:nth-child(10) { text-align: center; } /* STATUS */
-    #tokenTableBody td:nth-child(11) { text-align: center; } /* AKSES */
-    #tokenTableBody td:nth-child(12) { text-align: center; white-space: nowrap; } /* AKSI - Prevent wrapping */
+    /* Penjajaran khusus untuk Tabel Daftar Token */
+    #tokenTableBody td:nth-child(1) { text-align: center; } /* NO */
+    #tokenTableBody td:nth-child(3) { text-align: center; } /* KELAS */
+    #tokenTableBody td:nth-child(4) { text-align: center; } /* TOKEN */
+    #tokenTableBody td:nth-child(6) { text-align: center; } /* KUNJAB (NEW) */
+    #tokenTableBody td:nth-child(7) { text-align: center; } /* TOKEN DIBUKA (shifted from 6) */
+    #tokenTableBody td:nth-child(8) { text-align: center; } /* TOKEN DITUTUP (shifted from 7) */
+    #tokenTableBody td:nth-child(9) { text-align: center; } /* DURASI (MENIT) (shifted from 8) */
+    #tokenTableBody td:nth-child(10) { text-align: center; } /* STATUS (shifted from 9) */
+    #tokenTableBody td:nth-child(11) { text-align: center; } /* AKSES (shifted from 10) */
+    #tokenTableBody td:nth-child(12) { text-align: center; } /* SUBMIT (shifted from 11) */
+    #tokenTableBody td:nth-child(13) { text-align: center; } /* AKSI (shifted from 12) */
 
-    /* Alignment for PDF and Answer Key columns */
-    #tokenTableBody td:nth-child(5) { text-align: center; } /* PDF */
-    #tokenTableBody td:nth-child(6) {
-        text-align: center; /* Answer Key */
-        max-width: 80px; /* Limit column width */
-        overflow: hidden; /* Hide overflowing text */
-        text-overflow: ellipsis; /* Display ellipsis (...) for truncated text */
-        white-space: nowrap; /* Ensure text stays on one line */
-    }
+    /* Penjajaran khusus untuk Tabel Daftar Siswa */
+    #studentTableBody td:nth-child(1) { text-align: center; } /* NO */
+    #studentTableBody td:nth-child(2) { text-align: center; } /* ID SISWA */
+    #studentTableBody td:nth-child(4) { text-align: center; } /* KELAS */
+    #studentTableBody td:nth-child(5) { text-align: center; } /* RUANG */
+    #studentTableBody td:nth-child(6) { text-align: center; } /* STATUS */
+    #studentTableBody td:last-child { text-align: center; } /* AKSI */
 
-    /* Specific alignment for Student List Table */
-    #studentTableBody td:nth-child(1) { text-align: center; }
-    #studentTableBody td:nth-child(2) { text-align: center; }
-    #studentTableBody td:nth-child(4) { text-align: center; }
-    #studentTableBody td:nth-child(5) { text-align: center; }
-    #studentTableBody td:last-child { text-align: center; }
-
-    /* Styling for student edit/delete buttons to align them */
+    /* Gaya untuk tombol edit/hapus siswa agar sejajar */
     .student-action-buttons {
         display: flex;
         justify-content: center;
         gap: 5px;
+        flex-wrap: nowrap; /* Pastikan tombol tidak patah baris */
+        flex-shrink: 0; /* Mencegah container menyusut */
     }
     .student-action-buttons button {
         margin: 0;
@@ -307,19 +410,28 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 28px; /* Button size */
-        height: 28px; /* Button size */
+        width: 28px; /* Ukuran tombol */
+        height: 28px; /* Ukuran tombol */
         border-radius: 50%; /* Membuat tombol bulat */
         transition: background-color 0.2s ease;
+        flex-shrink: 0; /* Pastikan tombol tidak menyusut */
     }
     .student-action-buttons button:hover {
         background-color: #e0e0e0;
     }
+    .student-action-buttons button i { /* Untuk ikon font-awesome */
+        font-size: 16px;
+        color: #34495e; /* Warna default untuk ikon aksi */
+    }
+    .student-action-buttons button:hover i {
+        color: #2c3e50;
+    }
     .student-action-buttons button img {
-        width: 16px; /* Icon size */
-        height: 16px; /* Icon size */
+        width: 16px; /* Ukuran ikon */
+        height: 16px; /* Ukuran ikon */
     }
 
+    /* Gaya footer */
     .footer {
       text-align: center;
       margin-top: 20px;
@@ -330,6 +442,7 @@
       font-size: 14px;
       color: #555;
     }
+    /* Gaya modal */
     .modal {
       display: none;
       position: fixed;
@@ -369,13 +482,13 @@
       font-size: 15px;
     }
     .modal button.confirm-button {
-        background-color: #28a745; /* Green for confirm */
+        background-color: #28a745; /* Hijau untuk konfirmasi */
     }
     .modal button.confirm-button:hover {
         background-color: #218838;
     }
     .modal button.cancel-button {
-        background-color: #dc3545; /* Red for cancel */
+        background-color: #dc3545; /* Merah untuk batal */
     }
     .modal button.cancel-button:hover {
         background-color: #c82333;
@@ -394,7 +507,7 @@
       color: #e74c3c;
     }
     
-    .icon-button {
+    .icon-button { /* Ini untuk ikon yang tetap ada di dalam tabel */
       background: none;
       border: none;
       cursor: pointer;
@@ -403,7 +516,9 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border-radius: 8px;
+      width: 28px; /* Ukuran tombol */
+      height: 28px; /* Ukuran tombol */
+      border-radius: 50%; /* Membuat tombol bulat */
       transition: background-color 0.2s ease;
     }
     .icon-button:hover {
@@ -415,34 +530,34 @@
       display: block;
     }
 
-    /* Mobile-specific adjustments */
+    /* Penyesuaian khusus mobile */
     @media (max-width: 768px) {
       body {
-        flex-direction: column; /* Stack sidebar and main content */
+        flex-direction: column; /* Tumpuk sidebar dan konten utama */
       }
       .sidebar {
-        width: 100%; /* Full width for sidebar */
+        width: 100%; /* Lebar penuh untuk sidebar */
         height: auto; /* Tinggi otomatis */
         position: relative; /* Tidak sticky di mobile */
         border-radius: 0; /* Tanpa sudut di mobile */
         padding: 15px 10px;
       }
-      .sidebar.expanded { /* Di mobile, expanded tetap full width */
+      .sidebar.expanded { /* Di mobile, expanded tetap lebar penuh */
         width: 100%;
       }
       .sidebar .logo-container {
         padding: 0; /* Hapus padding di mobile */
       }
       .sidebar .logo {
-        width: 50px; /* Lebih kecil di mobile */
-        height: 50px;
+        width: 40px; /* Lebih kecil di mobile */
+        height: 40px;
       }
       .sidebar.expanded .logo { /* Logo tetap ukuran mobile saat expanded di mobile */
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
       }
       .sidebar h2 {
-        font-size: 1em;
+        font-size: 0.9em; /* Lebih kecil di mobile */
         height: auto; /* Selalu tampil di mobile */
         opacity: 1;
       }
@@ -473,14 +588,14 @@
         opacity: 1; /* Selalu tampil di mobile */
         height: auto;
       }
-      /* No sidebar-toggle button in mobile */
+      /* Tidak ada tombol sidebar-toggle di mobile */
 
       .main-content {
         padding: 15px;
-        height: auto; /* Allow height to adjust based on content */
-        min-height: 100vh; /* Ensure it takes at least full viewport height */
+        height: auto; /* Izinkan tinggi menyesuaikan berdasarkan konten */
+        min-height: 100vh; /* Pastikan mengambil setidaknya tinggi viewport penuh */
       }
-      /* Removed header-content, so no need for its mobile adjustments */
+      /* Header-content dihapus, jadi tidak perlu penyesuaian mobile */
       .container {
         padding: 15px;
       }
@@ -495,50 +610,13 @@
       }
       table {
         font-size: 11px;
-        min-width: 500px; /* Adjust table min-width for mobile */
+        /* min-width diatur di luar media query agar tetap lebar */
       }
       th, td {
         padding: 8px;
       }
-      /* Hide specific columns on small screens for token table */
-      #tokenTable thead th:nth-child(5), /* PDF */
-      #tokenTable tbody td:nth-child(5),
-      #tokenTable thead th:nth-child(6), /* ANSWER KEY */
-      #tokenTable tbody td:nth-child(6),
-      #tokenTable thead th:nth-child(7), /* TOKEN DIBUKA */
-      #tokenTable tbody td:nth-child(7),
-      #tokenTable thead th:nth-child(8), /* TOKEN DITUTUP */
-      #tokenTable tbody td:nth-child(8) {
-        display: none;
-      }
-      /* Hide Duration column on small screens */
-      #tokenTable thead th:nth-child(9), /* Durasi */
-      #tokenTable tbody td:nth-child(9) {
-        display: none;
-      }
-
-      .student-filters-container {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-      }
-      .student-filters-container > div {
-        flex-direction: column;
-        align-items: flex-start;
-        width: 100%;
-      }
-      .student-filters-container select {
-        width: 100%;
-        max-width: none;
-      }
-      .modal-content {
-        padding: 20px;
-        width: 95%;
-      }
-      .modal button {
-        padding: 10px 15px;
-        font-size: 14px;
-      }
+      /* Hapus semua display: none untuk kolom di mobile */
+      /* Tabel akan mengandalkan overflow-x: auto pada .table-responsive */
     }
 
     @media (max-width: 480px) {
@@ -550,6 +628,7 @@
       }
     }
 
+    /* Gaya notifikasi */
     #notification {
       display: none;
       position: fixed;
@@ -566,6 +645,7 @@
       font-weight: bold;
     }
     
+    /* Overlay loading */
     .loading-overlay {
         display: none;
         position: fixed;
@@ -593,23 +673,90 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
     }
+
+    /* Gaya untuk filter kelas di bagian nilai ujian */
+    .score-filters-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 15px;
+        align-items: center;
+    }
+    .score-filters-container button {
+        flex-grow: 1;
+        margin: 0;
+        padding: 8px 15px;
+        font-size: 14px;
+        background-color: #f0f0f0;
+        color: #333;
+        border: 1px solid #ccc;
+        box-shadow: none;
+    }
+    .score-filters-container button.active {
+        background-color: #3498db;
+        color: white;
+        border-color: #3498db;
+    }
+    .score-filters-container input[type="text"] {
+        flex-grow: 1;
+        max-width: 200px;
+        margin: 0;
+    }
+    .score-filters-container .filter-group {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    /* Gaya untuk input kunci jawaban yang dibagi 2 */
+    .answer-key-input-group {
+        display: flex;
+        gap: 10px;
+        align-items: flex-end; /* Align items to the bottom */
+        margin: 8px 0;
+    }
+    .answer-key-input-group > div {
+        display: flex;
+        flex-direction: column;
+    }
+    .answer-key-input-group label {
+        font-size: 0.8em;
+        color: #555;
+        margin-bottom: 2px; /* Small margin below label */
+    }
+    .answer-key-input-group input {
+        margin: 0; /* Remove default margin */
+        height: auto; /* Allow height to adjust */
+    }
+    .answer-key-input-group .count-input {
+        flex-shrink: 0;
+        width: 80px; /* Fixed width for count input */
+        text-align: center;
+        background-color: #e9ecef;
+        cursor: default;
+    }
+    .answer-key-input-group .key-input {
+        flex-grow: 1; /* Take remaining space */
+    }
   </style>
 </head>
 <body>
   <div class="sidebar" id="sidebar">
     <div class="logo-container">
       <img src="https://raw.githubusercontent.com/smp2pajangan/gambar/refs/heads/main/logosmpn2pjg.png" alt="Logo SMPN 2 Pajangan" class="logo">
-      <h2>SMP NEGERI 2 PAJANGAN</h2>
-    </div>
+      <h2>SMPN 2 PAJANGAN</h2> </div>
     <nav class="sidebar-nav">
       <button id="tokenMenuBtn" data-section-id="tokenSection" onclick="handleMenuClick(this)">
         <i class="fas fa-key"></i> <span>Token</span>
       </button>
-      <button id="lokasiMenuBtn" data-section-id="locationSection" onclick="handleMenuClick(this)">
-        <i class="fas fa-map-marker-alt"></i> <span>Lokasi</span>
-      </button>
       <button id="pesertaMenuBtn" data-section-id="studentSection" onclick="handleMenuClick(this)">
         <i class="fas fa-users"></i> <span>Peserta</span>
+      </button>
+      <button id="scoreMenuBtn" data-section-id="scoreSection" onclick="handleMenuClick(this)">
+        <i class="fas fa-chart-bar"></i> <span>Nilai Ujian</span>
+      </button>
+      <button id="lokasiMenuBtn" data-section-id="locationSection" onclick="handleMenuClick(this)">
+        <i class="fas fa-map-marker-alt"></i> <span>Lokasi</span>
       </button>
       <button data-action="promptLogout" onclick="handleMenuClick(this)">
         <i class="fas fa-sign-out-alt"></i> <span>Keluar</span>
@@ -654,8 +801,16 @@
           <input type="url" id="googleDriveUrl" placeholder="Contoh: https://drive.google.com/file/d/FILE_ID/view?usp=sharing" required />
           <p id="googleDriveUrlError" class="error"></p>
 
-          <label for="answerKey">Kunci Jawaban (Contoh: A,B,C,D,D)</label>
-          <input type="text" id="answerKey" placeholder="Hanya A,B,C,D dipisah koma" required />
+          <div class="answer-key-input-group">
+            <div class="count-input-container">
+              <label for="answerKeyCount">Jumlah Soal</label>
+              <input type="text" id="answerKeyCount" readonly class="count-input" value="0" />
+            </div>
+            <div class="key-input-container">
+              <label for="answerKey">Kunci Jawaban</label>
+              <input type="text" id="answerKey" placeholder="Contoh: A,B,C,D,D" required class="key-input" />
+            </div>
+          </div>
           <p id="answerKeyError" class="error"></p>
 
           <label>Waktu Token Dibuka</label>
@@ -668,9 +823,7 @@
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; margin-top: 30px;">
           <h3 style="margin-bottom: 0;">DAFTAR TOKEN</h3>
-          <button class="icon-button" onclick="openPrintModal()">
-            <img src="https://raw.githubusercontent.com/smp2pajangan/gambar/refs/heads/main/print.png" alt="Cetak">
-          </button>
+          <button class="text-button blue-gray" onclick="openCopyPrintModal('tokenTable', 'Cetak Daftar Token')">Cetak</button>
         </div>
 
         <p style="font-size: 11px; color: #555; margin-top: -10px; margin-bottom: 10px; text-align: center;">
@@ -686,12 +839,12 @@
                 <th>KELAS</th>
                 <th>TOKEN</th>
                 <th>PDF</th>
-                <th>KUNJAB</th>
-                <th>TOKEN DIBUKA</th>
+                <th>KUNJAB</th> <th>TOKEN DIBUKA</th>
                 <th>TOKEN DITUTUP</th>
                 <th>DURASI</th>
                 <th>STATUS</th>
                 <th>AKSES</th>
+                <th>SUBMIT</th>
                 <th>AKSI</th>
               </tr>
             </thead>
@@ -742,15 +895,9 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 30px; margin-bottom: 10px;">
             <h3 style="margin-bottom: 0;">DAFTAR SISWA</h3>
             <div style="display: flex; gap: 10px;">
-              <button class="icon-button" onclick="openImportStudentModal()">
-                  <img src="https://raw.githubusercontent.com/smp2pajangan/gambar/refs/heads/main/impor.png" alt="Impor">
-              </button>
-              <button class="icon-button" onclick="openEmptyStudentsModal()">
-                  <img src="https://raw.githubusercontent.com/smp2pajangan/gambar/refs/heads/main/hapus%20total.png" alt="Kosongkan Daftar">
-              </button>
-              <button class="icon-button" onclick="showPrintInfoModal()">
-                <img src="https://raw.githubusercontent.com/smp2pajangan/gambar/refs/heads/main/print.png" alt="Cetak Kartu">
-              </button>
+              <button class="text-button green" onclick="openImportStudentModal()">Impor Siswa</button>
+              <button class="text-button red" onclick="openEmptyStudentsModal()">Kosongkan Daftar</button>
+              <button class="text-button gray" onclick="showPrintInfoModal()">Cetak Kartu</button>
             </div>
           </div>
 
@@ -782,12 +929,40 @@
                   <th>AKSI</th>
                 </tr>
               </thead>
-              <tbody id="studentTableBody"></tbody>
+            <tbody id="studentTableBody"></tbody>
             </table>
           </div>
         </div>
       </div>
-    </div>
+
+      <div id="scoreSection" class="dashboard-section container">
+        <h1 id="scoreSectionTitle" style="text-align: left; margin-bottom: 20px; color: #34495e;">Daftar Nilai Ujian</h1>
+        <div class="score-filters-container">
+            <div class="filter-group">
+                <button id="filterClass7" onclick="filterScoresByGrade(7)">Kelas 7</button>
+                <button id="filterClass8" onclick="filterScoresByGrade(8)">Kelas 8</button>
+                <button id="filterClass9" onclick="filterScoresByGrade(9)">Kelas 9</button>
+            </div>
+            <input type="text" id="scoreSearchName" placeholder="Cari Nama Siswa" onkeyup="renderScoreTable()" />
+            <input type="text" id="scoreSearchClass" placeholder="Cari Kelas (misal: 7A)" onkeyup="renderScoreTable()" />
+            <div style="display: flex; gap: 10px;">
+                <button class="text-button light-blue" onclick="openCopyPrintModal('scoreTable', 'Cetak Daftar Nilai')">Cetak</button>
+            </div>
+        </div>
+        <div class="table-responsive">
+          <table id="scoreTable">
+            <thead>
+              <tr id="scoreTableHeader">
+                <th>NO</th>
+                <th>NAMA SISWA</th>
+                <th>KELAS</th>
+                </tr>
+            </thead>
+            <tbody id="scoreTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+      </div>
   </div>
 
   <div id="editModal" class="modal">
@@ -805,8 +980,16 @@
         <input type="url" id="editGoogleDriveUrl" placeholder="Contoh: https://drive.google.com/file/d/FILE_ID/view?usp=sharing" required />
         <p id="editGoogleDriveUrlError" class="error"></p>
 
-        <label for="editAnswerKey">Kunci Jawaban (Contoh: A,B,C,D,D)</label>
-        <input type="text" id="editAnswerKey" placeholder="Hanya A,B,C,D dipisah koma" required />
+        <div class="answer-key-input-group">
+          <div class="count-input-container">
+            <label for="editAnswerKeyCount">Jumlah Soal</label>
+            <input type="text" id="editAnswerKeyCount" readonly class="count-input" value="0" />
+          </div>
+          <div class="key-input-container">
+            <label for="editAnswerKey">Kunci Jawaban</label>
+            <input type="text" id="editAnswerKey" placeholder="Hanya A,B,C,D dipisah koma" required class="key-input" />
+          </div>
+        </div>
         <p id="editAnswerKeyError" class="error"></p>
 
         <label>Waktu Token Dibuka</label>
@@ -853,13 +1036,14 @@
     <span id="notificationMessage"></span>
   </div>
 
-  <div id="printModal" class="modal">
+  <div id="copyPrintModal" class="modal">
     <div class="modal-content">
-      <h4 style="font-size: 1.2em; font-weight: normal; color: #555; margin-bottom: 10px;">Berikan judul pada tabel token</h4>
-      <div id="printTitleError" class="error" style="text-align: center; margin-bottom: 5px;"></div>
-      <textarea id="printTitleInput" placeholder="Tulis dengan huruf kapital" style="width: calc(100% - 20px); padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; height: 80px;"></textarea>
-      <button class="print-button" onclick="printTokenList()">Cetak</button>
-      <button class="cancel-button" onclick="closePrintModal()">Batal</button>
+      <h4 id="copyPrintModalTitle"></h4>
+      <button onclick="copyTableToClipboard()" class="confirm-button">Salin Tabel</button>
+      <p style="font-size: 0.9em; color: #555; margin-top: 15px;">
+        Salin tabel kemudian paste ke word atau excel.
+      </p>
+      <button onclick="closeCopyPrintModal()" class="cancel-button">Batal</button>
     </div>
   </div>
 
@@ -1000,17 +1184,52 @@
     </div>
   </div>
 
+  <div id="resetStudentModal" class="modal">
+    <div class="modal-content">
+      <h4>Reset Status Login Siswa</h4>
+      <p>Anda yakin ingin mereset status login siswa <b id="resetStudentNameDisplay"></b> (ID: <b id="resetStudentIdDisplay"></b>)?</p>
+      <p style="font-size: 0.9em; color: #555;">Ini akan memaksa siswa untuk login ulang jika mereka sedang dalam sesi.</p>
+      <button onclick="confirmResetStudent()" class="confirm-button">Reset</button>
+      <button onclick="closeResetStudentModal()" class="cancel-button">Batal</button>
+    </div>
+  </div>
+
+  <div id="submitAnswerModal" class="modal">
+    <div class="modal-content">
+      <h4>Kirim Jawaban Siswa (Manual)</h4>
+      <p>Anda yakin ingin menandai semua ujian yang sedang dikerjakan siswa <b id="submitStudentNameDisplay"></b> (ID: <b id="submitStudentIdDisplay"></b>) sebagai 'Sudah submit'?</p>
+      <p style="font-size: 0.9em; color: #555;">Tindakan ini akan mengunci jawaban siswa untuk ujian yang relevan.</p>
+      <button onclick="confirmSubmitAnswer()" class="confirm-button">Kirim Jawaban</button>
+      <button onclick="closeSubmitAnswerModal()" class="cancel-button">Batal</button>
+    </div>
+  </div>
+
+  <div id="deleteAnswerModal" class="modal">
+    <div class="modal-content">
+      <h4>Hapus Semua Jawaban Siswa</h4>
+      <p>Anda yakin ingin menghapus <b>SEMUA</b> jawaban dan status submit untuk siswa <b id="deleteAnswerStudentNameDisplay"></b> (ID: <b id="deleteAnswerStudentIdDisplay"></b>)?</p>
+      <p style="font-size: 0.9em; color: #e74c3c; font-weight: bold;">Tindakan ini tidak dapat dibatalkan!</p>
+      <div>
+        <label for="deleteAnswerPassword">Password Admin:</label>
+        <input type="password" id="deleteAnswerPassword">
+        <p id="deleteAnswerPasswordError" class="error"></p>
+      </div>
+      <button onclick="confirmDeleteAnswer()" class="confirm-button">Hapus Jawaban</button>
+      <button onclick="closeDeleteAnswerModal()" class="cancel-button">Batal</button>
+    </div>
+  </div>
+
   <div id="loadingOverlay" class="loading-overlay" style="display: none;">
     <div class="spinner"></div>
   </div>
 
 
   <script type="module">
-    // Import the functions you need from the SDKs you need
+    // Import fungsi yang dibutuhkan dari SDK yang dibutuhkan
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
     import { getDatabase, ref, push, onValue, update, remove, runTransaction, get } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
 
-    // --- Firebase Configurations for each class ---
+    // --- Konfigurasi Firebase untuk setiap kelas ---
     const firebaseConfig7 = {
       apiKey: "AIzaSyCII45EsItVdjv3zHSL5CaBQ4nF45z4IuM",
       authDomain: "ujiankupdf.firebaseapp.com",
@@ -1041,7 +1260,7 @@
       appId: "1:382098344813:web:f3eb483dca58c21e56a864"
     };
 
-    // Initialize Firebase Apps
+    // Inisialisasi Aplikasi Firebase
     const app7 = initializeApp(firebaseConfig7, 'app7');
     const db7 = getDatabase(app7);
 
@@ -1051,51 +1270,50 @@
     const app9 = initializeApp(firebaseConfig9, 'app9');
     const db9 = getDatabase(app9);
 
-    // Map class numbers to their respective database instances
+    // Memetakan nomor kelas ke instance database masing-masing
     const classDbMap = {
         '7': db7,
         '8': db8,
         '9': db9
     };
 
-    // Admin Credentials
+    // Kredensial Admin
     const ADMIN_USER = "admin";
     const ADMIN_PASS = "12345678";
     let currentTokenId = null;
-    let currentStudentKey = null; // For editing/deleting students
-    let deleteStudentKey = null; // For student delete confirmation
-    let tokenCache = []; // Unified cache for all tokens from all classes
-    let studentCache = []; // Unified cache for all students from all classes
-    let tokenAccessStatus = {}; // Cache for token access status per student (unified)
-    let submittedExamsCache = {}; // Cache for exam submission status (unified)
-    const THIRTY_DAYS_IN_MS = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
+    let currentStudentKey = null; // Untuk mengedit/menghapus siswa
+    let deleteStudentKey = null; // Untuk konfirmasi penghapusan siswa
+    let tokenCache = []; // Cache terpadu untuk semua token dari semua kelas
+    let studentCache = []; // Cache terpadu untuk semua siswa dari semua kelas
+    let tokenAccessStatus = {}; // Cache untuk status akses token per siswa (terpadu)
+    let submittedExamsCache = {}; // Cache untuk status pengiriman ujian (terpadu)
+    const THIRTY_DAYS_IN_MS = 30 * 24 * 60 * 60 * 1000; // 30 hari dalam milidetik
     const EDIT_ICON_URL = "https://raw.githubusercontent.com/smp2pajangan/gambar/refs/heads/main/edit.png";
     const DELETE_ICON_URL = "https://raw.githubusercontent.com/smp2pajangan/gambar/refs/heads/main/hapus.png";
-    const PRINT_PAGE_URL = "https://smp2pajangan.github.io/cetaktoken";
     let inactivityTimer;
-    const INACTIVITY_TIMEOUT = 60 * 60 * 1000; // Inactivity timeout 1 hour
+    const INACTIVITY_TIMEOUT = 60 * 60 * 1000; // Batas waktu tidak aktif 1 jam
     let currentForceActiveTokenId = null;
-    let isImporting = false; // Flag to prevent double import
-    let currentStudentClassFilter = null; // Filter for student list (e.g., '7A', '7_all', or null for all)
-    let currentExamStatusFilterToken = null; // Filter for exam status (token key)
+    let isImporting = false; // Flag untuk mencegah impor ganda
+    let currentStudentClassFilter = null; // Filter untuk daftar siswa (misalnya, '7A', '7_all', atau null untuk semua)
+    let currentExamStatusFilterToken = null; // Filter untuk status ujian (kunci token)
 
-    // Reference to 'setlokasi' node in Firebase (assuming this is global and not per class)
-    // If setlokasi needs to be per class, this will need to be adapted. For now, assuming global.
-    const settingsRef = ref(db7, 'setlokasi'); // Using db7 as the primary for global settings
+    // Referensi ke node 'setlokasi' di Firebase (asumsi ini global dan bukan per kelas)
+    // Jika setlokasi perlu per kelas, ini perlu disesuaikan. Untuk saat ini, diasumsikan global.
+    const settingsRef = ref(db7, 'setlokasi'); // Menggunakan db7 sebagai yang utama untuk pengaturan global
 
-    // Variables to store location status and radius
+    // Variabel untuk menyimpan status lokasi dan radius
     let isLocationEnabledAdmin = false;
-    let allowedRadiusMeterAdmin = 75; // Default in meters
-    // Default coordinates for location access (e.g., central point in Yogyakarta)
-    const defaultLocationCoordinate = "-7.8589546,110.2655596"; // Updated coordinates
+    let allowedRadiusMeterAdmin = 75; // Default dalam meter
+    // Koordinat default untuk akses lokasi (misalnya, titik pusat di Yogyakarta)
+    const defaultLocationCoordinate = "-7.8589546,110.2655596"; // Koordinat diperbarui
 
-    // HTML Elements
+    // Elemen HTML
     const locationSettingsTableBody = document.getElementById('locationSettingsTableBody');
     const setlokasiModalElement = document.getElementById('setlokasiModal');
     const gantiRadiusModalElement = document.getElementById('gantiRadiusModal');
     const radiusMeterInputElement = document.getElementById('radiusMeter');
 
-    // HTML Elements for Student Management
+    // Elemen HTML untuk Manajemen Siswa
     const studentForm = document.getElementById('studentForm');
     const studentIdInput = document.getElementById('studentId');
     const studentNameInput = document.getElementById('studentName');
@@ -1111,7 +1329,7 @@
     const examStatusFilterDropdown = document.getElementById('examStatusFilter');
     const classFilterDropdownSelect = document.getElementById('classFilterDropdownSelect');
 
-    // HTML Elements for Student Edit Modal
+    // Elemen HTML untuk Modal Edit Siswa
     const editStudentModal = document.getElementById('editStudentModal');
     const modalStudentIdInput = document.getElementById('modalStudentId');
     const modalStudentNameInput = document.getElementById('modalStudentName');
@@ -1119,13 +1337,13 @@
     const modalStudentRoomInput = document.getElementById('modalStudentRoom');
     const editStudentErrorMsg = document.getElementById('editStudentErrorMsg');
 
-    // HTML Elements for Student Delete Confirmation Modal
+    // Elemen HTML untuk Modal Konfirmasi Penghapusan Siswa
     const deleteStudentConfirmModal = document.getElementById('deleteStudentConfirmModal');
     const emptyStudentsModal = document.getElementById('emptyStudentsModal');
     const emptyStudentsPasswordInput = document.getElementById('emptyStudentsPassword');
     const emptyStudentsPasswordError = document.getElementById('emptyStudentsPasswordError');
 
-    // HTML Elements for Student Import Modal
+    // Elemen HTML untuk Modal Impor Siswa
     const importStudentModal = document.getElementById('importStudentModal');
     const csvFileInput = document.getElementById('csvFileInput');
     const importFileError = document.getElementById('importFileError');
@@ -1134,58 +1352,96 @@
     const importResultDetails = document.getElementById('importResultDetails');
     const loadingOverlay = document.getElementById('loadingOverlay');
 
-    // HTML Elements for Logout Modal
+    // Elemen HTML untuk Modal Logout
     const logoutConfirmModal = document.getElementById('logoutConfirmModal');
 
-    // HTML Elements for Print Card Info Modal
+    // Elemen HTML untuk Modal Info Cetak Kartu
     const printInfoModal = document.getElementById('printInfoModal');
 
-    // Navigation buttons and header elements
+    // Tombol navigasi dan elemen header
     const sidebar = document.getElementById('sidebar');
     const loginSection = document.getElementById('loginSection');
     const dashboardContent = document.getElementById('dashboardContent');
     const tokenMenuBtn = document.getElementById('tokenMenuBtn');
     const lokasiMenuBtn = document.getElementById('lokasiMenuBtn');
     const pesertaMenuBtn = document.getElementById('pesertaMenuBtn');
+    const scoreMenuBtn = document.getElementById('scoreMenuBtn'); // NEW: Score menu button
     
-    // Global variable to track sidebar state
-    let isSidebarExpanded = false; // Initial state
+    // Variabel global untuk melacak status sidebar
+    let isSidebarExpanded = false; // Status awal
 
 
-    // NEW: Google Drive URL and Answer Key input elements
+    // BARU: Elemen input URL Google Drive dan Kunci Jawaban
     const googleDriveUrlInput = document.getElementById('googleDriveUrl');
     const googleDriveUrlError = document.getElementById('googleDriveUrlError');
-    const answerKeyInput = document.getElementById('answerKey');
-    const answerKeyError = document.getElementById('answerKeyError');
+    const answerKeyInput = document.getElementById('answerKey'); // Re-added
+    const answerKeyCountInput = document.getElementById('answerKeyCount'); // NEW: Count input
+    const answerKeyError = document.getElementById('answerKeyError'); // Re-added
 
-    // NEW: Google Drive URL and Answer Key input elements in edit modal
+
+    // BARU: Elemen input URL Google Drive dan Kunci Jawaban di modal edit
     const editGoogleDriveUrlInput = document.getElementById('editGoogleDriveUrl');
     const editGoogleDriveUrlError = document.getElementById('editGoogleDriveUrlError');
-    const editAnswerKeyInput = document.getElementById('editAnswerKey');
-    const editAnswerKeyError = document.getElementById('editAnswerKeyError');
+    const editAnswerKeyInput = document.getElementById('editAnswerKey'); // Re-added
+    const editAnswerKeyCountInput = document.getElementById('editAnswerKeyCount'); // NEW: Count input
+    const editAnswerKeyError = document.getElementById('editAnswerKeyError'); // Re-added
+
+    // Elemen HTML untuk Bagian Nilai Ujian
+    const scoreTableHeader = document.getElementById('scoreTableHeader');
+    const scoreTableBody = document.getElementById('scoreTableBody');
+    const scoreSearchNameInput = document.getElementById('scoreSearchName');
+    const scoreSearchClassInput = document.getElementById('scoreSearchClass');
+    
+    // Elemen HTML untuk Modal Cetak/Salin Generik
+    const copyPrintModal = document.getElementById('copyPrintModal');
+    const copyPrintModalTitle = document.getElementById('copyPrintModalTitle');
+    let currentTableIdToCopy = ''; // Variabel untuk menyimpan ID tabel yang akan disalin
 
 
-    // Helper function to pad student ID with leading zeros
+    let currentScoreGradeFilter = null; // Filter untuk nilai ujian (7, 8, 9, atau null untuk semua)
+
+    // Variabel global untuk fitur reset/submit/hapus jawaban siswa
+    let studentKeyForAction = null;
+    let studentIdForAction = null;
+    let studentClassForAction = null;
+
+    // Elemen modal untuk fitur baru
+    const resetStudentModal = document.getElementById('resetStudentModal');
+    const resetStudentNameDisplay = document.getElementById('resetStudentNameDisplay');
+    const resetStudentIdDisplay = document.getElementById('resetStudentIdDisplay');
+
+    const submitAnswerModal = document.getElementById('submitAnswerModal');
+    const submitStudentNameDisplay = document.getElementById('submitStudentNameDisplay');
+    const submitStudentIdDisplay = document.getElementById('submitStudentIdDisplay');
+
+    const deleteAnswerModal = document.getElementById('deleteAnswerModal');
+    const deleteAnswerStudentNameDisplay = document.getElementById('deleteAnswerStudentNameDisplay');
+    const deleteAnswerStudentIdDisplay = document.getElementById('deleteAnswerStudentIdDisplay');
+    const deleteAnswerPasswordInput = document.getElementById('deleteAnswerPassword');
+    const deleteAnswerPasswordError = document.getElementById('deleteAnswerPasswordError');
+
+
+    // Fungsi pembantu untuk mengisi ID siswa dengan nol di depan
     function padStudentId(id) {
         return String(id).padStart(3, '0');
     }
 
-    // Helper function to pad room number with leading zeros (2 digits)
+    // Fungsi pembantu untuk mengisi nomor ruangan dengan nol di depan (2 digit)
     function padRoomNumber(room) {
-        if (!room) return '-'; // Handle empty or null room
-        // Attempt to convert to number and pad, otherwise return as is
+        if (!room) return '-'; // Tangani ruangan kosong atau null
+        // Coba konversi ke angka dan isi, jika tidak, kembalikan apa adanya
         const numRoom = parseInt(room, 10);
         if (!isNaN(numRoom)) {
             return String(numRoom).padStart(2, '0');
         }
-        return String(room).toUpperCase(); // Return as is if not a number, ensure uppercase
+        return String(room).toUpperCase(); // Kembalikan apa adanya jika bukan angka, pastikan huruf besar
     }
 
     /**
-     * Helper function to format a Date object into a local datetime string (YYYY-MM-DDTHH:mm).
-     * This is used to store datetime-local input values consistently without timezone issues.
-     * @param {Date} date - The Date object to format.
-     * @returns {string} The formatted local datetime string.
+     * Fungsi pembantu untuk memformat objek Date menjadi string datetime lokal (YYYY-MM-DDTHH:mm).
+     * Ini digunakan untuk menyimpan nilai input datetime-local secara konsisten tanpa masalah zona waktu.
+     * @param {Date} date - Objek Date yang akan diformat.
+     * @returns {string} String datetime lokal yang diformat.
      */
     function formatLocalDateTime(date) {
         const year = date.getFullYear();
@@ -1197,9 +1453,9 @@
     }
 
     /**
-     * Helper function to get the numeric class from a class string (e.g., "7A" -> "7").
-     * @param {string} classString - The class string (e.g., "7A", "8", "9C").
-     * @returns {string|null} The numeric class as a string (e.g., "7", "8", "9") or null if not found.
+     * Fungsi pembantu untuk mendapatkan kelas numerik dari string kelas (misalnya, "7A" -> "7").
+     * @param {string} classString - String kelas (misalnya, "7A", "8", "9C").
+     * @returns {string|null} Kelas numerik sebagai string (misalnya, "7", "8", "9") atau null jika tidak ditemukan.
      */
     function getNumericClass(classString) {
         const match = String(classString || '').match(/^(\d+)/);
@@ -1207,45 +1463,45 @@
     }
 
     /**
-     * Helper function to get the database instance based on the class.
-     * @param {string} kelas - The class number (e.g., '7', '8', '9').
-     * @returns {object|null} The Firebase database instance or null if not found.
+     * Fungsi pembantu untuk mendapatkan instance database berdasarkan kelas.
+     * @param {string} kelas - Nomor kelas (misalnya, '7', '8', '9').
+     * @returns {object|null} Instance database Firebase atau null jika tidak ditemukan.
      */
     function getDbForClass(kelas) {
         const numericClass = getNumericClass(kelas);
         if (numericClass && classDbMap[numericClass]) {
             return classDbMap[numericClass];
         }
-        console.error(`Database instance not found for class: ${kelas}`);
+        console.error(`Instance database tidak ditemukan untuk kelas: ${kelas}`);
         return null;
     }
 
-    // Function to expand sidebar
+    // Fungsi untuk memperluas sidebar
     window.expandSidebar = () => {
         sidebar.classList.add('expanded');
         isSidebarExpanded = true;
     };
 
-    // Function to collapse sidebar
+    // Fungsi untuk menyembunyikan sidebar
     window.collapseSidebar = () => {
         sidebar.classList.remove('expanded');
         isSidebarExpanded = false;
     };
 
-    // Function to show/hide dashboard sections
+    // Fungsi untuk menampilkan/menyembunyikan bagian dashboard
     window.showSection = (sectionId) => {
-        // Hide all dashboard content sections
+        // Sembunyikan semua bagian konten dashboard
         document.querySelectorAll('.dashboard-section').forEach(section => {
             section.style.display = 'none';
         });
-        // Show the selected section
+        // Tampilkan bagian yang dipilih
         document.getElementById(sectionId).style.display = 'block';
 
-        // Set navigation button styles
+        // Atur gaya tombol navigasi
         document.querySelectorAll('.sidebar-nav button').forEach(button => {
             button.classList.remove('active');
         });
-        // Add active class to the corresponding button
+        // Tambahkan kelas aktif ke tombol yang sesuai
         const activeBtn = document.querySelector(`.sidebar-nav button[data-section-id="${sectionId}"]`);
         if (activeBtn) {
             activeBtn.classList.add('active');
@@ -1259,49 +1515,51 @@
             populateClassFilter();
             populateExamStatusFilter();
             renderStudentTable();
+        } else if (sectionId === 'scoreSection') { // NEW: Handle score section
+            renderScoreTable();
         }
     };
 
-    // Main handler for sidebar menu clicks
+    // Handler utama untuk klik menu sidebar
     window.handleMenuClick = (buttonElement) => {
         const sectionId = buttonElement.dataset.sectionId;
-        const action = buttonElement.dataset.action; // For logout
+        const action = buttonElement.dataset.action; // Untuk logout
 
         if (!isSidebarExpanded) {
-            // If sidebar is collapsed, expand it and then perform the action
+            // Jika sidebar disembunyikan, perluas dan kemudian lakukan tindakan
             expandSidebar();
-            // Use a small delay to allow CSS transition to start before content changes
+            // Gunakan sedikit penundaan untuk memungkinkan transisi CSS dimulai sebelum konten berubah
             setTimeout(() => {
                 if (action === 'promptLogout') {
                     promptLogout();
                 } else {
                     showSection(sectionId);
                 }
-            }, 100); // Adjust delay as needed for smoother UX
+            }, 100); // Sesuaikan penundaan sesuai kebutuhan untuk UX yang lebih halus
         } else {
-            // If sidebar is already expanded
+            // Jika sidebar sudah diperluas
             if (action === 'promptLogout') {
                 promptLogout();
-                // Sidebar remains expanded for logout modal, will collapse on confirmLogout
+                // Sidebar tetap diperluas untuk modal logout, akan menyembunyikan pada confirmLogout
             } else {
                 const currentActiveSection = document.querySelector('.dashboard-section[style*="display: block"]');
                 const currentActiveSectionId = currentActiveSection ? currentActiveSection.id : null;
 
                 if (sectionId === currentActiveSectionId) {
-                    // Clicked on the currently active section, do nothing (sidebar remains expanded)
-                    console.log('Already on this section, doing nothing.');
+                    // Mengklik bagian yang sedang aktif, tidak melakukan apa-apa (sidebar tetap diperluas)
+                    console.log('Sudah di bagian ini, tidak melakukan apa-apa.');
                 } else {
-                    // Clicked on a different section, change content but keep sidebar expanded
+                    // Mengklik bagian yang berbeda, ubah konten tetapi biarkan sidebar diperluas
                     showSection(sectionId);
                 }
             }
         }
     };
 
-    // Global click listener to collapse sidebar when clicking outside it
+    // Listener klik global untuk menyembunyikan sidebar saat mengklik di luar
     document.addEventListener('click', (event) => {
         const isClickInsideSidebar = sidebar.contains(event.target);
-        const isClickInsideModal = event.target.closest('.modal'); // Check if click is inside any modal
+        const isClickInsideModal = event.target.closest('.modal'); // Periksa apakah klik berada di dalam modal apa pun
 
         if (isSidebarExpanded && !isClickInsideSidebar && !isClickInsideModal) {
             collapseSidebar();
@@ -1309,7 +1567,7 @@
     });
 
 
-    // Function to display notifications
+    // Fungsi untuk menampilkan notifikasi
     function showNotification(message) {
       const n = document.getElementById('notification');
       n.innerText = message;
@@ -1319,62 +1577,85 @@
       }, 3000);
     }
 
-    // Function to handle user login
+    // Fungsi untuk menangani login pengguna
     window.login = () => {
       const u = document.getElementById("username").value.trim();
       const p = document.getElementById("password").value.trim();
       if(u === ADMIN_USER && p === ADMIN_PASS) {
         localStorage.setItem('isAdminLoggedIn', 'true');
-        loginSection.style.display = 'none'; // Hide login section
-        sidebar.style.display = 'flex'; // Show sidebar
-        dashboardContent.style.display = 'flex'; // Show dashboard content
+        loginSection.style.display = 'none'; // Sembunyikan bagian login
+        sidebar.style.display = 'flex'; // Tampilkan sidebar
+        dashboardContent.style.display = 'flex'; // Tampilkan konten dashboard
         
-        loadTokens(); // Load tokens from all databases
-        loadStudents(); // Load students from all databases
-        loadTokenAccessStatus(); // Load access status from all DBs
-        loadSubmittedExamsStatus(); // Load submission status from all DBs
-        loadSetlokasiSettings(); // Load location settings (from primary db)
-        showSection('tokenSection'); // Show token section by default
-        resetInactivityTimer(); // Start inactivity timer after successful login
-        collapseSidebar(); // Ensure sidebar starts collapsed after login
+        // Memuat data dengan listener real-time
+        loadTokens(); 
+        loadStudents(); 
+        loadTokenAccessStatus(); 
+        loadSubmittedExamsStatus(); 
+        loadSetlokasiSettings(); 
+
+        showSection('tokenSection'); // Tampilkan bagian token secara default
+        resetInactivityTimer(); // Mulai timer tidak aktif setelah login berhasil
+        collapseSidebar(); // Pastikan sidebar disembunyikan setelah login
       } else {
         document.getElementById("loginError").innerText = "Username atau password salah.";
       }
     };
 
-    // Function to prompt logout confirmation modal
+    // Fungsi untuk menampilkan modal konfirmasi logout
     window.promptLogout = () => {
         logoutConfirmModal.style.display = 'flex';
     };
 
-    // Function to confirm logout
+    // Fungsi untuk mengkonfirmasi logout
     window.confirmLogout = () => {
       localStorage.removeItem('isAdminLoggedIn');
-      dashboardContent.style.display = 'none'; // Hide dashboard content
-      sidebar.style.display = 'none'; // Hide sidebar
-      loginSection.style.display = 'block'; // Show login section
-      document.getElementById('password').value = ''; // Clear password on logout
+      dashboardContent.style.display = 'none'; // Sembunyikan konten dashboard
+      sidebar.style.display = 'none'; // Sembunyikan sidebar
+      loginSection.style.display = 'block'; // Tampilkan bagian login
+      document.getElementById('password').value = ''; // Hapus kata sandi saat logout
       showNotification('Anda telah logout.');
       closeLogoutModal();
-      collapseSidebar(); // Ensure sidebar is collapsed after logout
+      collapseSidebar(); // Pastikan sidebar disembunyikan setelah logout
     };
 
-    // Function to close logout confirmation modal
+    // Fungsi untuk menutup modal konfirmasi logout
     window.closeLogoutModal = () => {
         logoutConfirmModal.style.display = 'none';
     };
 
-    // Function to render/update the token table
+    // Fungsi untuk merender/memperbarui tabel token
     function renderTokenTable() {
         const tbody = document.getElementById('tokenTableBody');
-        tbody.innerHTML = ''; // Clear existing rows
+        tbody.innerHTML = ''; // Hapus baris yang ada
+
+        // Urutkan token berdasarkan startTime terlebih dahulu, kemudian berdasarkan kelas
+        const sortedTokens = [...tokenCache].sort((a, b) => {
+            const timeA = new Date(a.startTime).getTime();
+            const timeB = new Date(b.startTime).getTime();
+            if (timeA !== timeB) {
+                return timeA - timeB;
+            }
+
+            const kelasA = String(a.kelas || '');
+            const kelasB = String(b.kelas || '');
+
+            const numKelasA = parseInt(kelasA);
+            const numKelasB = parseInt(kelasB);
+
+            if (!isNaN(numKelasA) && !isNaN(numKelasB)) {
+                return numKelasA - numKelasB;
+            } else {
+                return kelasA.localeCompare(kelasB);
+            }
+        });
 
         let sortedCounter = 0;
-        tokenCache.forEach(data => {
+        sortedTokens.forEach(data => {
             sortedCounter++;
             const row = document.createElement('tr');
             row.dataset.tokenKey = data.key;
-            // Display formatted times
+            // Tampilkan waktu yang diformat
             const startTimeFormatted = data.startTime ? new Date(data.startTime).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }) : '-';
             const endTimeFormatted = data.endTime ? new Date(data.endTime).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }) : '-';
             
@@ -1395,9 +1676,17 @@
                 }
             }
 
-            // Get the number of students who accessed this token
-            // Note: tokenAccessStatus is unified, so this should work across databases
+            // Dapatkan jumlah siswa yang mengakses token ini
+            // Catatan: tokenAccessStatus terpadu, jadi ini harus berfungsi di seluruh database
             const accessedStudents = tokenAccessStatus[data.key] ? Object.keys(tokenAccessStatus[data.key]).length : 0;
+
+            // Hitung jumlah siswa yang telah submit untuk token ini
+            const submittedStudentsCount = submittedExamsCache[data.token] 
+                ? Object.values(submittedExamsCache[data.token]).filter(submission => submission.isSubmitted === true).length
+                : 0;
+
+            // Tampilkan kunci jawaban yang dipersingkat
+            const displayAnswerKey = data.answerKey ? data.answerKey.substring(0, 10) + (data.answerKey.length > 10 ? '...' : '') : '-';
 
             row.innerHTML = `
                 <td>${sortedCounter}</td>
@@ -1405,15 +1694,15 @@
                 <td>${data.kelas}</td>
                 <td><a href="#" onclick="openAccessDetailModal('${data.key}', '${data.token}')">${tokenDisplay}</a></td>
                 <td>${data.googleDriveUrl ? `<a href="${data.googleDriveUrl}" target="_blank">Lihat PDF</a>` : '-'}</td>
-                <td>${data.answerKey || '-'}</td>
-                <td>${startTimeFormatted}</td>
+                <td>${displayAnswerKey}</td> <td>${startTimeFormatted}</td>
                 <td>${endTimeFormatted}</td>
-                <td>${data.durationMinutes !== undefined ? data.durationMinutes : '-'}</td> <td style="text-align: center;">
+                <td>${data.durationMinutes !== undefined ? data.durationMinutes : '-'}</td>
+                <td style="text-align: center;">
                   <span style="color: ${data.isActive ? 'green' : 'grey'}; font-weight: bold;">${data.isActive ? 'ON' : 'OFF'}</span>
                   ${forceActiveIconsHTML}
                 </td>
                 <td style="text-align: center;">${accessedStudents}</td>
-                <td style="text-align: center;">
+                <td style="text-align: center;">${submittedStudentsCount}</td> <td style="text-align: center;">
                   <div class="student-action-buttons">
                     <button onclick="editToken('${data.key}')">
                       <img src="${EDIT_ICON_URL}" alt="Edit">
@@ -1426,167 +1715,124 @@
             `;
             tbody.appendChild(row);
         });
-        populateExamStatusFilter(); // Ensure exam status filter is updated when tokens change
+        populateExamStatusFilter(); // Pastikan filter status ujian diperbarui saat token berubah
     }
 
-    // Function to load tokens from all Firebase projects
+    // Fungsi untuk memuat token dari semua proyek Firebase (dengan real-time listener)
     function loadTokens() {
-        tokenCache = [];
-        const tokenPromises = [];
-
+        tokenCache = []; // Reset cache awal
         Object.keys(classDbMap).forEach(classNum => {
             const dbInstance = classDbMap[classNum];
             if (dbInstance) {
-                tokenPromises.push(new Promise((resolve) => {
-                    onValue(ref(dbInstance, 'tokens'), (snapshot) => {
-                        const classTokens = [];
-                        snapshot.forEach(child => {
-                            const data = child.val();
-                            data.key = child.key;
-                            data.firebaseClass = classNum; // Store which Firebase project it came from
-                            // Delete tokens older than 30 days
-                            if (data.createdAt && (Date.now() - data.createdAt) > THIRTY_DAYS_IN_MS) {
-                                remove(ref(dbInstance, 'tokens/' + data.key))
-                                    .then(() => console.log(`Token ${data.key} dari kelas ${classNum} dihapus.`))
-                                    .catch(error => console.error(`Gagal hapus ${data.key} dari kelas ${classNum}: `, error));
-                                return;
-                            }
-                            classTokens.push(data);
-                        });
-                        resolve(classTokens);
-                    }, (error) => {
-                        console.error(`Error loading tokens from class ${classNum}:`, error);
-                        resolve([]); // Resolve with empty array on error
+                onValue(ref(dbInstance, 'tokens'), (snapshot) => {
+                    console.log(`[Real-time Update] Tokens for class ${classNum} updated.`);
+                    const classTokens = [];
+                    snapshot.forEach(child => {
+                        const data = child.val();
+                        data.key = child.key;
+                        data.firebaseClass = classNum; // Simpan dari proyek Firebase mana asalnya
+                        // Hapus token yang lebih lama dari 30 hari
+                        if (data.createdAt && (Date.now() - data.createdAt) > THIRTY_DAYS_IN_MS) {
+                            remove(ref(dbInstance, 'tokens/' + data.key))
+                                .then(() => console.log(`Token ${data.key} dari kelas ${classNum} dihapus otomatis.`))
+                                .catch(error => console.error(`Gagal hapus otomatis ${data.key} dari kelas ${classNum}: `, error));
+                            return;
+                        }
+                        classTokens.push(data);
                     });
-                }));
+
+                    // Perbarui tokenCache global dengan data terbaru dari kelas ini
+                    // Hapus token lama dari kelas ini, lalu tambahkan yang baru
+                    tokenCache = tokenCache.filter(t => t.firebaseClass !== classNum);
+                    tokenCache.push(...classTokens);
+                    
+                    renderTokenTable(); // Render ulang tabel setiap kali data token berubah
+                    periksaAndUpdateStatusToken(); // Periksa status token juga
+                }, (error) => {
+                    console.error(`Error memuat token dari kelas ${classNum}:`, error);
+                });
             }
-        });
-
-        Promise.all(tokenPromises).then(allTokensArrays => {
-            tokenCache = [].concat(...allTokensArrays); // Flatten the array of arrays
-            
-            // Sort tokens by startTime first, then by class
-            tokenCache.sort((a, b) => {
-                const timeA = new Date(a.startTime).getTime();
-                const timeB = new Date(b.startTime).getTime();
-                if (timeA !== timeB) {
-                    return timeA - timeB;
-                }
-
-                // Ensure classes are strings, fallback to empty string if undefined/null
-                const kelasA = String(a.kelas || '');
-                const kelasB = String(b.kelas || '');
-
-                const numKelasA = parseInt(kelasA);
-                const numKelasB = parseInt(kelasB);
-
-                if (!isNaN(numKelasA) && !isNaN(numKelasB)) {
-                    return numKelasA - numKelasB;
-                } else {
-                    // If not both numbers, compare as strings
-                    return kelasA.localeCompare(kelasB);
-                }
-            });
-
-            renderTokenTable(); // Re-render table after all tokens are loaded/sorted
-            clearInterval(statusCheckInterval);
-            statusCheckInterval = setInterval(periksaAndUpdateStatusToken, 10000); // Check every 10 seconds
-            periksaAndUpdateStatusToken();
         });
     }
 
-    // Listener for token access status per student (unified from all DBs)
+    // Listener untuk status akses token per siswa (terpadu dari semua DB)
     function loadTokenAccessStatus() {
-        tokenAccessStatus = {}; // Clear cache before loading
-        const accessPromises = [];
-
+        tokenAccessStatus = {}; // Bersihkan cache sebelum memuat
         Object.keys(classDbMap).forEach(classNum => {
             const dbInstance = classDbMap[classNum];
             if (dbInstance) {
-                accessPromises.push(new Promise((resolve) => {
-                    onValue(ref(dbInstance, 'exam_access_status'), (snapshot) => {
-                        const classAccessData = snapshot.val() || {};
-                        // Merge into global tokenAccessStatus
-                        Object.assign(tokenAccessStatus, classAccessData);
-                        resolve(); // Resolve when this class's data is processed
-                    }, (error) => {
-                        console.error(`Error loading exam_access_status from class ${classNum}:`, error);
-                        resolve(); // Resolve even on error to allow Promise.all to complete
-                    });
-                }));
+                onValue(ref(dbInstance, 'exam_access_status'), (snapshot) => {
+                    console.log(`[Real-time Update] Exam access status for class ${classNum} updated.`);
+                    const classAccessData = snapshot.val() || {};
+                    // Gabungkan ke tokenAccessStatus global
+                    Object.assign(tokenAccessStatus, classAccessData);
+                    renderTokenTable(); // Render ulang tabel token untuk memperbarui jumlah akses
+                    renderStudentTable(); // Juga perbarui tabel siswa untuk status akses
+                    renderScoreTable(); // Perbarui tabel nilai juga
+                }, (error) => {
+                    console.error(`Error memuat exam_access_status dari kelas ${classNum}:`, error);
+                });
             }
-        });
-
-        Promise.all(accessPromises).then(() => {
-            renderTokenTable(); // Re-render token table to update access count
-            renderStudentTable(); // Also update student table for access status
         });
     }
 
-    // Listener for exam submission status per student (unified from all DBs)
+    // Listener untuk status pengiriman ujian per siswa (terpadu dari semua DB)
     function loadSubmittedExamsStatus() {
-        submittedExamsCache = {}; // Clear cache before loading
-        const submissionPromises = [];
-
+        submittedExamsCache = {}; // Bersihkan cache sebelum memuat
         Object.keys(classDbMap).forEach(classNum => {
             const dbInstance = classDbMap[classNum];
             if (dbInstance) {
-                submissionPromises.push(new Promise((resolve) => {
-                    onValue(ref(dbInstance, 'submitted_exams'), (snapshot) => {
-                        const classSubmissionData = snapshot.val() || {};
-                        // Merge into global submittedExamsCache
-                        Object.assign(submittedExamsCache, classSubmissionData);
-                        resolve(); // Resolve when this class's data is processed
-                    }, (error) => {
-                        console.error(`Error loading submitted_exams from class ${classNum}:`, error);
-                        resolve(); // Resolve even on error to allow Promise.all to complete
-                    });
-                }));
+                onValue(ref(dbInstance, 'submitted_exams'), (snapshot) => {
+                    console.log(`[Real-time Update] Submitted exams for class ${classNum} updated.`);
+                    const classSubmissionData = snapshot.val() || {};
+                    // Gabungkan ke submittedExamsCache global
+                    Object.assign(submittedExamsCache, classSubmissionData);
+                    renderStudentTable(); // Render ulang tabel siswa
+                    renderScoreTable(); // Perbarui tabel nilai juga
+                }, (error) => {
+                    console.error(`Error memuat submitted_exams dari kelas ${classNum}:`, error);
+                });
             }
-        });
-
-        Promise.all(submissionPromises).then(() => {
-            renderStudentTable(); // Re-render student table
         });
     }
 
 
     /**
-     * Function to validate the answer key format.
-     * @param {string} key - The answer key string.
-     * @returns {boolean} True if the format is valid, false otherwise.
+     * Fungsi untuk memvalidasi format kunci jawaban.
+     * @param {string} key - String kunci jawaban.
+     * @returns {boolean} True jika format valid, false jika tidak.
      */
     function validateAnswerKey(key) {
-        if (!key) return true; // Allow empty string (no answer key)
+        if (!key) return true; // Izinkan string kosong (tidak ada kunci jawaban)
         // Regex: ^[A-D]$ or ^[A-D](,[A-D])*$
         const regex = /^[A-D](,[A-D])*$/;
         return regex.test(key);
     }
 
     /**
-     * Function to calculate adjusted start time based on class.
-     * @param {string} kelas - Token class (e.g., "7", "8", "9").
-     * @param {Date} originalStartTime - Date object of the original start time.
-     * @returns {Date} The adjusted start time.
+     * Fungsi untuk menghitung waktu mulai yang disesuaikan berdasarkan kelas.
+     * @param {string} kelas - Kelas token (misalnya, "7", "8", "9").
+     * @param {Date} originalStartTime - Objek Date dari waktu mulai asli.
+     * @returns {Date} Waktu mulai yang disesuaikan.
      */
     function calculateAdjustedStartTime(kelas, originalStartTime) {
         let delaySeconds = 0;
-        // Ensure class is a string and take only the first digit if available
+        // Pastikan kelas adalah string dan ambil hanya digit pertama jika tersedia
         const kelasNumeric = String(kelas).trim().charAt(0);
 
         switch (kelasNumeric) {
             case '7':
-                delaySeconds = 30; // Class 7 delayed by 30 seconds
+                delaySeconds = 30; // Kelas 7 ditunda 30 detik
                 break;
             case '8':
-                delaySeconds = 15; // Class 8 delayed by 15 seconds
+                delaySeconds = 15; // Kelas 8 ditunda 15 detik
                 break;
             case '9':
-                delaySeconds = 0;  // Class 9 no delay
+                delaySeconds = 0;  // Kelas 9 tidak ada penundaan
                 break;
             default:
-                delaySeconds = 0; // Default no delay if class not recognized
-                console.warn(`Class '${kelas}' not recognized for time adjustment. Using 0 seconds delay.`);
+                delaySeconds = 0; // Default tidak ada penundaan jika kelas tidak dikenali
+                console.warn(`Kelas '${kelas}' tidak dikenali untuk penyesuaian waktu. Menggunakan 0 detik penundaan.`);
         }
         
         const adjustedTime = new Date(originalStartTime.getTime() + delaySeconds * 1000);
@@ -1594,15 +1840,15 @@
     }
 
 
-    // Function to log link access and open it (DEMO for admin panel)
-    window.trackAndOpenLinkDemo = async (tokenId, googleDriveUrl) => { // Changed pdfUrl to googleDriveUrl
+    // Fungsi untuk mencatat akses tautan dan membukanya (DEMO untuk panel admin)
+    window.trackAndOpenLinkDemo = async (tokenId, googleDriveUrl) => { // Mengubah pdfUrl menjadi googleDriveUrl
         const studentIdDemo = prompt("Masukkan ID Siswa untuk simulasi akses (misal: 001, 002):");
         if (!studentIdDemo) {
             showNotification("Akses dibatalkan. ID Siswa diperlukan untuk simulasi.");
             return;
         }
 
-        const student = studentCache.find(s => s.id === padStudentId(studentIdDemo)); // Pad input ID
+        const student = studentCache.find(s => s.id === padStudentId(studentIdDemo)); // Isi ID input
         if (!student) {
             showNotification(`ID Siswa '${padStudentId(studentIdDemo)}' tidak ditemukan. Harap tambahkan siswa terlebih dahulu.`);
             return;
@@ -1610,47 +1856,47 @@
 
         const token = tokenCache.find(t => t.key === tokenId);
         if (!token) {
-            showNotification("Token tidak ditemukan."); // Should not happen if tokenId is valid
+            showNotification("Token tidak ditemukan."); // Seharusnya tidak terjadi jika tokenId valid
             return;
         }
 
-        // Extract the numeric part of the student's class (e.g., '7' from '7A')
+        // Ekstrak bagian numerik dari kelas siswa (misalnya, '7' dari '7A')
         const studentClassNumeric = getNumericClass(student.class);
 
-        // Compare the numeric part of the student's class with the general token class
-        if (!studentClassNumeric || studentClassNumeric !== getNumericClass(token.kelas)) { // Compare numeric class
+        // Bandingkan bagian numerik dari kelas siswa dengan kelas token umum
+        if (!studentClassNumeric || studentClassNumeric !== getNumericClass(token.kelas)) { // Bandingkan kelas numerik
             showNotification(`Akses ditolak: Siswa dari kelas ${student.class} tidak dapat mengakses token untuk kelas ${token.kelas}.`);
             return;
         }
 
-        // Determine target database for access status based on token's class
+        // Tentukan database target untuk status akses berdasarkan kelas token
         const targetDbForAccess = getDbForClass(token.kelas);
         if (!targetDbForAccess) {
             showNotification("Gagal mencatat akses: Database untuk kelas token tidak ditemukan.");
             return;
         }
 
-        const tokenAccessRef = ref(targetDbForAccess, `exam_access_status/${tokenId}/${student.id}`); // Use token's class DB
+        const tokenAccessRef = ref(targetDbForAccess, `exam_access_status/${tokenId}/${student.id}`); // Gunakan DB kelas token
 
         runTransaction(tokenAccessRef, (currentAccess) => {
             const now = Date.now();
-            const SPAM_THRESHOLD_MS = 5000; // 5 seconds
+            const SPAM_THRESHOLD_MS = 5000; // 5 detik
 
             if (currentAccess === null) {
-                // First access by this student for this token
+                // Akses pertama oleh siswa ini untuk token ini
                 return {
                     firstAccessTime: now,
                     lastAccessTime: now,
                     accessCount: 1
                 };
             } else {
-                // Subsequent access by this student for this token
-                if (now - (currentAccess.lastAccessTime || 0) > SPAM_THRESHOLD_MS) { // Ensure lastAccessTime exists
-                    // Not a spam click, increment count
+                // Akses berikutnya oleh siswa ini untuk token ini
+                if (now - (currentAccess.lastAccessTime || 0) > SPAM_THRESHOLD_MS) { // Pastikan lastAccessTime ada
+                    // Bukan klik spam, tingkatkan hitungan
                     currentAccess.accessCount = (currentAccess.accessCount || 0) + 1;
                     currentAccess.lastAccessTime = now;
                 } else {
-                    // Spam click, just update lastAccessTime but don't increment count
+                    // Klik spam, hanya perbarui lastAccessTime tetapi jangan tingkatkan hitungan
                     currentAccess.lastAccessTime = now;
                 }
                 return currentAccess;
@@ -1659,95 +1905,97 @@
         .then(() => {
             console.log(`Akses token ${tokenId} oleh siswa ${student.id} berhasil dicatat di DB kelas ${getNumericClass(token.kelas)}.`);
             showNotification(`Siswa ${student.id} dari kelas ${student.class} berhasil mengakses token ${token.token} (kelas ${token.kelas}).`);
-            window.open(googleDriveUrl, '_blank'); // Open Google Drive URL
+            window.open(googleDriveUrl, '_blank'); // Buka URL Google Drive
         })
         .catch(error => {
             console.error("Gagal mencatat akses token:", error);
             showNotification('Gagal mencatat akses token, namun ujian akan tetap dibuka.');
-            window.open(googleDriveUrl, '_blank'); // Still open Google Drive URL even if recording fails
+            window.open(googleDriveUrl, '_blank'); // Tetap buka URL Google Drive meskipun perekaman gagal
         });
     };
 
 
-    // Event listener for token form submission
-    document.getElementById('tokenForm').addEventListener('submit', async function(e) { // Make it async
+    // Event listener untuk pengiriman formulir token
+    document.getElementById('tokenForm').addEventListener('submit', async function(e) { // Jadikan async
       e.preventDefault();
       const s = document.getElementById('subject').value.trim().toUpperCase();
-      const k = document.getElementById('kelas').value.trim(); // Get class as string (e.g., "7", "8", "9")
-      const t = document.getElementById('token').value.trim().toUpperCase(); // This is the base token
-      const googleDriveUrl = googleDriveUrlInput.value.trim(); // Get Google Drive URL
-      const answerKey = answerKeyInput.value.trim().toUpperCase(); // Get answer key
-      const startTimeInput = document.getElementById('startTime').value; // Get start time string directly
-      const endTimeInput = document.getElementById('endTime').value; // Get end time string directly
+      const k = document.getElementById('kelas').value.trim(); // Dapatkan kelas sebagai string (misalnya, "7", "8", "9")
+      const t = document.getElementById('token').value.trim().toUpperCase(); // Ini adalah token dasar
+      const googleDriveUrl = googleDriveUrlInput.value.trim(); // Dapatkan URL Google Drive
+      const answerKey = answerKeyInput.value.trim().toUpperCase(); // Re-added
+      const startTimeInput = document.getElementById('startTime').value; // Dapatkan string waktu mulai secara langsung
+      const endTimeInput = document.getElementById('endTime').value; // Dapatkan string waktu akhir secara langsung
       const em= document.getElementById('errorMsg');
       em.innerText = "";
-      googleDriveUrlError.innerText = ""; // Clear Google Drive URL error
-      answerKeyError.innerText = ""; // Clear answer key error
+      googleDriveUrlError.innerText = ""; // Hapus kesalahan URL Google Drive
+      answerKeyError.innerText = ""; // Re-added
 
-      // Determine target database based on class
+      // Tentukan database target berdasarkan kelas
       const targetDb = getDbForClass(k);
       if (!targetDb) {
           em.innerText = "Kelas tidak valid atau konfigurasi Firebase belum lengkap untuk kelas ini (harus 7, 8, atau 9).";
           return;
       }
 
-      if (!s || !k || !t || !googleDriveUrl || !answerKey || !startTimeInput || !endTimeInput) {
+      if (!s || !k || !t || !googleDriveUrl || !answerKey || !startTimeInput || !endTimeInput) { // answerKey re-added to validation
         em.innerText = "Semua field harus diisi!";
         return;
       }
 
-      const originalStartTime = new Date(startTimeInput); // Parse as local time
-      const originalEndTime = new Date(endTimeInput); // Parse as local time
+      const originalStartTime = new Date(startTimeInput); // Parse sebagai waktu lokal
+      const originalEndTime = new Date(endTimeInput); // Parse sebagai waktu lokal
 
       if (originalStartTime >= originalEndTime) {
         em.innerText = "Waktu token dibuka harus sebelum waktu token ditutup!";
         return;
       }
 
-      if (!validateAnswerKey(answerKey)) {
+      if (!validateAnswerKey(answerKey)) { // Re-added
           answerKeyError.innerText = "Format kunci jawaban tidak valid. Gunakan A,B,C,D dipisah koma (contoh: A,B,C,D,D).";
           return;
       }
 
-      // Basic URL validation for Google Drive link
+      // Validasi URL dasar untuk tautan Google Drive
       if (!googleDriveUrl.startsWith('http')) {
           googleDriveUrlError.innerText = "URL Google Drive tidak valid.";
           return;
       }
 
-      // Check for duplicate base token only within the target database
+      // Periksa token dasar duplikat hanya dalam database target
       const isTokenDup = tokenCache.some(item => item.token === t && getNumericClass(item.kelas) === getNumericClass(k));
       if (isTokenDup) {
         em.innerText = "Token (Base Token) sudah ada untuk kelas ini!";
         return;
       }
 
-      loadingOverlay.style.display = 'flex'; // Show loading
+      loadingOverlay.style.display = 'flex'; // Tampilkan loading
 
-      // Calculate adjusted start time
+      // Hitung waktu mulai yang disesuaikan
       const adjustedStartTime = calculateAdjustedStartTime(k, originalStartTime);
-      // Calculate duration in minutes
+      // Hitung durasi dalam menit
       const durationMinutes = Math.round((originalEndTime.getTime() - adjustedStartTime.getTime()) / (1000 * 60));
 
       const data = {
           subject: s,
-          kelas: k, // Store class as provided (e.g., "7", "8", "9")
+          kelas: k, // Simpan kelas sesuai yang diberikan (misalnya, "7", "8", "9")
           token: t,
           googleDriveUrl: googleDriveUrl,
-          answerKey: answerKey,
-          startTime: formatLocalDateTime(adjustedStartTime), // Store adjusted time in local format
-          endTime: endTimeInput, // Store end time as is (local format)
-          durationMinutes: durationMinutes, // Store duration
+          answerKey: answerKey, // Re-added
+          startTime: formatLocalDateTime(adjustedStartTime), // Simpan waktu yang disesuaikan dalam format lokal
+          endTime: endTimeInput, // Simpan waktu akhir apa adanya (format lokal)
+          durationMinutes: durationMinutes, // Simpan durasi
           createdAt: Date.now(),
           isActive: false,
           isForceActive: false
       };
 
-      push(ref(targetDb, 'tokens'), data) // Push to the specific class database
+      push(ref(targetDb, 'tokens'), data) // Dorong ke database kelas tertentu
         .then(() => {
           this.reset();
-          googleDriveUrlError.innerText = ''; // Clear Google Drive URL error
-          answerKeyError.innerText = '';
+          googleDriveUrlError.innerText = ''; // Hapus kesalahan URL Google Drive
+          answerKeyInput.value = ''; // Clear answer key input
+          answerKeyCountInput.value = '0'; // Reset count
+          answerKeyError.innerText = ''; // Re-added
           showNotification('Token berhasil ditambahkan! Status akan otomatis aktif sesuai waktu.');
         })
         .catch(err => {
@@ -1758,7 +2006,7 @@
         });
     });
 
-    // Function to open token edit modal
+    // Fungsi untuk membuka modal edit token
     window.editToken = (id) => {
       const token = tokenCache.find(item => item.key === id);
       if (!token) return;
@@ -1768,37 +2016,38 @@
       document.getElementById('editKelas').value = token.kelas;
       document.getElementById('editToken').value = token.token;
       
-      // Set Google Drive URL
+      // Atur URL Google Drive
       editGoogleDriveUrlInput.value = token.googleDriveUrl || '';
-      editGoogleDriveUrlError.innerText = ''; // Clear error
+      editGoogleDriveUrlError.innerText = ''; // Hapus kesalahan
 
-      // Set answer key
+      // Atur kunci jawaban (Re-added)
       editAnswerKeyInput.value = token.answerKey || '';
-      editAnswerKeyError.innerText = ''; // Clear error
+      updateAnswerKeyCount(editAnswerKeyInput, editAnswerKeyCountInput); // Update count for edit modal
+      editAnswerKeyError.innerText = ''; // Hapus kesalahan
 
-      // Set values directly from stored strings (which are in local datetime format)
+      // Atur nilai langsung dari string yang disimpan (yang dalam format datetime lokal)
       document.getElementById('editStartTime').value = token.startTime;
       document.getElementById('editEndTime').value = token.endTime;
       document.getElementById('editErrorMsg').innerText = "";
       document.getElementById('editModal').style.display = 'flex';
     };
 
-    // Event listener for modal form submission (edit token)
-    document.getElementById('modalForm').addEventListener('submit', async function(e) { // Make it async
+    // Event listener untuk pengiriman formulir modal (edit token)
+    document.getElementById('modalForm').addEventListener('submit', async function(e) { // Jadikan async
       e.preventDefault();
       const s = document.getElementById('editSubject').value.trim().toUpperCase();
-      const newKelas = document.getElementById('editKelas').value.trim(); // New class
+      const newKelas = document.getElementById('editKelas').value.trim(); // Kelas baru
       const t = document.getElementById('editToken').value.trim().toUpperCase();
       const editGoogleDriveUrl = editGoogleDriveUrlInput.value.trim();
-      const answerKey = editAnswerKeyInput.value.trim().toUpperCase();
+      const answerKey = editAnswerKeyInput.value.trim().toUpperCase(); // Re-added
       const startTimeInput = document.getElementById('editStartTime').value;
       const endTimeInput = document.getElementById('editEndTime').value;
       const em = document.getElementById('editErrorMsg');
       em.innerText = "";
       editGoogleDriveUrlError.innerText = "";
-      editAnswerKeyError.innerText = "";
+      editAnswerKeyError.innerText = ""; // Re-added
 
-      // Find the original token data to get its original class
+      // Temukan data token asli untuk mendapatkan kelas aslinya
       const originalTokenData = tokenCache.find(item => item.key === currentTokenId);
       if (!originalTokenData) {
           em.innerText = "Token asli tidak ditemukan.";
@@ -1813,7 +2062,7 @@
           return;
       }
 
-      if (!s || !newKelas || !t || !editGoogleDriveUrl || !answerKey || !startTimeInput || !endTimeInput) {
+      if (!s || !newKelas || !t || !editGoogleDriveUrl || !answerKey || !startTimeInput || !endTimeInput) { // answerKey re-added
         em.innerText = "Semua field harus diisi!";
         return;
       }
@@ -1826,7 +2075,7 @@
         return;
       }
 
-      if (!validateAnswerKey(answerKey)) {
+      if (!validateAnswerKey(answerKey)) { // Re-added
           editAnswerKeyError.innerText = "Format kunci jawaban tidak valid. Gunakan A,B,C,D dipisah koma (contoh: A,B,C,D,D).";
           return;
       }
@@ -1836,19 +2085,19 @@
           return;
       }
 
-      // Check for duplicate base token only within the target database (if class changes)
-      // Or within the same database (if class doesn't change)
+      // Periksa token dasar duplikat hanya dalam database target (jika kelas berubah)
+      // Atau dalam database yang sama (jika kelas tidak berubah)
       const isTokenDup = tokenCache.some(item => 
           item.token === t && 
-          item.key !== currentTokenId && // Exclude the current token being edited
-          getNumericClass(item.kelas) === getNumericClass(newKelas) // Check against the new class's numeric value
+          item.key !== currentTokenId && // Kecualikan token yang sedang diedit
+          getNumericClass(item.kelas) === getNumericClass(newKelas) // Periksa terhadap nilai numerik kelas baru
       );
       if (isTokenDup) {
         em.innerText = "Token (Base Token) sudah ada untuk kelas ini!";
         return;
       }
 
-      loadingOverlay.style.display = 'flex'; // Show loading
+      loadingOverlay.style.display = 'flex'; // Tampilkan loading
 
       const adjustedStartTime = calculateAdjustedStartTime(newKelas, originalStartTime);
       const durationMinutes = Math.round((originalEndTime.getTime() - adjustedStartTime.getTime()) / (1000 * 60));
@@ -1858,35 +2107,35 @@
           kelas: newKelas,
           token: t,
           googleDriveUrl: editGoogleDriveUrl,
-          answerKey: answerKey,
+          answerKey: answerKey, // Re-added
           startTime: formatLocalDateTime(adjustedStartTime),
           endTime: endTimeInput,
           durationMinutes: durationMinutes,
-          createdAt: originalTokenData.createdAt // Preserve original creation time
+          createdAt: originalTokenData.createdAt // Pertahankan waktu pembuatan asli
       };
 
       try {
           if (getNumericClass(oldKelas) !== getNumericClass(newKelas)) {
-              // Class has changed, perform a "move" operation
+              // Kelas telah berubah, lakukan operasi "pindah"
               console.log(`Token ${currentTokenId} dipindahkan dari kelas ${oldKelas} ke kelas ${newKelas}.`);
 
-              // 1. Delete token from old database
+              // 1. Hapus token dari database lama
               await remove(ref(oldDb, 'tokens/' + currentTokenId));
               console.log(`Token ${currentTokenId} dihapus dari DB kelas ${oldKelas}.`);
 
-              // 2. Delete associated access status from old database
+              // 2. Hapus status akses terkait dari database lama
               await remove(ref(oldDb, `exam_access_status/${currentTokenId}`));
               console.log(`exam_access_status untuk token ${currentTokenId} dihapus dari DB kelas ${oldKelas}.`);
 
-              // 3. Delete associated submitted exam status from old database
-              await remove(ref(oldDb, `submitted_exams/${originalTokenData.token}`)); // Use original token value
+              // 3. Hapus status ujian yang dikirim terkait dari database lama
+              await remove(ref(oldDb, `submitted_exams/${originalTokenData.token}`)); // Gunakan nilai token asli
               console.log(`submitted_exams untuk token ${originalTokenData.token} dihapus dari DB kelas ${oldKelas}.`);
 
-              // 4. Add token to new database
+              // 4. Tambahkan token ke database baru
               await push(ref(newDb, 'tokens'), updatedData);
               showNotification(`Token berhasil dipindahkan ke kelas ${newKelas}! Riwayat akses/pengiriman token di kelas lama telah direset.`);
           } else {
-              // Class has not changed, just update in the same database
+              // Kelas tidak berubah, cukup perbarui di database yang sama
               await update(ref(newDb, 'tokens/' + currentTokenId), updatedData);
               showNotification('Token berhasil diedit!');
           }
@@ -1899,24 +2148,24 @@
         }
     });
 
-    // Function to close token edit modal
+    // Fungsi untuk menutup modal edit token
     window.closeEditModal = () => {
       document.getElementById('editModal').style.display = 'none';
       document.getElementById('editErrorMsg').innerText = "";
-      editGoogleDriveUrlError.innerText = ""; // Clear Google Drive URL error
-      editAnswerKeyError.innerText = "";
+      editGoogleDriveUrlError.innerText = ""; // Hapus kesalahan URL Google Drive
+      editAnswerKeyError.innerText = ""; // Re-added
       currentTokenId = null;
     };
 
     let deleteId = null;
-    // Function to prompt token deletion confirmation
+    // Fungsi untuk menampilkan konfirmasi penghapusan token
     window.promptDelete = (id) => {
       deleteId = id;
       document.getElementById('deleteModal').style.display = 'flex';
     };
 
-    // Function to confirm token deletion
-    window.confirmDelete = async () => { // Make it async
+    // Fungsi untuk mengkonfirmasi penghapusan token
+    window.confirmDelete = async () => { // Jadikan async
       if (deleteId) {
         const tokenDataToDelete = tokenCache.find(t => t.key === deleteId);
         if (!tokenDataToDelete) {
@@ -1926,92 +2175,45 @@
         }
 
         const tokenValueToDelete = tokenDataToDelete.token;
-        const targetDb = getDbForClass(tokenDataToDelete.kelas); // Get db based on token's class
+        const targetDb = getDbForClass(tokenDataToDelete.kelas); // Dapatkan db berdasarkan kelas token
         if (!targetDb) {
             showNotification("Gagal menghapus: Database untuk kelas token tidak ditemukan.");
             closeDeleteModal();
             return;
         }
 
-        loadingOverlay.style.display = 'flex'; // Show loading
+        loadingOverlay.style.display = 'flex'; // Tampilkan loading
 
         try {
-            // Delete the Realtime Database entry from its specific database
+            // Hapus entri Realtime Database dari database spesifiknya
             await remove(ref(targetDb, 'tokens/' + deleteId));
 
-            // Also delete associated access status for this token (from its specific database)
+            // Juga hapus status akses terkait untuk token ini (dari database spesifiknya)
             await remove(ref(targetDb, `exam_access_status/${deleteId}`));
-            // Also delete associated submission status for this token using the token value (from its specific database)
+            // Juga hapus status pengiriman terkait untuk token ini menggunakan nilai token (dari database spesifiknya)
             if (tokenValueToDelete) {
                 await remove(ref(targetDb, `submitted_exams/${tokenValueToDelete}`));
             }
             showNotification('Token berhasil dihapus!');
         } catch (err) {
-            console.error("Gagal menghapus token:", err); // Adjusted message
+            console.error("Gagal menghapus token:", err); // Pesan disesuaikan
             showNotification("Gagal menghapus token: " + err.message);
         } finally {
-            loadingOverlay.style.display = 'none'; // Hide loading
+            loadingOverlay.style.display = 'none'; // Sembunyikan loading
             closeDeleteModal();
         }
       }
     };
 
-    // Function to close token delete modal
+    // Fungsi untuk menutup modal penghapusan token
     window.closeDeleteModal = () => {
       document.getElementById('deleteModal').style.display = 'none';
       deleteId = null;
     };
 
-    // Event listener to convert print title input to uppercase
-    document.getElementById('printTitleInput').addEventListener('input', function() {
-      this.value = this.value.toUpperCase();
-    });
-
-    // Function to open print modal
-    window.openPrintModal = () => {
-      document.getElementById('printModal').style.display = 'flex';
-    };
-
-    // Function to close print modal
-    window.closePrintModal = () => {
-      document.getElementById('printModal').style.display = 'none';
-      document.getElementById('printTitleInput').value = '';
-      document.getElementById('printTitleError').innerText = "";
-    };
-
-    // Function to print token list
-    window.printTokenList = () => {
-      const printTitleElement = document.getElementById('printTitleInput');
-      const printTitle = printTitleElement.value.trim();
-      const printTitleError = document.getElementById('printTitleError');
-      printTitleError.innerText = "";
-
-      if (!printTitle) {
-        printTitleError.innerText = 'Judul daftar token tidak boleh kosong!';
-        return;
-      }
-
-      // Convert newline (\n) to <br> for URL
-      const formattedTitle = printTitle.replace(/\n/g, '<br>');
-      const printUrlWithTitle = `${PRINT_PAGE_URL}?title=${encodeURIComponent(formattedTitle)}`;
-      window.open(printUrlWithTitle, '_blank');
-
-      setTimeout(() => {}, 1500);
-      closePrintModal();
-    };
-
-    // --- NEW Functions for Print Card Info Modal ---
-    window.showPrintInfoModal = () => {
-        printInfoModal.style.display = 'flex'; // Show modal
-    };
-
-    window.closePrintInfoModal = () => {
-        printInfoModal.style.display = 'none'; // Hide modal
-    };
-
-    // Optional: Close modal when clicking outside modal content
+    // Opsional: Tutup modal saat mengklik di luar konten modal
     window.onclick = function(event) {
-        // Only close if the click is on the modal background itself, not its content
+        // Hanya tutup jika klik berada di latar belakang modal itu sendiri, bukan kontennya
         if (event.target == printInfoModal) {
             printInfoModal.style.display = 'none';
         }
@@ -2027,8 +2229,8 @@
         if (event.target == forceInactiveModal) {
             closeForceInactiveModal();
         }
-        if (event.target == printModal) {
-            closePrintModal();
+        if (event.target == copyPrintModal) { // Handle generic print modal
+            closeCopyPrintModal();
         }
         if (event.target == setlokasiModalElement) {
             closeSetlokasiModal();
@@ -2057,24 +2259,33 @@
         if (event.target == logoutConfirmModal) {
             closeLogoutModal();
         }
+        // New modals for student actions
+        if (event.target == resetStudentModal) {
+            closeResetStudentModal();
+        }
+        if (event.target == submitAnswerModal) {
+            closeSubmitAnswerModal();
+        }
+        if (event.target == deleteAnswerModal) {
+            closeDeleteAnswerModal();
+        }
     };
-    // --- END NEW Functions for Print Card Info Modal ---
 
-    // Function to prompt force active token confirmation
+    // Fungsi untuk menampilkan konfirmasi token paksa aktif
     window.promptForceActive = (tokenId) => {
       currentForceActiveTokenId = tokenId;
-      document.getElementById('forceActivePassword').value = ''; // Clear previous password
-      document.getElementById('forceActivePasswordError').innerText = ''; // Clear previous error message
+      document.getElementById('forceActivePassword').value = ''; // Bersihkan kata sandi sebelumnya
+      document.getElementById('forceActivePasswordError').innerText = ''; // Bersihkan pesan kesalahan sebelumnya
       document.getElementById('forceActiveModal').style.display = 'flex';
     };
 
-    // Function to prompt force inactive token confirmation
+    // Fungsi untuk menampilkan konfirmasi token paksa tidak aktif
     window.promptForceInactive = (tokenId) => {
       currentForceActiveTokenId = tokenId;
       document.getElementById('forceInactiveModal').style.display = 'flex';
     };
 
-    // Function to confirm force active token
+    // Fungsi untuk mengkonfirmasi token paksa aktif
     window.confirmForceActive = () => {
       const password = document.getElementById('forceActivePassword').value;
       const passwordError = document.getElementById('forceActivePasswordError');
@@ -2101,7 +2312,7 @@
         update(ref(targetDb, 'tokens/' + currentForceActiveTokenId), { isForceActive: true, isActive: true })
           .then(() => {
             showNotification('Token dipaksa aktif!');
-            // Table re-rendering will be handled by the onValue listener for 'tokens'
+            // Render ulang tabel akan ditangani oleh listener onValue untuk 'tokens'
           })
           .catch(error => {
             console.error("Gagal mengaktifkan status paksa: ", error);
@@ -2117,7 +2328,7 @@
       }
     };
 
-    // Function to close force active modal
+    // Fungsi untuk menutup modal paksa aktif
     window.closeForceActiveModal = () => {
       document.getElementById('forceActiveModal').style.display = 'none';
       document.getElementById('forceActivePassword').value = '';
@@ -2125,7 +2336,7 @@
       currentForceActiveTokenId = null;
     };
 
-    // Function to confirm force inactive token
+    // Fungsi untuk mengkonfirmasi token paksa tidak aktif
     window.confirmForceInactive = () => {
       const tokenData = tokenCache.find(t => t.key === currentForceActiveTokenId);
       if (!tokenData) {
@@ -2144,7 +2355,7 @@
         update(ref(targetDb, 'tokens/' + currentForceActiveTokenId), { isForceActive: false })
           .then(() => {
             showNotification('Token paksa aktif dinonaktifkan!');
-            // Table re-rendering will be handled by the onValue listener for 'tokens'
+            // Render ulang tabel akan ditangani oleh listener onValue untuk 'tokens'
           })
           .catch(error => {
             console.error("Gagal menonaktifkan status paksa: ", error);
@@ -2157,19 +2368,19 @@
       }
     };
 
-    // Function to close force inactive modal
+    // Fungsi untuk menutup modal paksa tidak aktif
     window.closeForceInactiveModal = () => {
       document.getElementById('forceInactiveModal').style.display = 'none';
       currentForceActiveTokenId = null;
     };
 
-    // Function to check and update token status across all databases
+    // Fungsi untuk memeriksa dan memperbarui status token di semua database
     async function periksaAndUpdateStatusToken() {
       const now = new Date();
       for (const tokenData of tokenCache) {
         let newIsActive;
         if (tokenData.isForceActive) {
-          newIsActive = true; // If force activated, always active
+          newIsActive = true; // Jika dipaksa aktif, selalu aktif
         } else {
           const startTime = new Date(tokenData.startTime);
           const endTime = new Date(tokenData.endTime);
@@ -2182,18 +2393,18 @@
             try {
               await update(ref(targetDb, 'tokens/' + tokenData.key), { isActive: newIsActive });
               console.log(`Token ${tokenData.key} dari kelas ${tokenData.kelas} status diperbarui menjadi ${newIsActive ? 'aktif' : 'nonaktif'}.`);
-              // Table re-rendering will be handled by the onValue listener for 'tokens'
+              // Render ulang tabel akan ditangani oleh listener onValue untuk 'tokens'
             } catch (error) {
               console.error(`Gagal memperbarui status token ${tokenData.key} dari kelas ${tokenData.kelas}: `, error);
             }
           } else {
-            console.warn(`Could not find database for token ${tokenData.key} (class ${tokenData.kelas}) to update status.`);
+            console.warn(`Tidak dapat menemukan database untuk token ${tokenData.key} (kelas ${tokenData.kelas}) untuk memperbarui status.`);
           }
         }
       }
     }
 
-    // Function to update current time display
+    // Fungsi untuk memperbarui tampilan waktu saat ini
     function updateTime() {
       const now = new Date();
       const dateOptions = { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' };
@@ -2210,13 +2421,13 @@
     setInterval(updateTime, 1000);
     updateTime();
 
-    // Function to reset inactivity timer
+    // Fungsi untuk mereset timer tidak aktif
     function resetInactivityTimer() {
       clearTimeout(inactivityTimer);
       inactivityTimer = setTimeout(logoutDueToInactivity, INACTIVITY_TIMEOUT);
     }
 
-    // Function to handle logout due to inactivity
+    // Fungsi untuk menangani logout karena tidak aktif
     function logoutDueToInactivity() {
       localStorage.removeItem('isAdminLoggedIn');
       dashboardContent.style.display = 'none';
@@ -2226,47 +2437,49 @@
       showNotification('Anda telah logout karena tidak ada aktivitas, masukan password kembali!.');
     }
 
-    // Event listeners for user activity to reset inactivity timer
+    // Event listener untuk aktivitas pengguna untuk mereset timer tidak aktif
     window.addEventListener('mousemove', resetInactivityTimer);
     window.addEventListener('keypress', resetInactivityTimer);
     window.addEventListener('scroll', resetInactivityTimer);
     window.addEventListener('click', resetInactivityTimer);
 
-    // Initial page load logic
+    // Logika pemuatan halaman awal
     window.onload = function() {
       if (localStorage.getItem('isAdminLoggedIn') === 'true') {
         loginSection.style.display = 'none';
-        sidebar.style.display = 'flex'; // Show sidebar on load if logged in
+        sidebar.style.display = 'flex'; // Tampilkan sidebar saat dimuat jika sudah login
         dashboardContent.style.display = 'flex';
         
-        loadTokens();
-        loadStudents();
-        loadTokenAccessStatus();
-        loadSubmittedExamsStatus();
-        loadSetlokasiSettings();
-        showSection('tokenSection'); // Show token section by default
+        // Memuat data dengan listener real-time
+        loadTokens(); 
+        loadStudents(); 
+        loadTokenAccessStatus(); 
+        loadSubmittedExamsStatus(); 
+        loadSetlokasiSettings(); 
+
+        showSection('tokenSection'); // Tampilkan bagian token secara default
         resetInactivityTimer();
-        collapseSidebar(); // Ensure sidebar starts collapsed after login
+        collapseSidebar(); // Pastikan sidebar disembunyikan setelah login
       } else {
         loginSection.style.display = 'block';
-        sidebar.style.display = 'none'; // Hide sidebar if not logged in
+        sidebar.style.display = 'none'; // Sembunyikan sidebar jika belum login
         dashboardContent.style.display = 'none';
-        collapseSidebar(); // Ensure sidebar is collapsed on login page
+        collapseSidebar(); // Pastikan sidebar disembunyikan di halaman login
       }
     };
 
     let statusCheckInterval;
     statusCheckInterval = setInterval(periksaAndUpdateStatusToken, 10000);
 
-    // Function to update location settings table display
+    // Fungsi untuk memperbarui tampilan tabel pengaturan lokasi
     function updateSetlokasiStatusDisplay() {
-      locationSettingsTableBody.innerHTML = ''; // Clear existing rows
+      locationSettingsTableBody.innerHTML = ''; // Hapus baris yang ada
       const row = document.createElement('tr');
       const statusText = isLocationEnabledAdmin ? 'ON' : 'OFF';
       const statusColor = isLocationEnabledAdmin ? 'green' : 'red';
 
       row.innerHTML = `
-        <td><a href="http://maps.google.com/?q=$$$$${defaultLocationCoordinate}" target="_blank">${defaultLocationCoordinate}</a></td>
+        <td><a href="http://maps.google.com/?q=$$$$$$${defaultLocationCoordinate}" target="_blank">${defaultLocationCoordinate}</a></td>
         <td>${allowedRadiusMeterAdmin}m</td>
         <td style="color: ${statusColor}; font-weight: bold;">${statusText}</td>
         <td>
@@ -2278,29 +2491,29 @@
       locationSettingsTableBody.appendChild(row);
     }
 
-    // Function to open location settings modal
+    // Fungsi untuk membuka modal pengaturan lokasi
     window.openSetlokasiModal = () => {
       setlokasiModalElement.style.display = 'flex';
     };
 
-    // Function to close location settings modal
+    // Fungsi untuk menutup modal pengaturan lokasi
     window.closeSetlokasiModal = () => {
       setlokasiModalElement.style.display = 'none';
     };
 
-    // Function to open change radius modal
+    // Fungsi untuk membuka modal ganti radius
     window.openGantiRadiusModal = () => {
       gantiRadiusModalElement.style.display = 'flex';
       radiusMeterInputElement.value = allowedRadiusMeterAdmin;
       closeSetlokasiModal();
     };
 
-    // Function to close change radius modal
+    // Fungsi untuk menutup modal ganti radius
     window.closeGantiRadiusModal = () => {
       gantiRadiusModalElement.style.display = 'none';
     };
 
-    // Function to enable location feature (uses db7 as primary)
+    // Fungsi untuk mengaktifkan fitur lokasi (menggunakan db7 sebagai utama)
     window.aktifkanLokasi = () => {
       update(settingsRef, { isLocationEnabled: true })
         .then(() => {
@@ -2315,7 +2528,7 @@
         });
     };
 
-    // Function to disable location feature (uses db7 as primary)
+    // Fungsi untuk menonaktifkan fitur lokasi (menggunakan db7 sebagai utama)
     window.nonaktifkanLokasi = () => {
       update(settingsRef, { isLocationEnabled: false })
         .then(() => {
@@ -2330,7 +2543,7 @@
         });
     };
 
-    // Function to change radius and enable location (uses db7 as primary)
+    // Fungsi untuk mengubah radius dan mengaktifkan lokasi (menggunakan db7 sebagai utama)
     window.gantiRadiusDanAktifkan = () => {
       const radiusMeter = parseInt(radiusMeterInputElement.value);
       if (isNaN(radiusMeter) || radiusMeter <= 0) {
@@ -2353,7 +2566,7 @@
         });
     };
 
-    // Function to load location settings from Firebase (uses db7 as primary)
+    // Fungsi untuk memuat pengaturan lokasi dari Firebase (menggunakan db7 sebagai utama)
     function loadSetlokasiSettings() {
       onValue(settingsRef, (snapshot) => {
         const settings = snapshot.val();
@@ -2362,13 +2575,13 @@
           allowedRadiusMeterAdmin = (settings.allowedRadiusKm !== undefined ? settings.allowedRadiusKm : 0.075) * 1000;
           updateSetlokasiStatusDisplay();
         } else {
-          // If 'setlokasi' node does not exist, initialize with default values
+          // Jika node 'setlokasi' tidak ada, inisialisasi dengan nilai default
           updateSetlokasiStatusDisplay();
         }
       });
     }
 
-    // Function to open token access detail modal
+    // Fungsi untuk membuka modal detail akses token
     window.openAccessDetailModal = async (tokenId, tokenValue) => {
         accessDetailTokenTitle.innerText = `Detail Akses Token: ${tokenValue}`;
         accessDetailTableBody.innerHTML = '<tr><td colspan="6">Memuat data...</td></tr>';
@@ -2387,44 +2600,44 @@
         }
 
         try {
-            // Access status is stored in the token's specific database
+            // Status akses disimpan di database spesifik token
             const accessSnapshot = await get(ref(targetDb, `exam_access_status/${tokenId}`));
             const accessData = accessSnapshot.val();
 
-            accessDetailTableBody.innerHTML = ''; // Clear loading message
+            accessDetailTableBody.innerHTML = ''; // Hapus pesan loading
 
             if (accessData) {
                 let counter = 0;
-                // Sort access data by student ID for consistent display
+                // Urutkan data akses berdasarkan ID siswa untuk tampilan yang konsisten
                 const sortedStudentIds = Object.keys(accessData).sort((a, b) => a.localeCompare(b));
 
                 for (const studentId of sortedStudentIds) {
                     counter++;
-                    const studentInfo = studentCache.find(s => s.id === studentId); // Find student info from unified cache
-                    // Get submission data using tokenValue (actual token string) from the token's specific database
-                    const studentSubmissionData = (await get(ref(targetDb, `submitted_exams/${tokenValue}/${studentId}`))).val();
+                    const studentInfo = studentCache.find(s => s.id === studentId); // Temukan info siswa dari cache terpadu
+                    // Dapatkan data pengiriman menggunakan tokenValue (string token sebenarnya) dari database spesifik token
+                    const studentSubmissionData = submittedExamsCache[tokenValue] && submittedExamsCache[tokenValue][studentId]; 
                     
                     const studentName = studentInfo ? studentInfo.name : 'Tidak Ditemukan';
                     const studentClass = studentInfo ? studentInfo.class : 'Tidak Ditemukan';
                     const firstAccessTime = accessData[studentId].firstAccessTime ? new Date(accessData[studentId].firstAccessTime).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }) : '-';
                     const accessCount = accessData[studentId].accessCount || 0;
-                    const isSubmitted = studentSubmissionData && studentSubmissionData.isSubmitted === true; // Check submission status
+                    const isSubmitted = studentSubmissionData && studentSubmissionData.isSubmitted === true; // Periksa status pengiriman
 
                     let displayStatus = 'Belum Mengakses';
                     let statusColor = '';
-                    if (isSubmitted) { // Prioritize submission status
+                    if (isSubmitted) { // Prioritaskan status pengiriman
                         displayStatus = 'Sudah submit';
-                        statusColor = 'green'; // Set color for submitted status
+                        statusColor = 'green'; // Atur warna untuk status dikirim
                     } else if (accessCount > 0) {
-                        if (accessCount === 1) { // Correction here
+                        if (accessCount === 1) { // Koreksi di sini
                             displayStatus = 'Sedang mengerjakan';
                         } else {
                             displayStatus = `Sedang mengerjakan (${accessCount})`;
                         }
-                        statusColor = 'orange'; // Using orange as a substitute for yellow
+                        statusColor = 'orange'; // Menggunakan oranye sebagai pengganti kuning
                     } else {
                         displayStatus = 'Belum Mengakses';
-                        statusColor = 'red'; // Set color for not accessed status
+                        statusColor = 'red'; // Atur warna untuk status tidak diakses
                     }
 
                     const row = document.createElement('tr');
@@ -2442,29 +2655,29 @@
                 accessDetailTableBody.innerHTML = '<tr><td colspan="6">Tidak ada data akses untuk token ini.</td></tr>';
             }
         } catch (error) {
-            console.error("Error loading access details:", error);
+            console.error("Error memuat detail akses:", error);
             accessDetailTableBody.innerHTML = '<tr><td colspan="6" style="color: red;">Gagal memuat detail akses.</td></tr>';
         }
     };
 
-    // Function to close token access detail modal
+    // Fungsi untuk menutup modal detail akses token
     window.closeAccessDetailModal = () => {
         accessDetailModal.style.display = 'none';
         accessDetailTableBody.innerHTML = '';
     };
 
-    /* --- Student Management Functions --- */
+    /* --- Fungsi Manajemen Siswa --- */
 
-    // Helper function to extract numeric and alphabetic parts for class sorting
+    // Fungsi pembantu untuk mengekstrak bagian numerik dan abjad untuk penyortiran kelas
     const extractClassParts = (className) => {
         const match = className.match(/^(\d+)([A-Z]+)?$/);
         if (match) {
-            return { num: parseInt(match[1]), char: match[2] || '' }; // Handle cases like '7' without rombel character
+            return { num: parseInt(match[1]), char: match[2] || '' }; // Tangani kasus seperti '7' tanpa karakter rombel
         }
-        return { num: 0, char: String(className || '') }; // Fallback for unexpected formats, ensure string
+        return { num: 0, char: String(className || '') }; // Fallback untuk format yang tidak terduga, pastikan string
     };
 
-    // Function to render/update the student table
+    // Fungsi untuk merender/memperbarui tabel siswa
     async function renderStudentTable() {
         studentTableBody.innerHTML = '';
         let counter = 0;
@@ -2472,7 +2685,7 @@
 
         let studentsToDisplay = studentCache;
 
-        // Apply class filter first
+        // Terapkan filter kelas terlebih dahulu
         if (currentStudentClassFilter) {
             if (currentStudentClassFilter.endsWith('_all')) {
                 const classPrefix = currentStudentClassFilter.split('_')[0];
@@ -2486,20 +2699,20 @@
         if (currentExamStatusFilterToken) {
             selectedTokenForStatus = tokenCache.find(t => t.key === currentExamStatusFilterToken);
             if (selectedTokenForStatus) {
-                const tokenClassNumeric = selectedTokenForStatus.kelas; // e.g., '7', '8', '9'
-                // Further filter students only for those whose class starts with the token class
+                const tokenClassNumeric = selectedTokenForStatus.kelas; // misalnya, '7', '8', '9'
+                // Filter siswa lebih lanjut hanya untuk siswa yang kelasnya dimulai dengan kelas token
                 studentsToDisplay = studentsToDisplay.filter(student => String(student.class || '').startsWith(tokenClassNumeric));
             } else {
-                // Token not found, perhaps deleted? Clear internal filter but keep visual selection
-                currentExamStatusFilterToken = null; // Clear internal filter
+                // Token tidak ditemukan, mungkin dihapus? Bersihkan filter internal tetapi pertahankan pilihan visual
+                currentExamStatusFilterToken = null; // Bersihkan filter internal
                 showNotification("Token ujian yang dipilih tidak ditemukan atau telah dihapus. Menampilkan status saat ini.");
             }
         }
 
-        // Sorting logic
+        // Logika penyortiran
         studentsToDisplay.sort((a, b) => {
-            // Primary sort: By access status (Not Accessed/Not Active prioritized)
-            // ONLY IF a specific token is selected in the exam status filter
+            // Urutan utama: Berdasarkan status akses (Tidak Diakses/Tidak Aktif diprioritaskan)
+            // HANYA JIKA token tertentu dipilih dalam filter status ujian
             if (currentExamStatusFilterToken) {
                 let isAccessedA = (tokenAccessStatus[currentExamStatusFilterToken] && tokenAccessStatus[currentExamStatusFilterToken][a.id] && (tokenAccessStatus[currentExamStatusFilterToken][a.id].accessCount || 0) > 0);
                 let isAccessedB = (tokenAccessStatus[currentExamStatusFilterToken] && tokenAccessStatus[currentExamStatusFilterToken][b.id] && (tokenAccessStatus[currentExamStatusFilterToken][b.id].accessCount || 0) > 0);
@@ -2508,40 +2721,43 @@
                 if (isAccessedA && !isAccessedB) return 1;
             }
 
-            // Secondary sort: By class (numeric then alphabetic)
+            // Urutan kedua: Berdasarkan kelas (numerik kemudian abjad)
             const classA = extractClassParts(a.class);
             const classB = extractClassParts(b.class);
 
             if (classA.num !== classB.num) {
                 return classA.num - classB.num;
             }
-            // Ensure alphabetic sorting for class characters (e.g., A, B, C)
+            // Pastikan penyortiran abjad untuk karakter kelas (misalnya, A, B, C)
             if (classA.char !== classB.char) {
                 return classA.char.localeCompare(classB.char);
             }
 
-            // Tertiary sort: By name
-            return String(a.name || '').localeCompare(String(b.name || '')); // Safely compare names
+            // Urutan ketiga: Berdasarkan nama
+            return String(a.name || '').localeCompare(String(b.name || '')); // Bandingkan nama dengan aman
         });
 
-        // Rendering loop
+        // Loop rendering
         for (const student of studentsToDisplay) {
             counter++;
             const row = document.createElement('tr');
             let studentStatus = '';
             let statusColor = '';
 
+            // Default status login dari data siswa
+            const isLoggedIn = student.isLoggedIn === true; // Default false jika tidak ada
+
             if (currentExamStatusFilterToken) {
-                // Status for the specific selected token
+                // Status untuk token spesifik yang dipilih
                 const selectedToken = tokenCache.find(t => t.key === currentExamStatusFilterToken);
                 if (selectedToken) {
                     const tokenAccessData = tokenAccessStatus[selectedToken.key] && tokenAccessStatus[selectedToken.key][student.id];
-                    // Get submission data using selectedToken.token (actual token string)
+                    // Dapatkan data pengiriman menggunakan selectedToken.token (string token sebenarnya)
                     const studentSubmissionData = submittedExamsCache[selectedToken.token] && submittedExamsCache[selectedToken.token][student.id]; 
                     
                     const isAccessed = tokenAccessData && (tokenAccessData.accessCount || 0) > 0;
-                    const accessCount = tokenAccessData ? (tokenAccessData.accessCount || 0) : 0; // Get access count
-                    const isSubmitted = studentSubmissionData && studentSubmissionData.isSubmitted === true; // Check from submission data
+                    const accessCount = tokenAccessData ? (tokenAccessData.accessCount || 0) : 0; // Dapatkan jumlah akses
+                    const isSubmitted = studentSubmissionData && studentSubmissionData.isSubmitted === true; // Periksa dari data pengiriman
                     const isTokenCurrentlyActive = selectedToken.isActive || selectedToken.isForceActive;
                     const hasTokenStarted = now >= new Date(selectedToken.startTime);
 
@@ -2549,38 +2765,47 @@
                         studentStatus = 'Sudah submit';
                         statusColor = 'green';
                     } else if (isTokenCurrentlyActive) {
-                        if (isAccessed) {
-                            if (accessCount === 1) {
-                                studentStatus = 'Sedang mengerjakan';
-                            } else {
+                        if (isLoggedIn) { // Prioritaskan status isLoggedIn jika token aktif
+                            if (isAccessed) {
                                 studentStatus = `Sedang mengerjakan (${accessCount})`;
+                                statusColor = 'orange';
+                            } else {
+                                studentStatus = 'Login (Belum Akses)';
+                                statusColor = 'blue'; // Warna baru untuk status login tapi belum akses
                             }
-                            statusColor = 'orange'; // Using orange as a substitute for yellow
-                        } else {
-                            studentStatus = 'Belum login';
-                            statusColor = 'red';
+                        } else { // Tidak login
+                            if (isAccessed) { // Pernah akses tapi sekarang tidak login
+                                studentStatus = 'Sedang mengerjakan (Offline)'; // Mungkin putus koneksi atau keluar
+                                statusColor = 'purple';
+                            } else {
+                                studentStatus = 'Belum login';
+                                statusColor = 'red';
+                            }
                         }
-                    } else { // Token not active
-                        if (isAccessed) {
-                            studentStatus = 'Belum submit'; // Accessed but not submitted and token not active
+                    } else { // Token tidak aktif
+                        if (isSubmitted) { // Sudah submit tapi token tidak aktif
+                            studentStatus = 'Sudah submit';
+                            statusColor = 'green';
+                        } else if (isAccessed) { // Pernah akses tapi belum submit dan token tidak aktif
+                            studentStatus = 'Belum submit';
                             statusColor = 'red';
                         } else {
-                            // Check if token was ever active (time has passed)
-                            if (hasTokenStarted) { // Token has passed
-                                studentStatus = 'Belum mengerjakan'; // Token has passed, student never accessed
+                            // Periksa apakah token pernah aktif (waktu telah berlalu)
+                            if (hasTokenStarted) { // Token telah berlalu
+                                studentStatus = 'Belum mengerjakan'; // Token telah berlalu, siswa tidak pernah mengakses
                                 statusColor = 'red';
                             } else {
-                                studentStatus = '-'; // Token not active yet, never accessed
+                                studentStatus = '-'; // Token belum aktif, tidak pernah diakses
                                 statusColor = 'grey';
                             }
                         }
                     }
                 } else {
-                    studentStatus = '-'; // Selected token not found
+                    studentStatus = '-'; // Token yang dipilih tidak ditemukan
                     statusColor = 'grey';
                 }
             } else {
-                // "CURRENT TOKEN" selected (general status across all relevant tokens)
+                // "TOKEN SAAT INI" dipilih (status umum di semua token yang relevan)
                 let hasRelevantActiveToken = false;
                 let hasRelevantPastActiveToken = false;
                 let studentAccessedAnyRelevantToken = false;
@@ -2595,19 +2820,19 @@
 
                 for (const token of relevantTokensForStudent) {
                     const tokenAccessData = tokenAccessStatus[token.key] && tokenAccessStatus[token.key][student.id];
-                    // Get submission data using token.token (actual token string)
+                    // Dapatkan data pengiriman menggunakan token.token (string token sebenarnya)
                     const studentSubmissionData = submittedExamsCache[token.token] && submittedExamsCache[token.token][student.id]; 
                     
                     const isAccessed = tokenAccessData && (tokenAccessData.accessCount || 0) > 0;
-                    const accessCount = tokenAccessData ? (tokenAccessData.accessCount || 0) : 0; // Get access count
-                    const isSubmitted = studentSubmissionData && studentSubmissionData.isSubmitted === true; // Check from submission data
+                    const accessCount = tokenAccessData ? (tokenAccessData.accessCount || 0) : 0; // Dapatkan jumlah akses
+                    const isSubmitted = studentSubmissionData && studentSubmissionData.isSubmitted === true; // Periksa dari data pengiriman
                     const isTokenCurrentlyActive = token.isActive || token.isForceActive;
                     const hasTokenStarted = now >= new Date(token.startTime);
 
                     if (isTokenCurrentlyActive) {
                         hasRelevantActiveToken = true;
                     }
-                    if (hasTokenStarted) { // Token has been active or is currently active
+                    if (hasTokenStarted) { // Token telah aktif atau sedang aktif
                         hasRelevantPastActiveToken = true;
                     }
 
@@ -2620,20 +2845,26 @@
                     }
                 }
 
-                if (studentSubmittedAnyRelevantToken) { // This is the part to check
+                if (studentSubmittedAnyRelevantToken) { // Ini adalah bagian yang harus diperiksa
                     studentStatus = 'Sudah submit';
                     statusColor = 'green';
                 } else if (hasRelevantActiveToken) {
-                    if (studentAccessedAnyRelevantToken) {
-                        if (totalAccessCountForRelevantToken === 1) {
-                            studentStatus = 'Sedang mengerjakan';
-                        } else {
+                    if (isLoggedIn) { // Prioritaskan status isLoggedIn jika ada token aktif
+                        if (studentAccessedAnyRelevantToken) {
                             studentStatus = `Sedang mengerjakan (${totalAccessCountForRelevantToken})`;
+                            statusColor = 'orange';
+                        } else {
+                            studentStatus = 'Login (Belum Akses)';
+                            statusColor = 'blue';
                         }
-                        statusColor = 'orange';
-                    } else {
-                        studentStatus = 'Belum login';
-                        statusColor = 'red';
+                    } else { // Tidak login
+                        if (studentAccessedAnyRelevantToken) { // Pernah akses tapi sekarang tidak login
+                            studentStatus = 'Sedang mengerjakan (Offline)';
+                            statusColor = 'purple';
+                        } else {
+                            studentStatus = 'Belum login';
+                            statusColor = 'red';
+                        }
                     }
                 } else if (hasRelevantPastActiveToken) {
                     if (studentAccessedAnyRelevantToken) {
@@ -2644,7 +2875,7 @@
                         statusColor = 'red';
                     }
                 } else {
-                    studentStatus = '-'; // No relevant token or none active yet
+                    studentStatus = '-'; // Tidak ada token yang relevan atau belum ada yang aktif
                     statusColor = 'grey';
                 }
             }
@@ -2657,11 +2888,20 @@
                 <td>${padRoomNumber(student.room)}</td> <td style="color: ${statusColor}; font-weight: bold;">${studentStatus}</td>
                 <td>
                     <div class="student-action-buttons">
-                        <button onclick="openEditStudentModal('${student.key}')">
+                        <button onclick="openEditStudentModal('${student.key}')" title="Edit Data Siswa">
                             <img src="${EDIT_ICON_URL}" alt="Edit">
                         </button>
-                        <button onclick="openDeleteStudentConfirmModal('${student.key}')">
+                        <button onclick="openDeleteStudentConfirmModal('${student.key}')" title="Hapus Siswa">
                             <img src="${DELETE_ICON_URL}" alt="Hapus">
+                        </button>
+                        <button onclick="promptResetStudent('${student.key}', '${student.id}', '${student.name}', '${student.class}')" title="Reset Status Login">
+                            <i class="fas fa-redo"></i>
+                        </button>
+                        <button onclick="promptSubmitAnswer('${student.key}', '${student.id}', '${student.name}', '${student.class}')" title="Kirim Jawaban Manual">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                        <button onclick="promptDeleteAnswer('${student.key}', '${student.id}', '${student.name}', '${student.class}')" title="Hapus Semua Jawaban">
+                            <i class="fas fa-eraser"></i>
                         </button>
                     </div>
                 </td>
@@ -2670,61 +2910,58 @@
         }
     }
 
-    // Function to load student data from all Firebase projects
+    // Fungsi untuk memuat data siswa dari semua proyek Firebase (dengan real-time listener)
     function loadStudents() {
-        studentCache = [];
-        const studentPromises = [];
-
+        studentCache = []; // Reset cache awal
         Object.keys(classDbMap).forEach(classNum => {
             const dbInstance = classDbMap[classNum];
             if (dbInstance) {
-                studentPromises.push(new Promise((resolve) => {
-                    onValue(ref(dbInstance, 'students'), (snapshot) => {
-                        const classStudents = [];
-                        snapshot.forEach(child => {
-                            const data = child.val();
-                            data.key = child.key;
-                            data.firebaseClass = classNum; // Store which Firebase project it came from
-                            classStudents.push(data);
-                        });
-                        resolve(classStudents);
-                    }, (error) => {
-                        console.error(`Error loading students from class ${classNum}:`, error);
-                        resolve([]); // Resolve with empty array on error
+                onValue(ref(dbInstance, 'students'), (snapshot) => {
+                    console.log(`[Real-time Update] Students for class ${classNum} updated.`);
+                    const classStudents = [];
+                    snapshot.forEach(child => {
+                        const data = child.val();
+                        data.key = child.key;
+                        data.firebaseClass = classNum; // Simpan dari proyek Firebase mana asalnya
+                        classStudents.push(data);
                     });
-                }));
+
+                    // Perbarui studentCache global dengan data terbaru dari kelas ini
+                    // Hapus siswa lama dari kelas ini, lalu tambahkan yang baru
+                    studentCache = studentCache.filter(s => s.firebaseClass !== classNum);
+                    studentCache.push(...classStudents);
+
+                    // Tambahkan penyortiran ke studentCache untuk memastikan urutan dasar yang konsisten
+                    studentCache.sort((a, b) => {
+                        const classA = extractClassParts(a.class);
+                        const classB = extractClassParts(b.class);
+
+                        if (classA.num !== classB.num) {
+                            return classA.num - classB.num;
+                        }
+                        if (classA.char !== classB.char) {
+                            return classA.char.localeCompare(classB.char);
+                        }
+                        return String(a.name || '').localeCompare(String(b.name || '')); // Bandingkan nama dengan aman
+                    });
+                    
+                    populateClassFilter(); // Isi filter kelas setelah siswa dimuat
+                    renderStudentTable(); // Render ulang tabel setiap kali data siswa berubah
+                    renderScoreTable(); // Perbarui tabel nilai juga
+                }, (error) => {
+                    console.error(`Error memuat siswa dari kelas ${classNum}:`, error);
+                });
             }
-        });
-
-        Promise.all(studentPromises).then(allStudentsArrays => {
-            studentCache = [].concat(...allStudentsArrays); // Flatten the array of arrays
-
-            // Add initial sorting to studentCache to ensure consistent base order
-            studentCache.sort((a, b) => {
-                const classA = extractClassParts(a.class);
-                const classB = extractClassParts(b.class);
-
-                if (classA.num !== classB.num) {
-                    return classA.num - classB.num;
-                }
-                if (classA.char !== classB.char) {
-                    return classA.char.localeCompare(classB.char);
-                }
-                return String(a.name || '').localeCompare(String(b.name || '')); // Safely compare names
-            });
-
-            populateClassFilter(); // Populate class filter after students are loaded
-            renderStudentTable(); // Render without passing specific token filter, using currentExamStatusFilterToken
         });
     }
 
-    // Event listener for add/edit student form
+    // Event listener untuk formulir tambah/edit siswa
     studentForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        const studentId = padStudentId(studentIdInput.value.trim()); // Pad ID
-        const studentName = studentNameInput.value.trim().toUpperCase(); // Auto uppercase
-        const studentClass = studentClassInput.value.trim().toUpperCase(); // Auto uppercase
-        const studentRoom = padRoomNumber(studentRoomInput.value.trim()); // Get room value and pad
+        const studentId = padStudentId(studentIdInput.value.trim()); // Isi ID
+        const studentName = studentNameInput.value.trim().toUpperCase(); // Huruf besar otomatis
+        const studentClass = studentClassInput.value.trim().toUpperCase(); // Huruf besar otomatis
+        const studentRoom = padRoomNumber(studentRoomInput.value.trim()); // Dapatkan nilai ruangan dan isi
         studentErrorMsg.innerText = "";
 
         const targetDb = getDbForClass(studentClass);
@@ -2733,22 +2970,22 @@
             return;
         }
 
-        // Validate Student ID (must be numeric)
+        // Validasi ID Siswa (harus numerik)
         if (!/^\d+$/.test(studentId)) {
             studentErrorMsg.innerText = "ID Siswa harus berupa angka!";
             return;
         }
 
-        // Check for duplicate student ID within the target database's cache
+        // Periksa ID siswa duplikat dalam cache database target
         const isIdDup = studentCache.some(s => s.id === studentId && s.key !== currentStudentKey && getNumericClass(s.class) === getNumericClass(studentClass));
         if (isIdDup) {
             studentErrorMsg.innerText = "ID Siswa sudah ada untuk kelas ini!";
             return;
         }
 
-        // This section is for adding a new student.
-        // Editing is now handled by the modal and confirmEditStudent function.
-        push(ref(targetDb, 'students'), { id: studentId, name: studentName, class: studentClass, room: studentRoom })
+        // Bagian ini untuk menambahkan siswa baru.
+        // Pengeditan sekarang ditangani oleh modal dan fungsi confirmEditStudent.
+        push(ref(targetDb, 'students'), { id: studentId, name: studentName, class: studentClass, room: studentRoom, isLoggedIn: false }) // Tambahkan isLoggedIn: false secara default
             .then(() => {
                 showNotification('Siswa berhasil ditambahkan.');
                 studentForm.reset();
@@ -2758,26 +2995,26 @@
             });
     });
 
-    // Function to open student edit modal
+    // Fungsi untuk membuka modal edit siswa
     window.openEditStudentModal = (key) => {
       const student = studentCache.find(s => s.key === key);
       if (!student) return;
 
-      currentStudentKey = key; // Store the key of the student being edited
+      currentStudentKey = key; // Simpan kunci siswa yang sedang diedit
       modalStudentIdInput.value = student.id;
       modalStudentNameInput.value = student.name;
       modalStudentClassInput.value = student.class;
-      modalStudentRoomInput.value = student.room || ''; // Populate room input in edit modal, handle if undefined
-      editStudentErrorMsg.innerText = ""; // Clear previous error messages
+      modalStudentRoomInput.value = student.room || ''; // Isi input ruangan di modal edit, tangani jika tidak terdefinisi
+      editStudentErrorMsg.innerText = ""; // Bersihkan pesan kesalahan sebelumnya
       editStudentModal.style.display = 'flex';
     };
 
-    // Function to confirm student edit from modal
-    window.confirmEditStudent = async () => { // Make it async
-        const studentId = padStudentId(modalStudentIdInput.value.trim()); // Pad ID
+    // Fungsi untuk mengkonfirmasi edit siswa dari modal
+    window.confirmEditStudent = async () => { // Jadikan async
+        const studentId = padStudentId(modalStudentIdInput.value.trim()); // Isi ID
         const studentName = modalStudentNameInput.value.trim().toUpperCase();
         const newStudentClass = modalStudentClassInput.value.trim().toUpperCase();
-        const studentRoom = padRoomNumber(modalStudentRoomInput.value.trim()); // Get room value from modal and pad
+        const studentRoom = padRoomNumber(modalStudentRoomInput.value.trim()); // Dapatkan nilai ruangan dari modal dan isi
         editStudentErrorMsg.innerText = "";
 
         const originalStudentData = studentCache.find(s => s.key === currentStudentKey);
@@ -2804,54 +3041,61 @@
             return;
         }
 
-        // Check for duplicate student ID in the target database (if class changes)
-        // Or within the same database (if class doesn't change)
+        // Periksa ID siswa duplikat di database target (jika kelas berubah)
+        // Atau dalam database yang sama (jika kelas tidak berubah)
         const isIdDup = studentCache.some(s => 
             s.id === studentId && 
-            s.key !== currentStudentKey && // Exclude the current student being edited
-            getNumericClass(s.class) === getNumericClass(newStudentClass) // Check against the new class's numeric value
+            s.key !== currentStudentKey && // Kecualikan siswa yang sedang diedit
+            getNumericClass(s.class) === getNumericClass(newStudentClass) // Periksa terhadap nilai numerik kelas baru
         );
         if (isIdDup) {
             editStudentErrorMsg.innerText = "ID Siswa sudah ada untuk kelas ini!";
             return;
         }
 
-        loadingOverlay.style.display = 'flex'; // Show loading
+        loadingOverlay.style.display = 'flex'; // Tampilkan loading
 
         const updatedStudentData = {
             id: studentId,
             name: studentName,
             class: newStudentClass,
-            room: studentRoom
+            room: studentRoom,
+            isLoggedIn: originalStudentData.isLoggedIn !== undefined ? originalStudentData.isLoggedIn : false // Pertahankan status isLoggedIn
         };
 
         try {
             if (getNumericClass(oldStudentClass) !== getNumericClass(newStudentClass)) {
-                // Class has changed, perform a "move" operation
+                // Kelas telah berubah, lakukan operasi "pindah"
                 console.log(`Siswa ${originalStudentData.id} dipindahkan dari kelas ${oldStudentClass} ke kelas ${newStudentClass}.`);
 
-                // 1. Delete student from old database
+                // 1. Hapus siswa dari database lama
                 await remove(ref(oldDb, 'students/' + currentStudentKey));
                 console.log(`Siswa ${currentStudentKey} dihapus dari DB kelas ${oldStudentClass}.`);
 
-                // 2. Delete associated exam_access_status for this student from the old database
+                // 2. Hapus exam_access_status terkait untuk siswa ini dari database lama
                 const tokensInOldClass = tokenCache.filter(t => getNumericClass(t.kelas) === getNumericClass(oldStudentClass));
                 for (const token of tokensInOldClass) {
-                    await remove(ref(oldDb, `exam_access_status/${token.key}/${originalStudentData.id}`));
-                    console.log(`exam_access_status untuk siswa ${originalStudentData.id} dan token ${token.key} dihapus dari DB kelas ${oldStudentClass}.`);
+                    const accessPath = `exam_access_status/${token.key}/${originalStudentData.id}`;
+                    const accessSnapshot = await get(ref(oldDb, accessPath)); // Periksa apakah jalur ada di targetDb
+                    if (accessSnapshot.exists()) {
+                        await remove(ref(oldDb, accessPath));
+                    }
                 }
 
-                // 3. Delete associated submitted_exams for this student from the old database
+                // 3. Hapus submitted_exams terkait untuk siswa ini dari database lama
                 for (const token of tokensInOldClass) {
-                    await remove(ref(oldDb, `submitted_exams/${token.token}/${originalStudentData.id}`));
-                    console.log(`submitted_exams untuk siswa ${originalStudentData.id} dan token ${token.token} dihapus dari DB kelas ${oldStudentClass}.`);
+                    const submittedPath = `submitted_exams/${token.token}/${originalStudentData.id}`; // Gunakan token.token di sini
+                    const submittedSnapshot = await get(ref(oldDb, submittedPath)); // Periksa apakah jalur ada di targetDb
+                    if (submittedSnapshot.exists()) {
+                        await remove(ref(oldDb, submittedPath));
+                    }
                 }
 
-                // 4. Add student to new database
+                // 4. Tambahkan siswa ke database baru
                 await push(ref(newDb, 'students'), updatedStudentData);
                 showNotification(`Siswa berhasil dipindahkan ke kelas ${newStudentClass}! Riwayat akses/pengiriman siswa di kelas lama telah direset.`);
             } else {
-                // Class has not changed, just update in the same database
+                // Kelas tidak berubah, cukup perbarui di database yang sama
                 await update(ref(newDb, 'students/' + currentStudentKey), updatedStudentData);
                 showNotification('Data siswa berhasil diperbarui.');
             }
@@ -2864,21 +3108,21 @@
         }
     };
 
-    // Function to close student edit modal
+    // Fungsi untuk menutup modal edit siswa
     window.closeEditStudentModal = () => {
         editStudentModal.style.display = 'none';
         editStudentErrorMsg.innerText = "";
-        currentStudentKey = null; // Reset the key of the student being edited
+        currentStudentKey = null; // Reset kunci siswa yang sedang diedit
     };
 
-    // Function to open student delete confirmation modal
+    // Fungsi untuk membuka modal konfirmasi penghapusan siswa
     window.openDeleteStudentConfirmModal = (key) => {
-        deleteStudentKey = key; // Store the key of the student to be deleted
+        deleteStudentKey = key; // Simpan kunci siswa yang akan dihapus
         deleteStudentConfirmModal.style.display = 'flex';
     };
 
-    // Function to confirm student deletion
-    window.confirmDeleteStudent = async () => { // Make it async
+    // Fungsi untuk mengkonfirmasi penghapusan siswa
+    window.confirmDeleteStudent = async () => { // Jadikan async
         if (deleteStudentKey) {
             const studentToDelete = studentCache.find(s => s.key === deleteStudentKey);
             if (!studentToDelete) {
@@ -2886,35 +3130,35 @@
                 closeDeleteStudentConfirmModal();
                 return;
             }
-            const studentId = studentToDelete.id; // Get the padded student ID
-            const targetDb = getDbForClass(studentToDelete.class); // Get db based on student's class
+            const studentId = studentToDelete.id; // Dapatkan ID siswa yang diisi
+            const targetDb = getDbForClass(studentToDelete.class); // Dapatkan db berdasarkan kelas siswa
             if (!targetDb) {
                 showNotification("Gagal menghapus: Database untuk kelas siswa tidak ditemukan.");
                 closeDeleteStudentConfirmModal();
                 return;
             }
 
-            loadingOverlay.style.display = 'flex'; // Show loading
+            loadingOverlay.style.display = 'flex'; // Tampilkan loading
 
             try {
-                // 1. Delete the student record itself from its specific database
+                // 1. Hapus catatan siswa itu sendiri dari database spesifiknya
                 await remove(ref(targetDb, 'students/' + deleteStudentKey));
 
-                // 2. Delete associated access status for this student across all tokens (from its specific database)
-                // Iterate through tokens *of the same class* as the student
+                // 2. Hapus status akses terkait untuk siswa ini di semua token (dari database spesifiknya)
+                // Iterasi melalui token *dari kelas yang sama* dengan siswa
                 const tokensInStudentClass = tokenCache.filter(t => getNumericClass(t.kelas) === getNumericClass(studentToDelete.class));
                 for (const token of tokensInStudentClass) {
                     const accessPath = `exam_access_status/${token.key}/${studentId}`;
-                    const accessSnapshot = await get(ref(targetDb, accessPath)); // Check if path exists in targetDb
+                    const accessSnapshot = await get(ref(targetDb, accessPath)); // Periksa apakah jalur ada di targetDb
                     if (accessSnapshot.exists()) {
                         await remove(ref(targetDb, accessPath));
                     }
                 }
 
-                // 3. Delete associated submitted exam status for this student across all tokens (from its specific database)
+                // 3. Hapus submitted_exams terkait untuk siswa ini di semua token (dari database spesifiknya)
                 for (const token of tokensInStudentClass) {
-                    const submittedPath = `submitted_exams/${token.token}/${studentId}`; // Use token.token here
-                    const submittedSnapshot = await get(ref(targetDb, submittedPath)); // Check if path exists in targetDb
+                    const submittedPath = `submitted_exams/${token.token}/${studentId}`; // Gunakan token.token di sini
+                    const submittedSnapshot = await get(ref(targetDb, submittedPath)); // Periksa apakah jalur ada di targetDb
                     if (submittedSnapshot.exists()) {
                         await remove(ref(targetDb, submittedPath));
                     }
@@ -2925,40 +3169,40 @@
                 console.error("Gagal menghapus siswa dan data terkait:", error);
                 showNotification("Gagal menghapus siswa dan data terkait: " + error.message);
             } finally {
-                loadingOverlay.style.display = 'none'; // Hide loading
+                loadingOverlay.style.display = 'none'; // Sembunyikan loading
                 closeDeleteStudentConfirmModal();
             }
         }
     };
 
-    // Function to close student delete confirmation modal
+    // Fungsi untuk menutup modal konfirmasi penghapusan siswa
     window.closeDeleteStudentConfirmModal = () => {
         deleteStudentConfirmModal.style.display = 'none';
-        deleteStudentKey = null; // Reset the key of the student to be deleted
+        deleteStudentKey = null; // Reset kunci siswa yang akan dihapus
     };
 
-    // --- Student Import from CSV Functions ---
+    // --- Fungsi Impor Siswa dari CSV ---
 
-    // Function to open student import modal
+    // Fungsi untuk membuka modal impor siswa
     window.openImportStudentModal = () => {
         importStudentModal.style.display = 'flex';
-        csvFileInput.value = ''; // Clear file input
-        importFileError.innerText = ''; // Clear error message
+        csvFileInput.value = ''; // Bersihkan input file
+        importFileError.innerText = ''; // Bersihkan kesalahan pesan
     };
 
-    // Function to close student import modal
+    // Fungsi untuk menutup modal impor siswa
     window.closeImportStudentModal = () => {
         importStudentModal.style.display = 'none';
     };
 
-    // Function to close import results modal
+    // Fungsi untuk menutup modal hasil impor
     window.closeImportResultModal = () => {
         importResultModal.style.display = 'none';
         importResultSummary.innerText = '';
         importResultDetails.innerHTML = '';
     };
 
-    // Function to process CSV file
+    // Fungsi untuk memproses file CSV
     window.processCsvFile = async () => {
         if (isImporting) {
             showNotification('Proses impor sedang berjalan, harap tunggu.');
@@ -2977,8 +3221,8 @@
         }
 
         importFileError.innerText = '';
-        isImporting = true; // Set flag to true
-        loadingOverlay.style.display = 'flex'; // Show loading spinner
+        isImporting = true; // Set flag menjadi true
+        loadingOverlay.style.display = 'flex'; // Tampilkan spinner loading
 
         const reader = new FileReader();
 
@@ -2990,34 +3234,34 @@
             let skippedCount = 0;
             let errorDetails = [];
             
-            // Objects to hold updates for each database
+            // Objek untuk menampung pembaruan untuk setiap database
             const studentsToBatchUpdate7 = {};
             const studentsToBatchUpdate8 = {};
             const studentsToBatchUpdate9 = {};
 
-            // Map to store which batch object to use
+            // Map untuk menyimpan objek batch mana yang akan digunakan
             const batchUpdateMap = {
                 '7': studentsToBatchUpdate7,
                 '8': studentsToBatchUpdate8,
                 '9': studentsToBatchUpdate9
             };
 
-            // Start reading from the second line (index 1) to skip header
+            // Mulai membaca dari baris kedua (indeks 1) untuk melewati header
             const dataLines = lines.slice(1); 
 
             for (let i = 0; i < dataLines.length; i++) {
                 const line = dataLines[i];
-                // Try splitting by comma first
+                // Coba pisahkan dengan koma terlebih dahulu
                 let parts = line.split(',');
                 let delimiter = ',';
 
-                // If comma separation doesn't yield 4 parts, try semicolon
+                // Jika pemisahan koma tidak menghasilkan 4 bagian, coba titik koma
                 if (parts.length !== 4) {
                     parts = line.split(';');
                     delimiter = ';';
                 }
 
-                const originalLineNumber = i + 2; // Original line number in CSV file (since we slice(1))
+                const originalLineNumber = i + 2; // Nomor baris asli di file CSV (karena kita slice(1))
 
                 if (parts.length !== 4) {
                     errorDetails.push(`Baris ${originalLineNumber}: Format tidak valid (diharapkan ID,Nama,Kelas,Ruang). Baris: "${line}"`);
@@ -3047,14 +3291,14 @@
                     continue;
                 }
 
-                // Validasi Nama Siswa (cannot be empty)
+                // Validasi Nama Siswa (tidak boleh kosong)
                 if (name === "") {
                     errorDetails.push(`Baris ${originalLineNumber}: Nama Siswa tidak boleh kosong.`);
                     skippedCount++;
                     continue;
                 }
 
-                // Check for duplicate student ID in local cache (before pushing to Firebase)
+                // Periksa ID siswa duplikat di cache lokal (sebelum mendorong ke Firebase)
                 const isIdDup = studentCache.some(s => s.id === id && getNumericClass(s.class) === numericClass);
                 if (isIdDup) {
                     errorDetails.push(`Baris ${originalLineNumber}: Siswa dengan ID '${id}' sudah ada untuk kelas ${numericClass}, dilewati.`);
@@ -3062,10 +3306,10 @@
                     continue;
                 }
 
-                // Generate new key and add to appropriate batch update object
-                const newRef = push(ref(targetDb, 'students')); // Get new reference with unique key for the specific db
-                targetBatch[newRef.key] = { id: id, name: name, class: studentClass, room: studentRoom };
-                importedCount++; // Increment immediately for display purposes
+                // Hasilkan kunci baru dan tambahkan ke objek pembaruan batch yang sesuai
+                const newRef = push(ref(targetDb, 'students')); // Dapatkan referensi baru dengan kunci unik untuk db tertentu
+                targetBatch[newRef.key] = { id: id, name: name, class: studentClass, room: studentRoom, isLoggedIn: false }; // Inisialisasi isLoggedIn
+                importedCount++; // Tingkatkan segera untuk tujuan tampilan
             }
 
             try {
@@ -3083,14 +3327,14 @@
                 await Promise.all(batchPromises);
                 showNotification(`${importedCount} siswa berhasil diimpor!`);
             } catch (error) {
-                console.error("Gagal melakukan batch import:", error);
+                console.error("Gagal melakukan impor batch:", error);
                 showNotification(`Gagal mengimpor data: ${error.message}`);
-                // If the entire batch fails, all previously counted importedCount should be considered skipped/failed
+                // Jika seluruh batch gagal, semua importedCount yang sebelumnya dihitung harus dianggap dilewati/gagal
                 skippedCount += importedCount;
                 importedCount = 0;
                 errorDetails.push(`Kesalahan umum saat menyimpan ke Firebase: ${error.message}`);
             } finally {
-                isImporting = false; // Reset flag after import is complete
+                isImporting = false; // Reset flag setelah impor selesai
                 loadingOverlay.style.display = 'none';
                 closeImportStudentModal();
                 displayImportResults(importedCount, skippedCount, errorDetails);
@@ -3098,7 +3342,7 @@
         };
 
         reader.onerror = () => {
-            isImporting = false; // Reset flag on error as well
+            isImporting = false; // Reset flag saat ada kesalahan juga
             loadingOverlay.style.display = 'none';
             importFileError.innerText = 'Gagal membaca file.';
         };
@@ -3106,7 +3350,7 @@
         reader.readAsText(file);
     };
 
-    // Function to display import results
+    // Fungsi untuk menampilkan hasil impor
     function displayImportResults(importedCount, skippedCount, errorDetails) {
         importResultSummary.innerHTML = `Berhasil diimpor: <span style="font-weight: bold; color: green;">${importedCount}</span>, Dilewati/Gagal: <span style="font-weight: bold; color: orange;">${skippedCount}</span>.`;
         importResultDetails.innerHTML = '';
@@ -3127,10 +3371,10 @@
         importResultModal.style.display = 'flex';
     }
 
-    // --- Empty Student List Function ---
+    // --- Fungsi Kosongkan Daftar Siswa ---
     window.openEmptyStudentsModal = () => {
-        emptyStudentsPasswordInput.value = ''; // Clear password
-        emptyStudentsPasswordError.innerText = ''; // Clear error
+        emptyStudentsPasswordInput.value = ''; // Bersihkan kata sandi
+        emptyStudentsPasswordError.innerText = ''; // Bersihkan kesalahan
         emptyStudentsModal.style.display = 'flex';
     };
 
@@ -3145,48 +3389,48 @@
             return;
         }
 
-        loadingOverlay.style.display = 'flex'; // Show loading spinner
+        loadingOverlay.style.display = 'flex'; // Tampilkan spinner loading
         try {
             const deletePromises = [];
             Object.keys(classDbMap).forEach(classNum => {
                 const dbInstance = classDbMap[classNum];
                 if (dbInstance) {
-                    deletePromises.push(remove(ref(dbInstance, 'students'))); // Delete all student data for each class
-                    deletePromises.push(remove(ref(dbInstance, 'exam_access_status'))); // Delete access status for each class
-                    deletePromises.push(remove(ref(dbInstance, 'submitted_exams'))); // Delete submission status for each class
+                    deletePromises.push(remove(ref(dbInstance, 'students'))); // Hapus semua data siswa untuk setiap kelas
+                    deletePromises.push(remove(ref(dbInstance, 'exam_access_status'))); // Hapus status akses untuk setiap kelas
+                    deletePromises.push(remove(ref(dbInstance, 'submitted_exams'))); // Hapus status pengiriman untuk setiap kelas
                 }
             });
             await Promise.all(deletePromises);
             
-            // Note: setlokasi is treated as global and remains in db7
-            // If setlokasi was also per-class, it would need to be added to the loop above.
+            // Catatan: setlokasi diperlakukan sebagai global dan tetap di db7
+            // Jika setlokasi juga per kelas, itu perlu ditambahkan ke loop di atas.
 
             showNotification('Semua data peserta berhasil dikosongkan!');
         } catch (error) {
             console.error("Gagal mengosongkan daftar peserta:", error);
             showNotification('Gagal mengosongkan daftar peserta: ' + error.message);
         } finally {
-            loadingOverlay.style.display = 'none'; // Hide loading spinner
+            loadingOverlay.style.display = 'none'; // Sembunyikan spinner loading
             closeEmptyStudentsModal();
         }
     };
 
-    // --- Student Filter Function (by class) ---
+    // --- Fungsi Filter Siswa (berdasarkan kelas) ---
     window.filterStudentsByClass = (filterValue) => {
-        currentStudentClassFilter = filterValue === "" ? null : filterValue; // null for "ALL CLASSES"
+        currentStudentClassFilter = filterValue === "" ? null : filterValue; // null untuk "SEMUA KELAS"
         renderStudentTable();
     };
 
-    // Function to populate class filter dropdown
+    // Fungsi untuk mengisi dropdown filter kelas
     function populateClassFilter() {
-        classFilterDropdownSelect.innerHTML = '<option value="">SEMUA KELAS</option>'; // Default option
+        classFilterDropdownSelect.innerHTML = '<option value="">SEMUA KELAS</option>'; // Opsi default
 
-        // Collect unique grade levels (7, 8, 9) and rombels (7A, 7B, etc.)
+        // Kumpulkan tingkat kelas unik (7, 8, 9) dan rombel (7A, 7B, dll.)
         const grades = new Set();
         const rombels = new Set();
 
         studentCache.forEach(student => {
-            const classMatch = String(student.class || '').match(/^(\d+)([A-Z]+)?$/); // Safely access student.class
+            const classMatch = String(student.class || '').match(/^(\d+)([A-Z]+)?$/); // Akses student.class dengan aman
             if (classMatch) {
                 const grade = classMatch[1];
                 const rombel = classMatch[2];
@@ -3197,9 +3441,9 @@
             }
         });
 
-        // Sort grade levels numerically
+        // Urutkan tingkat kelas secara numerik
         const sortedGrades = Array.from(grades).sort((a, b) => a - b);
-        // Sort rombels alphabetically
+        // Urutkan rombel secara abjad
         const sortedRombels = Array.from(rombels).sort((a, b) => {
             const classA = extractClassParts(a);
             const classB = extractClassParts(b);
@@ -3210,14 +3454,14 @@
         });
 
         sortedGrades.forEach(grade => {
-            // Add "All Rombel X" option
+            // Tambahkan opsi "Semua Rombel X"
             const allRombelOption = document.createElement('option');
             allRombelOption.value = `${grade}_all`;
             allRombelOption.innerText = `KELAS ${grade} (SEMUA ROMBEL)`;
             classFilterDropdownSelect.appendChild(allRombelOption);
 
-            // Add specific rombel options for this grade level
-            sortedRombels.filter(r => String(r || '').startsWith(String(grade))) // Safely access r
+            // Tambahkan opsi rombel spesifik untuk tingkat kelas ini
+            sortedRombels.filter(r => String(r || '').startsWith(String(grade))) // Akses r dengan aman
                          .forEach(rombel => {
                 const rombelOption = document.createElement('option');
                 rombelOption.value = rombel;
@@ -3226,35 +3470,439 @@
             });
         });
 
-        // Set the selected value if a filter is active
+        // Atur nilai yang dipilih jika filter aktif
         if (currentStudentClassFilter) {
             classFilterDropdownSelect.value = currentStudentClassFilter;
         } else {
-            classFilterDropdownSelect.value = ""; // Ensure "SEMUA KELAS" is selected if no filter
+            classFilterDropdownSelect.value = ""; // Pastikan "SEMUA KELAS" dipilih jika tidak ada filter
         }
     }
 
 
-    // --- Student Filter Function (by exam status/token) ---
+    // --- Fungsi Filter Siswa (berdasarkan status ujian/token) ---
     window.filterStudentsByExamStatus = (selectedTokenKey) => {
         currentExamStatusFilterToken = selectedTokenKey === "" ? null : selectedTokenKey;
         renderStudentTable();
     };
 
-    // Function to populate exam status filter dropdown
+    // Fungsi untuk mengisi dropdown filter status ujian
     function populateExamStatusFilter() {
-        examStatusFilterDropdown.innerHTML = '<option value="">TOKEN SAAT INI</option>'; // Text changed here
+        examStatusFilterDropdown.innerHTML = '<option value="">TOKEN SAAT INI</option>'; // Teks diubah di sini
         tokenCache.forEach(token => {
             const option = document.createElement('option');
             option.value = token.key;
             option.innerText = `${token.token} (${token.subject} Kelas ${token.kelas})`;
             examStatusFilterDropdown.appendChild(option);
         });
-        // Set the selected value if a filter is active
+        // Atur nilai yang dipilih jika filter aktif
         if (currentExamStatusFilterToken) {
             examStatusFilterDropdown.value = currentExamStatusFilterToken;
         }
     }
+
+    /* --- Fungsi Manajemen Nilai Ujian (BARU) --- */
+
+    // Fungsi untuk menyingkat nama mata pelajaran
+    function abbreviateSubject(subjectName) {
+        if (!subjectName) return '';
+        const words = subjectName.split(' ').filter(w => w.length > 0);
+        if (words.length === 0) return '';
+        if (words.length === 1) {
+            return words[0].substring(0, 3).toUpperCase();
+        } else if (words.length === 2) {
+            // Ambil huruf pertama dari suku kata pertama + huruf pertama dari suku kata kedua + huruf terakhir dari suku kata kedua
+            return (words[0].charAt(0) + words[1].charAt(0) + words[1].slice(-1)).toUpperCase();
+        } else if (words.length === 3) {
+            // Ambil huruf pertama dari setiap suku kata
+            return (words[0].charAt(0) + words[1].charAt(0) + words[2].charAt(0)).toUpperCase();
+        } else if (words.length >= 4) {
+            // Ambil 3 huruf depan dari setiap suku kata (atau kurang jika suku kata pendek)
+            return words.map(word => word.substring(0, Math.min(3, word.length))).join('').toUpperCase();
+        }
+        return subjectName.toUpperCase(); // Fallback
+    }
+
+    // Fungsi untuk menghitung nilai berdasarkan jawaban siswa dan kunci jawaban
+    function calculateScore(studentAnswers, answerKeyString) {
+        if (!answerKeyString) return 0; // Tidak ada kunci jawaban, nilai 0
+        const correctAnswers = answerKeyString.split(',');
+        const totalQuestions = correctAnswers.length;
+
+        if (totalQuestions === 0) return 0; // Tidak ada soal, nilai 0
+
+        let correctCount = 0;
+        for (let i = 0; i < totalQuestions; i++) {
+            const questionNum = String(i + 1); // Kunci jawaban biasanya 1-based
+            const studentAnswer = studentAnswers ? studentAnswers[questionNum] : undefined;
+            if (studentAnswer && studentAnswer.toUpperCase() === correctAnswers[i].toUpperCase()) {
+                correctCount++;
+            }
+        }
+
+        let score;
+        if (totalQuestions === 30) {
+            score = (correctCount / 30) * 100; // Hitung proporsional ke 100
+        } else if (totalQuestions === 40) {
+            score = (correctCount / 40) * 100;
+        } else if (totalQuestions === 50) {
+            score = (correctCount / 50) * 100;
+        } else {
+            // Rumus umum untuk soal selain 30/40/50, pastikan 0-100
+            score = (correctCount / totalQuestions) * 100;
+        }
+
+        // Pastikan nilai antara 0 dan 100
+        score = Math.max(0, Math.min(100, score));
+
+        // Bulatkan ke 2 angka desimal
+        return parseFloat(score.toFixed(2));
+    }
+
+    // Fungsi untuk merender tabel nilai ujian
+    function renderScoreTable() {
+        scoreTableHeader.innerHTML = '<th>NO</th><th>NAMA SISWA</th><th>KELAS</th>'; // Reset header
+        scoreTableBody.innerHTML = ''; // Reset body
+
+        const subjects = new Set();
+        // Kumpulkan semua mata pelajaran unik dari token yang sudah disubmit
+        tokenCache.forEach(token => {
+            // Hanya tambahkan subjek jika ada setidaknya satu siswa yang submit token ini
+            if (submittedExamsCache[token.token] && Object.keys(submittedExamsCache[token.token]).length > 0) {
+                subjects.add(token.subject);
+            }
+        });
+        const sortedSubjects = Array.from(subjects).sort((a, b) => a.localeCompare(b));
+
+        // Tambahkan kolom mata pelajaran ke header
+        sortedSubjects.forEach(subject => {
+            const abbr = abbreviateSubject(subject); // Gunakan singkatan
+            scoreTableHeader.innerHTML += `<th>${abbr}</th>`;
+        });
+
+        let studentsToDisplay = studentCache;
+
+        // Filter berdasarkan angkatan (kelas 7, 8, 9)
+        if (currentScoreGradeFilter) {
+            studentsToDisplay = studentsToDisplay.filter(student => 
+                getNumericClass(student.class) === String(currentScoreGradeFilter)
+            );
+            // Update active state for grade filter buttons
+            document.querySelectorAll('.score-filters-container button').forEach(btn => {
+                if (parseInt(btn.innerText.replace('Kelas ', '')) === currentScoreGradeFilter) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        } else {
+            // No filter, remove active class from all grade buttons
+            document.querySelectorAll('.score-filters-container button').forEach(btn => btn.classList.remove('active'));
+        }
+
+        // Filter berdasarkan pencarian nama
+        const searchName = scoreSearchNameInput.value.trim().toUpperCase();
+        if (searchName) {
+            studentsToDisplay = studentsToDisplay.filter(student => 
+                String(student.name || '').toUpperCase().includes(searchName)
+            );
+        }
+
+        // Filter berdasarkan pencarian kelas
+        const searchClass = scoreSearchClassInput.value.trim().toUpperCase();
+        if (searchClass) {
+            studentsToDisplay = studentsToDisplay.filter(student => 
+                String(student.class || '').toUpperCase().includes(searchClass)
+            );
+        }
+
+        // Urutkan siswa (sama dengan tabel peserta)
+        studentsToDisplay.sort((a, b) => {
+            const classA = extractClassParts(a.class);
+            const classB = extractClassParts(b.class);
+
+            if (classA.num !== classB.num) {
+                return classA.num - classB.num;
+            }
+            if (classA.char !== classB.char) {
+                return classA.char.localeCompare(classB.char);
+            }
+            return String(a.name || '').localeCompare(String(b.name || ''));
+        });
+
+        let counter = 0;
+        studentsToDisplay.forEach(student => {
+            counter++;
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${counter}</td><td>${student.name}</td><td>${student.class}</td>`;
+
+            sortedSubjects.forEach(subject => {
+                let score = '-'; // Default jika tidak ada nilai
+                const relevantToken = tokenCache.find(t => 
+                    t.subject === subject && getNumericClass(t.kelas) === getNumericClass(student.class)
+                );
+
+                if (relevantToken) {
+                    const studentSubmission = submittedExamsCache[relevantToken.token] && submittedExamsCache[relevantToken.token][student.id];
+                    if (studentSubmission && studentSubmission.isSubmitted) {
+                        const studentAnswers = studentSubmission.answers;
+                        const answerKey = relevantToken.answerKey; // Ambil kunci jawaban dari token
+                        if (answerKey) {
+                            score = calculateScore(studentAnswers, answerKey);
+                        } else {
+                            score = 'N/A'; // Kunci jawaban tidak tersedia
+                        }
+                    }
+                }
+                row.innerHTML += `<td>${score}</td>`;
+            });
+            scoreTableBody.appendChild(row);
+        });
+    }
+
+    // Fungsi untuk filter nilai berdasarkan angkatan
+    window.filterScoresByGrade = (grade) => {
+        currentScoreGradeFilter = grade;
+        renderScoreTable();
+    };
+
+    // Fungsi untuk membuka modal cetak/salin generik
+    window.openCopyPrintModal = (tableId, modalTitle) => {
+        currentTableIdToCopy = tableId; // Simpan ID tabel yang akan disalin
+        copyPrintModalTitle.innerText = modalTitle;
+        copyPrintModal.style.display = 'flex';
+    };
+
+    // Fungsi untuk menutup modal cetak/salin generik
+    window.closeCopyPrintModal = () => {
+        copyPrintModal.style.display = 'none';
+        currentTableIdToCopy = ''; // Reset ID tabel
+    };
+
+    // Fungsi untuk menyalin tabel ke clipboard
+    window.copyTableToClipboard = () => {
+        const table = document.getElementById(currentTableIdToCopy);
+        if (!table) {
+            showNotification('Tabel tidak ditemukan.');
+            return;
+        }
+
+        // Buat tabel sementara untuk disalin agar tidak mengganggu tampilan asli
+        const tempDiv = document.createElement('div');
+        tempDiv.style.position = 'absolute';
+        tempDiv.style.left = '-9999px'; // Pindahkan dari layar
+        tempDiv.innerHTML = table.outerHTML;
+        document.body.appendChild(tempDiv); 
+
+        const range = document.createRange();
+        range.selectNode(tempDiv);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        try {
+            document.execCommand('copy');
+            showNotification('Tabel berhasil disalin. Tempelkan ke Word atau Excel.');
+        } catch (err) {
+            console.error('Gagal menyalin tabel:', err);
+            showNotification('Gagal menyalin tabel. Coba salin manual.');
+        }
+        window.getSelection().removeAllRanges();
+        document.body.removeChild(tempDiv);
+        closeCopyPrintModal();
+    };
+
+    // Fungsi untuk memperbarui jumlah soal berdasarkan input kunci jawaban
+    function updateAnswerKeyCount(answerKeyInputElem, countInputElem) {
+        const key = answerKeyInputElem.value.trim();
+        const count = key === '' ? 0 : key.split(',').filter(v => v.trim() !== '').length;
+        countInputElem.value = count;
+    }
+
+    // Event listener untuk input kunci jawaban di formulir tambah token
+    answerKeyInput.addEventListener('input', () => {
+        updateAnswerKeyCount(answerKeyInput, answerKeyCountInput);
+    });
+
+    // Event listener untuk input kunci jawaban di modal edit token
+    editAnswerKeyInput.addEventListener('input', () => {
+        updateAnswerKeyCount(editAnswerKeyInput, editAnswerKeyCountInput);
+    });
+
+    // Panggil update count saat halaman dimuat (untuk formulir tambah)
+    document.addEventListener('DOMContentLoaded', () => {
+        updateAnswerKeyCount(answerKeyInput, answerKeyCountInput);
+    });
+
+    /* --- Fungsi Reset Siswa --- */
+    window.promptResetStudent = (key, id, name, studentClass) => {
+        studentKeyForAction = key;
+        studentIdForAction = id;
+        studentClassForAction = studentClass;
+        resetStudentNameDisplay.innerText = name;
+        resetStudentIdDisplay.innerText = id;
+        resetStudentModal.style.display = 'flex';
+    };
+
+    window.confirmResetStudent = async () => {
+        if (studentKeyForAction && studentIdForAction && studentClassForAction) {
+            const targetDb = getDbForClass(studentClassForAction);
+            if (!targetDb) {
+                showNotification("Gagal mereset: Database untuk kelas siswa tidak ditemukan.");
+                closeResetStudentModal();
+                return;
+            }
+
+            loadingOverlay.style.display = 'flex';
+            try {
+                // Update isLoggedIn status for the specific student
+                await update(ref(targetDb, 'students/' + studentKeyForAction), { isLoggedIn: false });
+                showNotification(`Status login siswa ${studentIdForAction} berhasil direset.`);
+            } catch (error) {
+                console.error("Gagal mereset status login siswa:", error);
+                showNotification("Gagal mereset status login siswa: " + error.message);
+            } finally {
+                loadingOverlay.style.display = 'none';
+                closeResetStudentModal();
+            }
+        }
+    };
+
+    window.closeResetStudentModal = () => {
+        resetStudentModal.style.display = 'none';
+        studentKeyForAction = null;
+        studentIdForAction = null;
+        studentClassForAction = null;
+    };
+
+    /* --- Fungsi Kirim Jawaban Siswa --- */
+    window.promptSubmitAnswer = (key, id, name, studentClass) => {
+        studentKeyForAction = key;
+        studentIdForAction = id;
+        studentNameForAction = name;
+        studentClassForAction = studentClass;
+        submitStudentNameDisplay.innerText = name;
+        submitStudentIdDisplay.innerText = id;
+        submitAnswerModal.style.display = 'flex';
+    };
+
+    window.confirmSubmitAnswer = async () => {
+        if (studentIdForAction && studentClassForAction) {
+            const targetDb = getDbForClass(studentClassForAction);
+            if (!targetDb) {
+                showNotification("Gagal mengirim jawaban: Database untuk kelas siswa tidak ditemukan.");
+                closeSubmitAnswerModal();
+                return;
+            }
+
+            loadingOverlay.style.display = 'flex';
+            try {
+                // Find all relevant tokens for this student's class
+                const relevantTokens = tokenCache.filter(token => 
+                    getNumericClass(token.kelas) === getNumericClass(studentClassForAction)
+                );
+
+                const updates = {};
+                for (const token of relevantTokens) {
+                    // Check if the student has accessed this token and hasn't submitted yet
+                    const studentSubmissionPath = `submitted_exams/${token.token}/${studentIdForAction}`;
+                    const submissionSnapshot = await get(ref(targetDb, studentSubmissionPath));
+                    const submissionData = submissionSnapshot.val();
+
+                    if (submissionData && submissionData.isSubmitted === false) {
+                        updates[studentSubmissionPath + '/isSubmitted'] = true;
+                        updates[studentSubmissionPath + '/submissionTime'] = Date.now(); // Record submission time
+                    } else if (!submissionData) {
+                        // If no submission data exists, create a basic one and mark as submitted
+                        updates[studentSubmissionPath] = {
+                            isSubmitted: true,
+                            submissionTime: Date.now(),
+                            answers: {} // Initialize with empty answers if none exist
+                        };
+                    }
+                }
+
+                if (Object.keys(updates).length > 0) {
+                    await update(ref(targetDb, '/'), updates); // Apply all updates in a single batch
+                    showNotification(`Jawaban siswa ${studentIdForAction} untuk ujian yang relevan berhasil ditandai sebagai 'Sudah submit'.`);
+                } else {
+                    showNotification(`Tidak ada ujian yang relevan untuk siswa ${studentIdForAction} yang perlu disubmit.`);
+                }
+            } catch (error) {
+                console.error("Gagal mengirim jawaban siswa:", error);
+                showNotification("Gagal mengirim jawaban siswa: " + error.message);
+            } finally {
+                loadingOverlay.style.display = 'none';
+                closeSubmitAnswerModal();
+            }
+        }
+    };
+
+    window.closeSubmitAnswerModal = () => {
+        submitAnswerModal.style.display = 'none';
+        studentKeyForAction = null;
+        studentIdForAction = null;
+        studentNameForAction = null;
+        studentClassForAction = null;
+    };
+
+    /* --- Fungsi Hapus Jawaban Siswa --- */
+    window.promptDeleteAnswer = (key, id, name, studentClass) => {
+        studentKeyForAction = key;
+        studentIdForAction = id;
+        studentNameForAction = name;
+        studentClassForAction = studentClass;
+        deleteAnswerStudentNameDisplay.innerText = name;
+        deleteAnswerStudentIdDisplay.innerText = id;
+        deleteAnswerPasswordInput.value = ''; // Clear password
+        deleteAnswerPasswordError.innerText = ''; // Clear error
+        deleteAnswerModal.style.display = 'flex';
+    };
+
+    window.confirmDeleteAnswer = async () => {
+        const password = deleteAnswerPasswordInput.value;
+        if (password !== ADMIN_PASS) {
+            deleteAnswerPasswordError.innerText = "Password salah!";
+            return;
+        }
+
+        if (studentIdForAction && studentClassForAction) {
+            const targetDb = getDbForClass(studentClassForAction);
+            if (!targetDb) {
+                showNotification("Gagal menghapus jawaban: Database untuk kelas siswa tidak ditemukan.");
+                closeDeleteAnswerModal();
+                return;
+            }
+
+            loadingOverlay.style.display = 'flex';
+            try {
+                // Find all relevant tokens for this student's class
+                const relevantTokens = tokenCache.filter(token => 
+                    getNumericClass(token.kelas) === getNumericClass(studentClassForAction)
+                );
+
+                for (const token of relevantTokens) {
+                    const submissionPath = `submitted_exams/${token.token}/${studentIdForAction}`;
+                    const submissionSnapshot = await get(ref(targetDb, submissionPath));
+                    if (submissionSnapshot.exists()) {
+                        await remove(ref(targetDb, submissionPath));
+                    }
+                }
+                showNotification(`Semua jawaban siswa ${studentIdForAction} berhasil dihapus.`);
+            } catch (error) {
+                console.error("Gagal menghapus jawaban siswa:", error);
+                showNotification("Gagal menghapus jawaban siswa: " + error.message);
+            } finally {
+                loadingOverlay.style.display = 'none';
+                closeDeleteAnswerModal();
+            }
+        }
+    };
+
+    window.closeDeleteAnswerModal = () => {
+        deleteAnswerModal.style.display = 'none';
+        studentKeyForAction = null;
+        studentIdForAction = null;
+        studentNameForAction = null;
+        studentClassForAction = null;
+    };
 
   </script>
 </body>
